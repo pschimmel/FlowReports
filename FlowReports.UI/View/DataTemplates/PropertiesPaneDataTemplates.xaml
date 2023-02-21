@@ -1,0 +1,53 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:properties="clr-namespace:FlowReports.UI.Properties"
+                    xmlns:vm="clr-namespace:FlowReports.UI.ViewModel">
+
+  <Style BasedOn="{StaticResource EditTextBoxStyle}" TargetType="{x:Type TextBox}">
+    <Setter Property="Margin" Value="2,0" />
+  </Style>
+
+  <DataTemplate DataType="{x:Type vm:TextItemViewModel}">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Text" Grid.ColumnSpan="2" />
+      <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.Top}" Grid.Row="1" />
+      <TextBox Style="{StaticResource DoubleTextBoxStyle}"
+               Text="{Binding Top, StringFormat=f1}"
+               Grid.Row="1"
+               Grid.Column="1" />
+      <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.Left}" Grid.Row="2" />
+      <TextBox Style="{StaticResource DoubleTextBoxStyle}"
+               Text="{Binding Left, StringFormat=f1}"
+               Grid.Row="2"
+               Grid.Column="2" />
+      <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.Width}" Grid.Row="3" />
+      <TextBox Style="{StaticResource DoubleTextBoxStyle}"
+               Text="{Binding Width, StringFormat=f1}"
+               Grid.Row="3"
+               Grid.Column="1" />
+      <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.Height}" Grid.Row="4" />
+      <TextBox Style="{StaticResource DoubleTextBoxStyle}"
+               Text="{Binding Height, StringFormat=f1}"
+               Grid.Row="4"
+               Grid.Column="1" />
+      <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.Text}" Grid.Row="5" />
+      <TextBox Style="{StaticResource EditTextBoxStyle}"
+               Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
+               Grid.Row="5"
+               Grid.Column="1" />
+    </Grid>
+  </DataTemplate>
+
+</ResourceDictionary>

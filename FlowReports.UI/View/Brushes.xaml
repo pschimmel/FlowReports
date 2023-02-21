@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <SolidColorBrush x:Key="Panel.Background" Color="LightGray" />
+  <SolidColorBrush x:Key="Editor.Background" Color="Wheat" />
+  <SolidColorBrush x:Key="GridSplitter.Background" Color="Black" />
+
+  <SolidColorBrush x:Key="ReportGroup.BorderBrush" Color="Gray" />
+  <SolidColorBrush x:Key="ReportGroup.Background" Color="Orange" />
+  <SolidColorBrush x:Key="ReportGroup.SelectedBackground" Color="DarkOrange" />
+
+  <SolidColorBrush x:Key="Button.Background" Color="LightGray" />
+  <SolidColorBrush x:Key="Button.Background.Hover" Color="White" />
+  <SolidColorBrush x:Key="Button.Background.Pressed" Color="LightBlue" />
+  <SolidColorBrush x:Key="Button.Border" Color="Gray" />
+  <SolidColorBrush x:Key="Button.Border.Hover" Color="Black" />
+  <SolidColorBrush x:Key="Button.Border.Pressed" Color="Blue" />
+
+  <SolidColorBrush x:Key="ReportItem.Border" Color="LightGray" />
+  <SolidColorBrush x:Key="ReportItem.Selection.Border" Color="Gray" />
+  <SolidColorBrush x:Key="ResizeThumb.Background" Color="Black" />
+
+  <!--<SolidColorBrush x:Key="ToolBarTray.Background" Color="LightGray" />
+
+  <SolidColorBrush x:Key="ToolBar.Background" Color="DarkGray" />
+  <SolidColorBrush x:Key="ToolBar.Border" Color="DimGray" />
+  <SolidColorBrush x:Key="ToolBar.Button.Background" Color="LightGray" />
+  <SolidColorBrush x:Key="ToolBar.Button.Background.Hover" Color="White" />
+  <SolidColorBrush x:Key="Toolbar.Button.Background.Pressed" Color="DarkBlue" />
+  <SolidColorBrush x:Key="ToolBar.Button.Border" Color="Gray" />
+  <SolidColorBrush x:Key="ToolBar.Button.Border.Hover" Color="Black" />
+  <SolidColorBrush x:Key="ToolBar.Button.Border.Pressed" Color="LightBlue" />-->
+</ResourceDictionary>

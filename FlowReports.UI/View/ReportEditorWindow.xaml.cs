@@ -1,0 +1,55 @@
+﻿using System.ComponentModel;
+using System.Windows;
+using ES.Tools.Core.MVVM;
+using FlowReports.UI.Infrastructure;
+using FlowReports.UI.ViewModel;
+using Fluent;
+
+namespace FlowReports.UI
+{
+  /// <summary>
+  /// Interaction logic for ReportEditorWindow.xaml
+  /// </summary>
+  public partial class ReportEditorWindow : RibbonWindow, IView
+  {
+    public ReportEditorWindow()
+    {
+      InitializeComponent();
+      EventService.Instance.Subscribe<bool>("CloseEditor", CloseWindow);
+      EventService.Instance.Subscribe<MessageInfo>("Message", ShowMessage);
+    }
+
+    protected override void OnClosing(CancelEventArgs e)
+    {
+      if (((ReportEditorViewModel)ViewModel).AskToSave() == false)
+      {
+        e.Cancel = true;
+      }
+    }
+
+    private void CloseWindow(bool close)
+    {
+      if (close)
+      {
+        Close();
+      }
+    }
+
+    public IViewModel ViewModel
+    {
+      get => (ReportEditorViewModel)DataContext;
+      set => DataContext = value;
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+      base.OnClosed(e);
+    }
+
+    private void ShowMessage(MessageInfo messageInfo)
+    {
+      System.Windows.MessageBoxResult result = MessageBox.Show(messageInfo.Message, messageInfo.Title, messageInfo.Buttons.Get(), messageInfo.Icon.Get());
+      messageInfo.DialogResult = result.Get();
+    }
+  }
+}

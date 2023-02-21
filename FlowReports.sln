@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32505.173
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports.UI", "FlowReports.UI\FlowReports.UI.csproj", "{7D0F3D41-9DDA-49EB-BAFF-65C943561915}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports.Model", "FlowReports.Model\FlowReports.Model.csproj", "{1D9AA1F3-6459-4E37-B355-7FBD8192EE97}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports.UnitTests", "FlowReports.UnitTests\FlowReports.UnitTests.csproj", "{9E8B311A-B12A-495C-978A-9A238F2BD902}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{B6E5F771-83F8-4525-BAC5-EDB4A59BBCD0}"
+	ProjectSection(SolutionItems) = preProject
+		Example.nas = Example.nas
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7D0F3D41-9DDA-49EB-BAFF-65C943561915}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D0F3D41-9DDA-49EB-BAFF-65C943561915}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D0F3D41-9DDA-49EB-BAFF-65C943561915}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D0F3D41-9DDA-49EB-BAFF-65C943561915}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D9AA1F3-6459-4E37-B355-7FBD8192EE97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D9AA1F3-6459-4E37-B355-7FBD8192EE97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D9AA1F3-6459-4E37-B355-7FBD8192EE97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D9AA1F3-6459-4E37-B355-7FBD8192EE97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E8B311A-B12A-495C-978A-9A238F2BD902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E8B311A-B12A-495C-978A-9A238F2BD902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E8B311A-B12A-495C-978A-9A238F2BD902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E8B311A-B12A-495C-978A-9A238F2BD902}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		RESX_ConfirmAddLanguageFile = True
+		RESX_SortFileContentOnSave = True
+		SolutionGuid = {7EC9A44C-0463-4A87-A2D6-88AE22DFF535}
+	EndGlobalSection
+EndGlobal

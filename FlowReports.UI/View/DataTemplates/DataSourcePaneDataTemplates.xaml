@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:FlowReports.UI.View.Converters"
+                    xmlns:dd="urn:gong-wpf-dragdrop"
+                    xmlns:vm="clr-namespace:FlowReports.UI.ViewModel">
+
+  <converters:IconToResourceConverter x:Key="iconToResourceConverter" />
+
+  <HierarchicalDataTemplate DataType="{x:Type vm:DataSourceViewModel}" ItemsSource="{Binding Children}">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="16" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <TextBlock Margin="2,0,0,0" Text="{Binding Name}" Grid.Column="1" />
+    </Grid>
+  </HierarchicalDataTemplate>
+
+  <HierarchicalDataTemplate DataType="{x:Type vm:DataSourceListViewModel}" ItemsSource="{Binding Children}">
+    <Grid dd:DragDrop.IsDragSource="True" Background="Transparent">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="16" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <Image Source="{Binding Icon, Converter={StaticResource iconToResourceConverter}}" />
+      <TextBlock Margin="2,0,0,0" Text="{Binding Name}" Grid.Column="1" />
+    </Grid>
+  </HierarchicalDataTemplate>
+
+  <DataTemplate DataType="{x:Type vm:DataSourceItemViewModel}">
+    <Grid dd:DragDrop.IsDragSource="True" Background="Transparent">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="16" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <Image Source="{Binding Icon, Converter={StaticResource iconToResourceConverter}}" />
+      <TextBlock Margin="2,0,0,0" Text="{Binding Name}" Grid.Column="1" />
+    </Grid>
+  </DataTemplate>
+
+</ResourceDictionary>
