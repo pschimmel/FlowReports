@@ -6,16 +6,6 @@
 
   <converters:IconToResourceConverter x:Key="iconToResourceConverter" />
 
-  <HierarchicalDataTemplate DataType="{x:Type vm:DataSourceViewModel}" ItemsSource="{Binding Children}">
-    <Grid>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="16" />
-        <ColumnDefinition />
-      </Grid.ColumnDefinitions>
-      <TextBlock Margin="2,0,0,0" Text="{Binding Name}" Grid.Column="1" />
-    </Grid>
-  </HierarchicalDataTemplate>
-
   <HierarchicalDataTemplate DataType="{x:Type vm:DataSourceListViewModel}" ItemsSource="{Binding Children}">
     <Grid dd:DragDrop.IsDragSource="True" Background="Transparent">
       <Grid.ColumnDefinitions>

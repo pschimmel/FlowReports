@@ -20,11 +20,11 @@
       </Border.InputBindings>
       <Border.Style>
         <Style TargetType="Border">
-          <Setter Property="Background" Value="{StaticResource ReportGroup.Background}" />
-          <Setter Property="BorderBrush" Value="{StaticResource ReportGroup.BorderBrush}" />
+          <Setter Property="Background" Value="{StaticResource ReportBand.Background}" />
+          <Setter Property="BorderBrush" Value="{StaticResource ReportBand.BorderBrush}" />
           <Style.Triggers>
             <DataTrigger Binding="{Binding IsSelected}" Value="True">
-              <Setter Property="Background" Value="{StaticResource ReportGroup.SelectedBackground}" />
+              <Setter Property="Background" Value="{StaticResource ReportBand.SelectedBackground}" />
             </DataTrigger>
           </Style.Triggers>
         </Style>
@@ -37,7 +37,7 @@
         <TextBlock Margin="4,0" Text="{Binding DataSource}" />
         <Border Margin="10,0,0,0"
                 HorizontalAlignment="Stretch"
-                BorderBrush="{StaticResource ReportGroup.BorderBrush}"
+                BorderBrush="{StaticResource ReportBand.BorderBrush}"
                 BorderThickness="1,1,0,0"
                 Grid.Row="1">
           <Border.Style>

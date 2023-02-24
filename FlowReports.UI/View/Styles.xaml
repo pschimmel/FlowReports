@@ -44,6 +44,156 @@
 
   <!--#endregion-->
 
+  <!--#region TreeView-->
+
+  <Style x:Key="{x:Type TreeView}" TargetType="TreeView">
+    <Setter Property="OverridesDefaultStyle" Value="True" />
+    <Setter Property="SnapsToDevicePixels" Value="True" />
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="TreeView">
+          <Border Name="Border"
+                  Background="{StaticResource TreeView.Background}"
+                  BorderBrush="{StaticResource TreeView.Border}"
+                  BorderThickness="1"
+                  CornerRadius="1">
+            <ScrollViewer Padding="4" CanContentScroll="False" Focusable="False">
+              <ItemsPresenter />
+            </ScrollViewer>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style x:Key="ExpandCollapseToggleStyle" TargetType="ToggleButton">
+    <Setter Property="Focusable" Value="False" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ToggleButton">
+          <Grid Width="15" Height="13" Background="Transparent">
+            <Path x:Name="Collapsed"
+                  Margin="1,1,1,1"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Data="M 4 0 L 8 4 L 4 8 Z"
+                  Fill="Black" />
+            <Path x:Name="Expanded"
+                  Margin="1,1,1,1"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Data="M 0 4 L 8 4 L 4 8 Z"
+                  Fill="Black"
+                  Visibility="Hidden" />
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CheckStates">
+                <VisualState x:Name="Checked">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Collapsed" Storyboard.TargetProperty="(UIElement.Visibility)">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Expanded" Storyboard.TargetProperty="(UIElement.Visibility)">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Unchecked" />
+                <VisualState x:Name="Indeterminate" />
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style x:Key="{x:Type TreeViewItem}" TargetType="{x:Type TreeViewItem}">
+    <Setter Property="Background" Value="{StaticResource TreeViewItem.Background}" />
+    <Setter Property="HorizontalContentAlignment" Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+    <Setter Property="VerticalContentAlignment" Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+    <Setter Property="Padding" Value="1,0" />
+    <Setter Property="Foreground" Value="{StaticResource TreeViewItem.Foreground}" />
+    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="{StaticResource TreeViewItem.Border}" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type TreeViewItem}">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" MinWidth="19" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition />
+            </Grid.RowDefinitions>
+            <ToggleButton x:Name="Expander"
+                          ClickMode="Press"
+                          IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                          Style="{StaticResource ExpandCollapseToggleStyle}" />
+            <Border x:Name="Bd"
+                    Padding="{TemplateBinding Padding}"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="2"
+                    Grid.Column="1">
+              <ContentPresenter x:Name="PART_Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" ContentSource="Header" />
+            </Border>
+            <ItemsPresenter x:Name="ItemsHost"
+                            Visibility="Collapsed"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2" />
+          </Grid>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsExpanded" Value="true">
+              <Setter TargetName="ItemsHost" Property="Visibility" Value="Visible" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="true">
+              <Setter Property="Background" Value="{StaticResource TreeViewItem.SelectedBackground}" />
+              <Setter Property="BorderBrush" Value="{StaticResource TreeViewItem.SelectedBorder}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+              <Setter Property="Foreground" Value="{StaticResource General.Foreground.Inactive}" />
+            </Trigger>
+            <MultiTrigger>
+              <MultiTrigger.Conditions>
+                <Condition Property="IsSelected" Value="true" />
+                <Condition Property="IsEnabled" Value="false" />
+              </MultiTrigger.Conditions>
+              <Setter Property="Background" Value="{StaticResource TreeViewItem.SelectedBackground.Inactive}" />
+              <Setter Property="BorderBrush" Value="{StaticResource TreeViewItem.SelectedBorder.Inactive}" />
+            </MultiTrigger>
+            <Trigger Property="HasItems" Value="false">
+              <Setter TargetName="Expander" Property="Visibility" Value="Hidden" />
+            </Trigger>
+            <MultiTrigger>
+              <MultiTrigger.Conditions>
+                <Condition Property="HasHeader" Value="false" />
+                <Condition Property="Width" Value="Auto" />
+              </MultiTrigger.Conditions>
+              <Setter TargetName="PART_Header" Property="MinWidth" Value="75" />
+            </MultiTrigger>
+            <MultiTrigger>
+              <MultiTrigger.Conditions>
+                <Condition Property="HasHeader" Value="false" />
+                <Condition Property="Height" Value="Auto" />
+              </MultiTrigger.Conditions>
+              <Setter TargetName="PART_Header" Property="MinHeight" Value="19" />
+            </MultiTrigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!--#endregion-->
+
   <Style x:Key="EditTextBoxStyle" TargetType="{x:Type TextBox}">
     <Setter Property="Margin" Value="2,0" />
   </Style>
