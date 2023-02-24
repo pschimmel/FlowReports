@@ -1,11 +1,15 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!--#region General brushes-->
+
   <SolidColorBrush x:Key="Panel.Background" Color="LightGray" />
   <SolidColorBrush x:Key="Editor.Background" Color="Wheat" />
-  <SolidColorBrush x:Key="GridSplitter.Background" Color="Black" />
+  <SolidColorBrush x:Key="General.Foreground" Color="Black" />
+  <SolidColorBrush x:Key="General.Foreground.Inactive" Color="Gray" />
 
-  <SolidColorBrush x:Key="ReportGroup.BorderBrush" Color="Gray" />
-  <SolidColorBrush x:Key="ReportGroup.Background" Color="Orange" />
-  <SolidColorBrush x:Key="ReportGroup.SelectedBackground" Color="DarkOrange" />
+  <!--#endregion-->
+
+  <!--#region WPF control brushes-->
 
   <SolidColorBrush x:Key="Button.Background" Color="LightGray" />
   <SolidColorBrush x:Key="Button.Background.Hover" Color="White" />
@@ -14,18 +18,46 @@
   <SolidColorBrush x:Key="Button.Border.Hover" Color="Black" />
   <SolidColorBrush x:Key="Button.Border.Pressed" Color="Blue" />
 
-  <SolidColorBrush x:Key="ReportItem.Border" Color="LightGray" />
-  <SolidColorBrush x:Key="ReportItem.Selection.Border" Color="Gray" />
-  <SolidColorBrush x:Key="ResizeThumb.Background" Color="Black" />
+  <SolidColorBrush x:Key="TreeView.Background" Color="White" />
+  <SolidColorBrush x:Key="TreeView.Border" Color="LightGray" />
+  <SolidColorBrush x:Key="TreeViewItem.Foreground" Color="Black" />
+  <SolidColorBrush x:Key="TreeViewItem.Background" Color="Transparent" />
+  <SolidColorBrush x:Key="TreeViewItem.Border" Color="Transparent" />
+  <SolidColorBrush x:Key="TreeViewItem.SelectedBackground" Color="White" />
+  <SolidColorBrush x:Key="TreeViewItem.SelectedBorder" Color="Blue" />
+  <SolidColorBrush x:Key="TreeViewItem.SelectedBackground.Inactive" Color="White" />
+  <SolidColorBrush x:Key="TreeViewItem.SelectedBorder.Inactive" Color="LightGray" />
 
-  <!--<SolidColorBrush x:Key="ToolBarTray.Background" Color="LightGray" />
+  <SolidColorBrush x:Key="GridSplitter.Background" Color="Black" />
 
-  <SolidColorBrush x:Key="ToolBar.Background" Color="DarkGray" />
-  <SolidColorBrush x:Key="ToolBar.Border" Color="DimGray" />
-  <SolidColorBrush x:Key="ToolBar.Button.Background" Color="LightGray" />
-  <SolidColorBrush x:Key="ToolBar.Button.Background.Hover" Color="White" />
-  <SolidColorBrush x:Key="Toolbar.Button.Background.Pressed" Color="DarkBlue" />
-  <SolidColorBrush x:Key="ToolBar.Button.Border" Color="Gray" />
-  <SolidColorBrush x:Key="ToolBar.Button.Border.Hover" Color="Black" />
-  <SolidColorBrush x:Key="ToolBar.Button.Border.Pressed" Color="LightBlue" />-->
+  <!--#endregion-->
+
+  <!--#region Editor brushes-->
+
+  <SolidColorBrush x:Key="ReportBand.BorderBrush" Color="Gray" />
+  <SolidColorBrush x:Key="ReportBand.Background" Color="Orange" />
+  <SolidColorBrush x:Key="ReportBand.SelectedBackground" Color="DarkOrange" />
+
+  <DrawingBrush x:Key="ReportItem.Border"
+                TileMode="Tile"
+                Viewport="0,0,8,8"
+                ViewportUnits="Absolute">
+    <DrawingBrush.Drawing>
+      <DrawingGroup>
+        <GeometryDrawing Brush="LightGray">
+          <GeometryDrawing.Geometry>
+            <GeometryGroup>
+              <RectangleGeometry Rect="0,0,50,50" />
+              <RectangleGeometry Rect="50,50,50,50" />
+            </GeometryGroup>
+          </GeometryDrawing.Geometry>
+        </GeometryDrawing>
+      </DrawingGroup>
+    </DrawingBrush.Drawing>
+  </DrawingBrush>
+  <SolidColorBrush x:Key="ReportItem.SelectedBorder" Color="Blue" />
+  <SolidColorBrush x:Key="ReportItem.ResizeThumb.Background" Color="Black" />
+
+  <!--#endregion-->
+
 </ResourceDictionary>

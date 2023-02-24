@@ -41,16 +41,10 @@ namespace FlowReports.UI.ViewModel
 
     void IDropTarget.DragOver(IDropInfo dropInfo)
     {
-      Debug.Assert(dropInfo.Data is DataSourceItemViewModel, $"Dropped data must be of type {nameof(DataSourceItemViewModel)}.");
-
       if (dropInfo.Data is DataSourceItemViewModel)
       {
         dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
         dropInfo.Effects = DragDropEffects.Move;
-      }
-      else
-      {
-        Debug.Fail($"Dropped data must be of type {nameof(DataSourceItemViewModel)}.");
       }
     }
 

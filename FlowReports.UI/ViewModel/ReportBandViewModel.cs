@@ -46,6 +46,7 @@ namespace FlowReports.UI.ViewModel
       band.ItemRemoved += Band_ItemRemoved;
 
       SelectCommand = new ActionCommand(Select);
+      DeselectItemsCommand = new ActionCommand(DeselectItems);
       EditDetailsCommand = new ActionCommand(EditDetails, CanEditDetails);
     }
 
@@ -124,6 +125,21 @@ namespace FlowReports.UI.ViewModel
     public void Select()
     {
       IsSelected = true;
+    }
+
+    #endregion
+
+    #region Deselect Items
+
+    public ICommand DeselectItemsCommand { get; }
+
+    private void DeselectItems()
+    {
+      IsSelected = true;
+      foreach (var item in Items)
+      {
+        item.IsSelected = false;
+      }
     }
 
     #endregion
@@ -296,8 +312,6 @@ namespace FlowReports.UI.ViewModel
 
     void IDropTarget.DragOver(IDropInfo dropInfo)
     {
-      Debug.Assert(dropInfo.Data is DataSourceListViewModel || dropInfo.Data is DataSourceItemViewModel);
-
       var parentContainer = dropInfo.VisualTarget.GetParent<Border>(x => x.Name == "BandContainer" || x.Name == "EditorContainer");
       bool parentIsBandContainer = parentContainer?.Name == "BandContainer";
       bool parentIsEditorContainer = parentContainer?.Name == "EditorContainer";
@@ -333,13 +347,9 @@ namespace FlowReports.UI.ViewModel
         _band.AddTextItem();
         Debug.Assert(Items.Last() is TextItemViewModel);
         var textItemViewModel = Items.Last() as TextItemViewModel;
-        textItemViewModel.Text = dataSourceItemViewModel.Name;
+        textItemViewModel.Text = $"[{dataSourceItemViewModel.Name}]";
         textItemViewModel.Left = dropInfo.DropPosition.X;
         textItemViewModel.Top = dropInfo.DropPosition.Y;
-      }
-      else
-      {
-        Debug.Fail("Oopsie!");
       }
     }
 

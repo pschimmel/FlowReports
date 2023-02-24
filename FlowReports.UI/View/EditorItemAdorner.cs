@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -23,13 +24,14 @@ namespace FlowReports.UI.View
     public ReportItemAdorner(UIElement adornedElement)
       : base(adornedElement)
     {
-      _resizeThumbBackground = new Lazy<Brush>(() => (Brush)FindResource("ResizeThumb.Background"));
+      _resizeThumbBackground = new Lazy<Brush>(() => (Brush)FindResource("ReportItem.ResizeThumb.Background"));
     }
 
     protected override void OnRender(DrawingContext drawingContext)
     {
       base.OnRender(drawingContext);
 
+      Debug.Assert(_resizeThumbBackground.Value != null);
       drawingContext.DrawRectangle(_resizeThumbBackground.Value, null, GetLeftTop());     // Left top
       drawingContext.DrawRectangle(_resizeThumbBackground.Value, null, GetRightTop());    // Right top
       drawingContext.DrawRectangle(_resizeThumbBackground.Value, null, GetLeftBottom());  // Left bottom

@@ -17,10 +17,13 @@
             dd:DragDrop.DropHandler="{Binding}"
             dd:DragDrop.IsDropTarget="True"
             BorderThickness="0,0,0,1">
+      <behaviors:Interaction.Behaviors>
+        <viewBehaviors:ExecuteOnClickBehavior Command="{Binding DeselectItemsCommand}" />
+      </behaviors:Interaction.Behaviors>
       <Border.Style>
         <Style TargetType="Border">
           <Setter Property="Background" Value="White" />
-          <Setter Property="BorderBrush" Value="{StaticResource ReportGroup.BorderBrush}" />
+          <Setter Property="BorderBrush" Value="{StaticResource ReportBand.BorderBrush}" />
         </Style>
       </Border.Style>
       <Grid>
@@ -37,7 +40,7 @@
         </ItemsControl>
         <Border Margin="0,0,0,0"
                 HorizontalAlignment="Stretch"
-                BorderBrush="{StaticResource ReportGroup.BorderBrush}"
+                BorderBrush="{StaticResource ReportBand.BorderBrush}"
                 BorderThickness="0,1,0,0"
                 Grid.Row="1">
           <Border.Style>
@@ -65,7 +68,7 @@
             Canvas.Left="{Binding Left}"
             Canvas.Top="{Binding Top}">
       <behaviors:Interaction.Behaviors>
-        <viewBehaviors:SelectEditorItemOnClickBehavior />
+        <viewBehaviors:ExecuteOnClickBehavior Command="{Binding SelectCommand}" />
         <viewBehaviors:ResizeEditorItemBehavior />
       </behaviors:Interaction.Behaviors>
       <Border.Style>
@@ -73,7 +76,7 @@
           <Setter Property="BorderBrush" Value="{StaticResource ReportItem.Border}" />
           <Style.Triggers>
             <DataTrigger Binding="{Binding IsSelected}" Value="true">
-              <Setter Property="BorderBrush" Value="{StaticResource ReportItem.Selection.Border}" />
+              <Setter Property="BorderBrush" Value="{StaticResource ReportItem.SelectedBorder}" />
             </DataTrigger>
           </Style.Triggers>
         </Style>
