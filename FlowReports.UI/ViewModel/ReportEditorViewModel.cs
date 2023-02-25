@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.IO;
 using System.Windows.Input;
+using ES.Tools.Core.Infrastructure;
 using ES.Tools.Core.MVVM;
 using FlowReports.Model;
 using FlowReports.UI.Infrastructure;
@@ -206,7 +207,7 @@ namespace FlowReports.UI.ViewModel
 
     private void PrintPreview()
     {
-      var vm = new PrintPreviewViewModel();
+      using var vm = new PrintPreviewViewModel(ReportVM.Report);
       var view = ViewFactory.Instance.CreateView(vm);
       view.ShowDialog();
     }

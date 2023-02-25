@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using ES.Tools.Core.Infrastructure;
 using ES.Tools.Core.MVVM;
 using FlowReports.UI.Infrastructure;
 using FlowReports.UI.ViewModel;
@@ -24,6 +25,14 @@ namespace FlowReports.UI
       if (((ReportEditorViewModel)ViewModel).AskToSave() == false)
       {
         e.Cancel = true;
+      }
+      else
+      {
+        if (Services.Instance.HasService<ExecuteOnApplicationClosing>())
+        {
+          var service = Services.Instance.GetService<ExecuteOnApplicationClosing>();
+          service.Execute();
+        }
       }
     }
 

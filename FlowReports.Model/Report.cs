@@ -1,4 +1,5 @@
-﻿using FlowReports.Model.DataSources;
+﻿using System.Collections;
+using FlowReports.Model.DataSources;
 using FlowReports.Model.ReportItems;
 
 namespace FlowReports.Model
@@ -10,6 +11,8 @@ namespace FlowReports.Model
     public DataSource DataSource { get; internal set; }
 
     public DateTime LastChanged { get; internal set; }
+    public IEnumerable Data { get; internal set; }
+    public Type TypeOfData { get; internal set; }
 
     public void Analyze<T>(IEnumerable<T> items) where T : class
     {

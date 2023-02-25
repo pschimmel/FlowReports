@@ -9,6 +9,10 @@ using Microsoft.Xaml.Behaviors;
 
 namespace FlowReports.UI.View.Behaviors
 {
+  /// <summary>
+  /// Behavior that connects the size and location properties of a <see cref="IItemViewModel"/> with the respective properties
+  /// of a control.
+  /// </summary>
   internal class ResizeEditorItemBehavior : Behavior<FrameworkElement>
   {
     private IItemViewModel _vm;
@@ -24,7 +28,7 @@ namespace FlowReports.UI.View.Behaviors
       }
 
       // Connect the attached properties Canvas.Left and Canvas.Top with the parent content
-      // presenter, as this is the control that is actually in the canvas.
+      // presenter, as this is the control that is actually contained in the canvas.
       var parentContentPresenter = AssociatedObject.GetParent<ContentPresenter>();
 
       if (parentContentPresenter != null)

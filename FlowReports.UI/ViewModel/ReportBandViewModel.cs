@@ -191,19 +191,20 @@ namespace FlowReports.UI.ViewModel
 
     private void ItemVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if (e.PropertyName == nameof(IItemViewModel.IsSelected) &&
-          sender is IItemViewModel viewModel &&
-          viewModel.IsSelected)
+      if (e.PropertyName == nameof(IItemViewModel.IsSelected) && sender is IItemViewModel viewModel)
       {
-        foreach (var item in Items)
+        if (viewModel.IsSelected)
         {
-          if (item != sender)
+          foreach (var item in Items)
           {
-            item.IsSelected = false;
+            if (item != sender)
+            {
+              item.IsSelected = false;
+            }
           }
-        }
 
-        ItemSelected?.Invoke(sender, EventArgs.Empty);
+          ItemSelected?.Invoke(sender, EventArgs.Empty);
+        }
       }
       else
       {

@@ -4,7 +4,10 @@
                     xmlns:vm="clr-namespace:FlowReports.UI.ViewModel">
 
   <DataTemplate DataType="{x:Type vm:ReportBandViewModel}">
-    <Border dd:DragDrop.DropHandler="{Binding}" dd:DragDrop.IsDropTarget="True" BorderThickness="0,0,0,1">
+    <Border dd:DragDrop.DropEventType="Bubbled"
+            dd:DragDrop.DropHandler="{Binding}"
+            dd:DragDrop.IsDropTarget="True"
+            BorderThickness="0,0,0,1">
       <Border.Resources>
         <Style TargetType="{x:Type TextBlock}">
           <Style.Triggers>

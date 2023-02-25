@@ -114,10 +114,9 @@ namespace FlowReports.UI.ViewModel
 
     public string FilePath { get; set; }
 
-    public IEnumerable<DataSourceViewModel> DataSourceVM
-    {
-      get => _lazyDataSource.Value;
-    }
+    public IEnumerable<DataSourceViewModel> DataSourceVM => _lazyDataSource.Value;
+
+    internal Report Report => _report;
 
     #endregion
 
