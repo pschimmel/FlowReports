@@ -4,16 +4,12 @@ using Microsoft.Xaml.Behaviors;
 
 namespace FlowReports.UI.View.Behaviors
 {
+  /// <summary>
+  /// Executes any command when the control is clicked.
+  /// This excutes the command on PreviewMouseLeftButtonDown.
+  /// </summary>
   internal class ExecuteOnClickBehavior : Behavior<FrameworkElement>, ICommandSource
   {
-    public static DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(ExecuteOnClickBehavior));
-
-    public ICommand Command
-    {
-      get => (ICommand)GetValue(CommandProperty);
-      set => SetValue(CommandProperty, value);
-    }
-
     protected override void OnAttached()
     {
       base.OnAttached();
@@ -24,6 +20,30 @@ namespace FlowReports.UI.View.Behaviors
     {
       AssociatedObject.PreviewMouseLeftButtonDown -= AssociatedObject_PreviewMouseLeftButtonDown;
       base.OnDetaching();
+    }
+
+    public static DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(ExecuteOnClickBehavior));
+
+    public ICommand Command
+    {
+      get => (ICommand)GetValue(CommandProperty);
+      set => SetValue(CommandProperty, value);
+    }
+
+    public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(ExecuteOnClickBehavior), new UIPropertyMetadata(null));
+
+    public object CommandParameter
+    {
+      get => GetValue(CommandParameterProperty);
+      set => SetValue(CommandParameterProperty, value);
+    }
+
+    public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register("CommandTarget", typeof(IInputElement), typeof(ExecuteOnClickBehavior), new UIPropertyMetadata(null));
+
+    public IInputElement CommandTarget
+    {
+      get => (IInputElement)GetValue(CommandTargetProperty);
+      set => SetValue(CommandTargetProperty, value);
     }
 
     private void AssociatedObject_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -40,24 +60,6 @@ namespace FlowReports.UI.View.Behaviors
       {
         command.Execute(parameter);
       }
-    }
-
-    // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(ExecuteOnClickBehavior), new UIPropertyMetadata(null));
-
-    public object CommandParameter
-    {
-      get => GetValue(CommandParameterProperty);
-      set => SetValue(CommandParameterProperty, value);
-    }
-
-    // Using a DependencyProperty as the backing store for CommandTarget.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register("CommandTarget", typeof(IInputElement), typeof(ExecuteOnClickBehavior), new UIPropertyMetadata(null));
-
-    public IInputElement CommandTarget
-    {
-      get => (IInputElement)GetValue(CommandTargetProperty);
-      set => SetValue(CommandTargetProperty, value);
     }
   }
 }

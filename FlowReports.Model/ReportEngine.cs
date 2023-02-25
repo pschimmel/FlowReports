@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using FlowReports.Model.DataSources;
+﻿using FlowReports.Model.DataSources;
 
 namespace FlowReports.Model
 {
@@ -7,6 +6,8 @@ namespace FlowReports.Model
   {
     public static void Analyze<T>(Report report, IEnumerable<T> items) where T : class
     {
+      report.Data = items;
+      report.TypeOfData = typeof(T);
       report.DataSource = DataSourceAnalyzer.Analyze(items);
     }
 

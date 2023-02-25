@@ -66,6 +66,11 @@ namespace FlowReports.Model.ImportExport
           WriteItem(item, itemsNode);
         }
       }
+
+      if (band.SubBands.Any())
+      {
+        WriteBands(band.SubBands, bandNode);
+      }
     }
 
     private static void WriteItem(ReportItem item, XmlElement itemsNode)

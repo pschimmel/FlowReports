@@ -33,31 +33,36 @@ namespace FlowReports.Model.ImportExport
     private static void ReadReport(this Report report, XmlDocument xml)
     {
       var reportNode = xml.DocumentElement; // DocumentElement will be the root element, i.e. the report
-
       report.LastChanged = reportNode.ReadAttributeOrDefault(Tags.LastChanged, DateTime.Now);
+      ReadBands(report.Bands, reportNode);
+    }
 
-      foreach (var bandsNode in reportNode.GetElementsByTagName(Tags.Bands).OfType<XmlElement>())
+    private static void ReadBands(ReportBandCollection bandCollection, XmlElement parentNode)
+    {
+      foreach (var bandsNode in parentNode.SelectNodes(Tags.Bands).OfType<XmlElement>())
       {
-        foreach (var bandNode in bandsNode.GetElementsByTagName(Tags.Band).OfType<XmlElement>())
+        foreach (var bandNode in bandsNode.SelectNodes(Tags.Band).OfType<XmlElement>())
         {
-          ReadBand(report, bandNode);
+          ReadBand(bandCollection, bandNode);
         }
       }
     }
 
-    private static void ReadBand(Report report, XmlElement bandNode)
+    private static void ReadBand(ReportBandCollection bandCollection, XmlElement bandNode)
     {
-      var band = report.Bands.AddBand();
+      var band = bandCollection.AddBand();
       ReadReportElement(band, bandNode);
       band.DataSource = bandNode.ReadAttributeOrDefault(Tags.DataSource, default(string));
 
-      foreach (var itemsNode in bandNode.GetElementsByTagName(Tags.Items).OfType<XmlElement>())
+      foreach (var itemsNode in bandNode.SelectNodes(Tags.Items).OfType<XmlElement>())
       {
-        foreach (var itemNode in itemsNode.GetElementsByTagName(Tags.Item).OfType<XmlElement>())
+        foreach (var itemNode in itemsNode.SelectNodes(Tags.Item).OfType<XmlElement>())
         {
           ReadItem(band, itemNode);
         }
       }
+
+      ReadBands(band.SubBands, bandNode);
     }
 
     private static void ReadItem(ReportBand band, XmlElement itemNode)
