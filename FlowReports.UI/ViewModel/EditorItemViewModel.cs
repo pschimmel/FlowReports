@@ -9,6 +9,7 @@ namespace FlowReports.UI.ViewModel
   {
     #region Fields
 
+    private const double MoveDelta = 5.0;
     protected readonly T _item;
     private readonly ReportBandViewModel _bandVM;
     private bool _isSelected;
@@ -23,6 +24,10 @@ namespace FlowReports.UI.ViewModel
       _bandVM = bandVM;
       SelectCommand = new ActionCommand(Select);
       DeleteCommand = new ActionCommand(Delete, CanDelete);
+      MoveLeftCommand = new ActionCommand(MoveLeft, CanMoveLeft);
+      MoveRightCommand = new ActionCommand(MoveRight, CanMoveRight);
+      MoveUpCommand = new ActionCommand(MoveUp, CanMoveUp);
+      MoveDownCommand = new ActionCommand(MoveDown, CanMoveDown);
     }
 
     #endregion
@@ -129,6 +134,70 @@ namespace FlowReports.UI.ViewModel
     }
 
     private bool CanDelete()
+    {
+      return IsSelected;
+    }
+
+    #endregion
+
+    #region Move Left
+
+    public ICommand MoveLeftCommand { get; }
+
+    private void MoveLeft()
+    {
+      Left -= Math.Min(Left, MoveDelta);
+    }
+
+    private bool CanMoveLeft()
+    {
+      return IsSelected && Left > 0;
+    }
+
+    #endregion
+
+    #region Move Right
+
+    public ICommand MoveRightCommand { get; }
+
+    private void MoveRight()
+    {
+      Left += MoveDelta;
+    }
+
+    private bool CanMoveRight()
+    {
+      return IsSelected;
+    }
+
+    #endregion
+
+    #region Move Up
+
+    public ICommand MoveUpCommand { get; }
+
+    private void MoveUp()
+    {
+      Top -= Math.Min(Top, MoveDelta);
+    }
+
+    private bool CanMoveUp()
+    {
+      return IsSelected && Top > 0;
+    }
+
+    #endregion
+
+    #region Move Down
+
+    public ICommand MoveDownCommand { get; }
+
+    private void MoveDown()
+    {
+      Top += MoveDelta;
+    }
+
+    private bool CanMoveDown()
     {
       return IsSelected;
     }

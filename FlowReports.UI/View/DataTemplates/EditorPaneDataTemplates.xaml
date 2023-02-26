@@ -71,15 +71,21 @@
       <behaviors:Interaction.Behaviors>
         <viewBehaviors:ExecuteOnClickBehavior Command="{Binding SelectCommand}" />
         <viewBehaviors:ResizeEditorItemBehavior />
-        <viewBehaviors:ExecuteOnKeyBehavior Key="Delete" Command="{Binding DeleteCommand}" />
       </behaviors:Interaction.Behaviors>
+      <Border.InputBindings>
+        <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+        <KeyBinding Key="Left" Command="{Binding MoveLeftCommand}" />
+        <KeyBinding Key="Right" Command="{Binding MoveRightCommand}" />
+        <KeyBinding Key="Up" Command="{Binding MoveUpCommand}" />
+        <KeyBinding Key="Down" Command="{Binding MoveDownCommand}" />
+      </Border.InputBindings>
       <Border.Style>
         <Style TargetType="{x:Type Border}">
           <Setter Property="BorderBrush" Value="{StaticResource ReportItem.Border}" />
           <Style.Triggers>
             <DataTrigger Binding="{Binding IsSelected}" Value="true">
               <Setter Property="BorderBrush" Value="{StaticResource ReportItem.SelectedBorder}" />
-                <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}" />
+              <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}" />
             </DataTrigger>
           </Style.Triggers>
         </Style>
