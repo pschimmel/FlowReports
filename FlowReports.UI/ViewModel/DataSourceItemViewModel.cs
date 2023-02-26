@@ -30,5 +30,7 @@ namespace FlowReports.UI.ViewModel
     public bool CanHaveChildren => false;
 
     public string Icon { get; }
+
+    public IDataSourceItem Item => _item;
   }
 }

@@ -34,7 +34,7 @@
         <ItemsControl ItemsSource="{Binding Items}">
           <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-              <Canvas />
+              <Canvas Focusable="True" />
             </ItemsPanelTemplate>
           </ItemsControl.ItemsPanel>
         </ItemsControl>
@@ -65,11 +65,13 @@
             dd:DragDrop.IsDropTarget="True"
             Background="Transparent"
             BorderThickness="1"
+            Focusable="True"
             Canvas.Left="{Binding Left}"
             Canvas.Top="{Binding Top}">
       <behaviors:Interaction.Behaviors>
         <viewBehaviors:ExecuteOnClickBehavior Command="{Binding SelectCommand}" />
         <viewBehaviors:ResizeEditorItemBehavior />
+        <viewBehaviors:ExecuteOnKeyBehavior Key="Delete" Command="{Binding DeleteCommand}" />
       </behaviors:Interaction.Behaviors>
       <Border.Style>
         <Style TargetType="{x:Type Border}">
@@ -77,6 +79,7 @@
           <Style.Triggers>
             <DataTrigger Binding="{Binding IsSelected}" Value="true">
               <Setter Property="BorderBrush" Value="{StaticResource ReportItem.SelectedBorder}" />
+                <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}" />
             </DataTrigger>
           </Style.Triggers>
         </Style>

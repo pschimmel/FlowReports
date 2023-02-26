@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using ES.Tools.Core.MVVM;
 using ES.Tools.UI;
-using FlowReports.Model;
+using FlowReports.Model.DataSources;
 using FlowReports.Model.Events;
 using FlowReports.Model.ReportItems;
 using GongSolutions.Wpf.DragDrop;
@@ -353,12 +353,9 @@ namespace FlowReports.UI.ViewModel
       }
       else if (dropInfo.Data is DataSourceItemViewModel dataSourceItemViewModel && parentIsEditorContainer)
       {
-        _band.AddTextItem();
-        Debug.Assert(Items.Last() is TextItemViewModel);
+        var reportItem = dataSourceItemViewModel.Item.GetReportItem(dropInfo.DropPosition.X, dropInfo.DropPosition.Y);
+        _band.AddReportItem(reportItem);
         var textItemViewModel = Items.Last() as TextItemViewModel;
-        textItemViewModel.Text = $"{Settings.DATASOURCE_OPENING_BRACKET}{dataSourceItemViewModel.Name}{Settings.DATASOURCE_CLOSING_BRACKET}";
-        textItemViewModel.Left = dropInfo.DropPosition.X;
-        textItemViewModel.Top = dropInfo.DropPosition.Y;
       }
     }
 

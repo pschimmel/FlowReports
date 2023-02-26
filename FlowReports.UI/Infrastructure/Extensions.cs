@@ -33,8 +33,8 @@ namespace FlowReports.UI.Infrastructure
       return result switch
       {
         System.Windows.MessageBoxResult.Yes or System.Windows.MessageBoxResult.OK => MessageBoxResult.Yes,
-        System.Windows.MessageBoxResult.No or System.Windows.MessageBoxResult.Cancel => MessageBoxResult.No,
-        System.Windows.MessageBoxResult.None or _ => MessageBoxResult.Cancel
+        System.Windows.MessageBoxResult.No => MessageBoxResult.No,
+        _ => MessageBoxResult.Cancel
       };
     }
   }

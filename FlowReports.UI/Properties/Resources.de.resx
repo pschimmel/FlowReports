@@ -150,6 +150,9 @@
   <data name="File" xml:space="preserve">
     <value>Datei</value>
   </data>
+  <data name="Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
   <data name="Height" xml:space="preserve">
     <value>Höhe</value>
   </data>

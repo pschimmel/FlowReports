@@ -247,7 +247,7 @@ namespace FlowReports.UI.ViewModel
 
     private void AddTextItem()
     {
-      var newItem = SelectedBand?.AddTextItem();
+      var newItem = SelectedBand.AddTextItem();
       SelectedItem = newItem;
     }
 

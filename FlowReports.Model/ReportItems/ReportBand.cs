@@ -5,6 +5,12 @@ namespace FlowReports.Model.ReportItems
 {
   public class ReportBand : ReportElement
   {
+    #region Fields
+
+    private double _insertPosition = 0;
+
+    #endregion
+
     #region Events
 
     public event EventHandler<ItemsEventArgs> ItemAdded;
@@ -47,15 +53,19 @@ namespace FlowReports.Model.ReportItems
 
     #region Public Methods
 
-    public void AddTextItem(string fieldName = null)
+    public void AddTextItem()
     {
       var textItem = new TextItem
       {
-        Text = fieldName,
-        Height = Height
+        Left = _insertPosition
       };
 
       AddItem(textItem);
+    }
+
+    public void AddReportItem(ReportItem item)
+    {
+      AddItem(item);
     }
 
     public void RemoveItem(ReportItem item)
@@ -96,10 +106,9 @@ namespace FlowReports.Model.ReportItems
 
     private void AddItem(ReportItem item)
     {
-      var left = Items.Any() ? Items.Max(x => x.Left + x.Width) : 0;
-      item.Left = left;
       Items.Add(item);
       OnItemAdded(item);
+      _insertPosition = item.Left + item.Width;
     }
 
     private void OnItemAdded(ReportItem item)

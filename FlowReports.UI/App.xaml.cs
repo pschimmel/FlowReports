@@ -30,8 +30,8 @@ namespace Reports.NET
         try
         {
 #if DEBUG
-          var employee1 = new Employee { FirstName = "Michael", LastName = "Meyers", DOB = new DateTime(75, 11, 1) };
-          var employee2 = new Employee { FirstName = "Jason", LastName = "Vorhees", DOB = new DateTime(65, 12, 11) };
+          var employee1 = new Employee { FirstName = "Michael", LastName = "Meyers", DOB = new DateTime(1975, 11, 1) };
+          var employee2 = new Employee { FirstName = "Jason", LastName = "Vorhees", DOB = new DateTime(1965, 12, 11) };
           var employee3 = new Employee { FirstName = "Freddy", LastName = "Krueger" };
           var employee4 = new Employee { FirstName = "Wayne", LastName = "Bruce" };
           var company1 = new Company { Name = "Nightmare Inc." };
@@ -40,7 +40,7 @@ namespace Reports.NET
           company1.Employees.Add(employee2);
           company1.Employees.Add(employee3);
           company2.Employees.Add(employee4);
-          var companies = new List<Company> { company1 };
+          var companies = new List<Company> { company1, company2 };
 
           FlowReport.Edit(args[0], companies);
 #else

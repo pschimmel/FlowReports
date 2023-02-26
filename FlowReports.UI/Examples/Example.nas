@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<Report LastChanged="2023-02-26T12:37:49.8951398+01:00">
+<Report LastChanged="2023-02-26T21:21:20.8423215+01:00">
   <Bands>
     <Band ID="10831ead643a41e4a14a80208fa41ed5" DataSource="Company">
       <Items>
@@ -10,6 +10,7 @@
           <Items>
             <Item ID="4109ede15a694fabb4a1abca4df7dc16" X="31" Y="2" Width="100" Height="20" Type="TextItem" Text="[FirstName]" />
             <Item ID="f565026ecff64f7bb3941ecc53064410" X="134" Y="4" Width="100" Height="20" Type="TextItem" Text="[LastName]" />
+            <Item ID="de5f822a595c4b94bf394a24e9f65c2c" X="239" Y="3" Width="100" Height="20" Type="TextItem" Text="[DOB]" Format="d" />
           </Items>
         </Band>
       </Bands>

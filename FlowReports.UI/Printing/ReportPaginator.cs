@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using ES.Tools.Core.Infrastructure;
 using FlowReports.Model;
-using FlowReports.Model.DataSources;
 using FlowReports.Model.DataSources.DataSourceItems;
 using FlowReports.Model.ReportItems;
 
@@ -15,8 +14,9 @@ namespace FlowReports.UI.Printing
 {
   internal class ReportPaginator : DocumentPaginator
   {
+    #region Fields
+
     private readonly Report _report;
-    private readonly DataSource _dataSource;
     private readonly IEnumerable _data;
     private Size _pageSize;
     private readonly PageImageableArea _printableArea;
@@ -24,13 +24,16 @@ namespace FlowReports.UI.Printing
     private Canvas _currentCanvas;
     private double _currentY;
 
+    #endregion
+
+    #region Constructor
+
     /// <summary>
     /// Initializes a new instance of the <see cref="NASDocumentPaginator"/> class.
     /// </summary>
     public ReportPaginator(Report report, (PageMediaSize Size, PageImageableArea PrintableArea, PageOrientation Orientation)? pageInformation = null)
     {
       _report = report ?? throw new ArgumentNullException(nameof(report));
-      _dataSource = report.DataSource;
       _data = report.Data;
 
       PageMediaSize pageMediaSize = null;
@@ -64,6 +67,19 @@ namespace FlowReports.UI.Printing
       CreatePages();
     }
 
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Gets or sets the orientation.
+    /// </summary>
+    public PageOrientation Orientation { get; set; }
+
+    #endregion
+
+    #region Overwritten Members
+
     /// <summary>
     /// Gets a count of the number of pages currently formatted
     /// </summary>
@@ -93,14 +109,6 @@ namespace FlowReports.UI.Printing
     }
 
     /// <summary>
-    /// Gets or sets the orientation.
-    /// </summary>
-    /// <value>
-    /// The orientation.
-    /// </value>
-    public PageOrientation Orientation { get; set; }
-
-    /// <summary>
     /// Gets a value indicating whether <see cref="P:System.Windows.Documents.DocumentPaginator.PageCount"/> is the total number of pages.
     /// </summary>
     /// <returns>true if pagination is complete and <see cref="P:System.Windows.Documents.DocumentPaginator.PageCount"/> is the total number of pages; otherwise, false, if pagination is in process and <see cref="P:System.Windows.Documents.DocumentPaginator.PageCount"/> is the number of pages currently formatted (not the total).This value may revert to false, after being true, if <see cref="P:System.Windows.Documents.DocumentPaginator.PageSize"/> or content changes; because those events would force a repagination.</returns>
@@ -109,7 +117,7 @@ namespace FlowReports.UI.Printing
     /// <summary>
     /// Returns the element being paginated.
     /// </summary>
-    /// <returns>An <see cref="T:System.Windows.Documents.IDocumentPaginatorSource"/> representing the element being paginated.</returns>
+    /// <returns>null</returns>
     public override IDocumentPaginatorSource Source => null;
 
     /// <summary>
@@ -123,14 +131,14 @@ namespace FlowReports.UI.Printing
     ///   <paramref number="pageNumber"/> is negative.</exception>
     public override DocumentPage GetPage(int pageNumber)
     {
-      return pageNumber < 0
-        ? throw new ArgumentOutOfRangeException(nameof(pageNumber))
-        : pageNumber > _pages.Count - 1
-          ? throw new ArgumentOutOfRangeException(nameof(pageNumber))
-          : _pages[pageNumber];
+      return pageNumber < 0 || pageNumber > _pages.Count - 1
+             ? throw new ArgumentOutOfRangeException(nameof(pageNumber))
+             : _pages[pageNumber];
     }
 
-    #region Private methods
+    #endregion
+
+    #region Private Methods
 
     private List<DocumentPage> CreatePages()
     {
@@ -144,6 +152,7 @@ namespace FlowReports.UI.Printing
         DrawBand(band, _data);
       }
 
+      // Create the page from the current canvas
       CreatePageFromCurrentCanvas();
 
       return _pages;
@@ -165,7 +174,7 @@ namespace FlowReports.UI.Printing
         // Draw all report items once for each item in the data source
         foreach (var item in band.Items)
         {
-          var control = ReportControlFactory.Instance.CreateControl(item, itemData);
+          var control = ReportControlFactory.CreateControl(item, itemData);
           if (control != null)
           {
             _currentCanvas.Children.Add(control);
@@ -194,11 +203,6 @@ namespace FlowReports.UI.Printing
       _currentCanvas.Arrange(new Rect(new Point(_printableArea.OriginWidth, _printableArea.OriginHeight), new Size(_currentCanvas.Width, _currentCanvas.Height)));
       var dp = new DocumentPage(_currentCanvas, _pageSize, new Rect(), new Rect(new Point(_printableArea.OriginWidth, _printableArea.OriginHeight), new Size(ActualWidth, ActualHeight)));
       _pages.Add(dp);
-    }
-
-    private static bool TryFindSource(IEnumerable data, string dataSourceName)
-    {
-      return data.GetType().GetGenericArguments().FirstOrDefault().Name == dataSourceName;
     }
 
     private static IEnumerable GetSubData(object data, string dataSource)

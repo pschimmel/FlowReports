@@ -6,22 +6,15 @@ using FlowReports.Model.ReportItems;
 
 namespace FlowReports.UI.Printing
 {
-  internal class ReportControlFactory
+  internal static class ReportControlFactory
   {
-    static readonly Lazy<ReportControlFactory> _lazyInstance = new(()=> new ReportControlFactory());
-
-    private ReportControlFactory()
-    { }
-
-    public static ReportControlFactory Instance => _lazyInstance.Value;
-
-    public UIElement CreateControl(ReportItem item, object data)
+    public static UIElement CreateControl(ReportItem item, object data)
     {
       if (item is TextItem textItem)
       {
         var textBlock = new TextBlock
         {
-          Text = ReplaceText(textItem.Text, data),
+          Text = ReplaceText(textItem, data),
           Width = textItem.Width,
           Height = textItem.Height,
           TextWrapping = TextWrapping.Wrap
@@ -33,9 +26,9 @@ namespace FlowReports.UI.Printing
       return null;
     }
 
-    private static string ReplaceText(string text, object itemData)
+    private static string ReplaceText(TextItem textItem, object itemData)
     {
-      string result = text;
+      string result = textItem.Text;
       //  \(             # Escaped parenthesis, means "starts with a '(' character"
       //      (          # Parentheses in a regex mean "put (capture) the stuff in between into the Groups array"
       //         [^)]    # Any character that is not a ')' character
@@ -43,16 +36,29 @@ namespace FlowReports.UI.Printing
       //      )          # Close the capturing group
       //  \)             # "Ends with a ')' character"
       string regex= $"\\{Settings.DATASOURCE_OPENING_BRACKET}([^{Settings.DATASOURCE_CLOSING_BRACKET}]*)\\{Settings.DATASOURCE_CLOSING_BRACKET}";
-      var matches = Regex.Matches(text, regex);
+      var matches = Regex.Matches(textItem.Text, regex);
 
       foreach (var match in matches.OfType<Match>())
       {
         string token = match.Groups[1].Value;
-        string itemValue = itemData.GetType().GetProperty(token).GetValue(itemData).ToString();
+        object value = itemData.GetType().GetProperty(token).GetValue(itemData);
+        string itemValue = GetValueAsString(value, textItem.Format);
         result = result.Replace($"{Settings.DATASOURCE_OPENING_BRACKET}{token}{Settings.DATASOURCE_CLOSING_BRACKET}", itemValue);
       }
 
       return result;
+    }
+
+    private static string GetValueAsString(object value, string format)
+    {
+      return value switch
+      {
+        null => null,
+        double valueAsDouble => valueAsDouble.ToString(format),
+        int valueAsInt => valueAsInt.ToString(format),
+        DateTime valueAsDateTime => valueAsDateTime.ToString(format),
+        _ => value.ToString(),
+      };
     }
   }
 }

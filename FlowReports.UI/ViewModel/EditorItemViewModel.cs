@@ -22,6 +22,7 @@ namespace FlowReports.UI.ViewModel
       _item = item;
       _bandVM = bandVM;
       SelectCommand = new ActionCommand(Select);
+      DeleteCommand = new ActionCommand(Delete, CanDelete);
     }
 
     #endregion
@@ -107,13 +108,29 @@ namespace FlowReports.UI.ViewModel
 
     #region Commmands
 
-    #region SelectCommand
+    #region Select
 
     public ICommand SelectCommand { get; }
 
-    public void Select()
+    private void Select()
     {
       IsSelected = !IsSelected;
+    }
+
+    #endregion
+
+    #region Delete
+
+    public ICommand DeleteCommand { get; }
+
+    private void Delete()
+    {
+      _bandVM.RemoveItem(this);
+    }
+
+    private bool CanDelete()
+    {
+      return IsSelected;
     }
 
     #endregion
