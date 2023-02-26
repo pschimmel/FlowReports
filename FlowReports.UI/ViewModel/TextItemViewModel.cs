@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Windows;
+using FlowReports.Model;
 using FlowReports.Model.ReportItems;
 using GongSolutions.Wpf.DragDrop;
 
@@ -54,7 +55,7 @@ namespace FlowReports.UI.ViewModel
 
       if (dropInfo.Data is DataSourceItemViewModel dataSourceItemViewModel)
       {
-        Text = $"[{dataSourceItemViewModel.Name}]";
+        Text = $"{Settings.DATASOURCE_OPENING_BRACKET}{dataSourceItemViewModel.Name}{Settings.DATASOURCE_CLOSING_BRACKET}";
       }
     }
 

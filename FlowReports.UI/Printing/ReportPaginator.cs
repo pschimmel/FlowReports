@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 using System.Printing;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -10,7 +11,7 @@ using FlowReports.Model.DataSources;
 using FlowReports.Model.DataSources.DataSourceItems;
 using FlowReports.Model.ReportItems;
 
-namespace FlowReports.UI.ViewModel
+namespace FlowReports.UI.Printing
 {
   internal class ReportPaginator : DocumentPaginator
   {
@@ -20,6 +21,8 @@ namespace FlowReports.UI.ViewModel
     private Size _pageSize;
     private readonly PageImageableArea _printableArea;
     private List<DocumentPage> _pages = new();
+    private Canvas _currentCanvas;
+    private double _currentY;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="NASDocumentPaginator"/> class.
@@ -127,60 +130,102 @@ namespace FlowReports.UI.ViewModel
           : _pages[pageNumber];
     }
 
-    #region Private members
+    #region Private methods
 
     private List<DocumentPage> CreatePages()
     {
       _pages = new List<DocumentPage>();
 
-      // There s at least one page.
-      var currentCanvas = CreateNewPage();
-      double currentY = 0;
+      // There is at least one page.
+      CreateNewCanvas();
 
       foreach (var band in _report.Bands)
       {
-        if (currentY + band.Height >= ActualHeight)
-        {
-          // Create canvas for next page and reset y valze
-          currentCanvas = CreateNewPage();
-          currentY = 0;
-        }
-
-        if (TryFindSource(_dataSource, band.DataSource, out IDataSourceItemContainer source))
-        {
-        }
-
-        // Current band will fit into page
-        foreach (var item in band.Items)
-        {
-          if (item is TextItem textItem)
-          {
-            var textBlock = new TextBlock
-            {
-              Text = textItem.Text,
-              Width = textItem.Width,
-              Height = textItem.Height,
-              TextWrapping = TextWrapping.Wrap
-            };
-            currentCanvas.Children.Add(textBlock);
-            Canvas.SetTop(textBlock, currentY + textItem.Top);
-            Canvas.SetLeft(textBlock, textItem.Left);
-          }
-        }
-
-        // Increase current y position
-        currentY += band.Height;
+        DrawBand(band, _data);
       }
+
+      CreatePageFromCurrentCanvas();
 
       return _pages;
     }
 
-    private Canvas CreateNewPage()
+    private void DrawBand(ReportBand band, IEnumerable data)
     {
-      var canvas = new Canvas();
-      var page = new DocumentPage(canvas);
-      _pages.Add(page);
-      return canvas;
+      if (_currentY + band.Height >= ActualHeight)
+      {
+        // Current band does not fit onto page -> create next page
+        CreatePageFromCurrentCanvas();
+
+        // Create canvas for next page and reset y valze
+        CreateNewCanvas();
+      }
+
+      foreach (var itemData in data)
+      {
+        // Draw all report items once for each item in the data source
+        foreach (var item in band.Items)
+        {
+          var control = ReportControlFactory.Instance.CreateControl(item, itemData);
+          if (control != null)
+          {
+            _currentCanvas.Children.Add(control);
+            double top = _currentY + item.Top;
+            double left = item.Left;
+            Canvas.SetTop(control, top);
+            Canvas.SetLeft(control, left);
+          }
+        }
+
+        // Increase current y position
+        _currentY += band.Height;
+
+        // Draw sub bands
+        foreach (var subBand in band.SubBands)
+        {
+          IEnumerable subData = GetSubData(itemData, subBand.DataSource);
+          DrawBand(subBand, subData);
+        }
+      }
+    }
+
+    private void CreatePageFromCurrentCanvas()
+    {
+      _currentCanvas.Measure(new Size(_currentCanvas.Width, _currentCanvas.Height));
+      _currentCanvas.Arrange(new Rect(new Point(_printableArea.OriginWidth, _printableArea.OriginHeight), new Size(_currentCanvas.Width, _currentCanvas.Height)));
+      var dp = new DocumentPage(_currentCanvas, _pageSize, new Rect(), new Rect(new Point(_printableArea.OriginWidth, _printableArea.OriginHeight), new Size(ActualWidth, ActualHeight)));
+      _pages.Add(dp);
+    }
+
+    private static bool TryFindSource(IEnumerable data, string dataSourceName)
+    {
+      return data.GetType().GetGenericArguments().FirstOrDefault().Name == dataSourceName;
+    }
+
+    private static IEnumerable GetSubData(object data, string dataSource)
+    {
+      Type type = data.GetType();
+      PropertyInfo property = type.GetProperty(dataSource);
+
+      if (property != null && typeof(IEnumerable).IsAssignableFrom(property.PropertyType))
+      {
+        return (IEnumerable)property.GetValue(data);
+      }
+      else
+      {
+        // TODO: Error handling
+      }
+
+      return null;
+    }
+
+    private void CreateNewCanvas()
+    {
+      _currentCanvas = new Canvas
+      {
+        Height = ActualHeight,
+        Width = ActualWidth
+      };
+      _currentY = 0;
     }
 
     private bool TryFindSource(IDataSourceItemContainer root, string fullName, out IDataSourceItemContainer source)
@@ -203,7 +248,7 @@ namespace FlowReports.UI.ViewModel
           foreach (var childRoot in root)
           {
             if (childRoot is IDataSourceItemContainer childRootContainer &&
-                TryFindSource(childRootContainer, string.Join(".", nameArray.Skip(1).ToArray()), out IDataSourceItemContainer childSource) &&
+                TryFindSource(childRootContainer, string.Join(".", nameArray.Skip(1).ToArray()), out var childSource) &&
                 childSource != null)
             {
               source = childSource;

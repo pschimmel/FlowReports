@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using ES.Tools.Core.MVVM;
 using ES.Tools.UI;
+using FlowReports.Model;
 using FlowReports.Model.Events;
 using FlowReports.Model.ReportItems;
 using GongSolutions.Wpf.DragDrop;
@@ -89,6 +90,13 @@ namespace FlowReports.UI.ViewModel
           if (_isSelected)
           {
             SelectBand();
+          }
+          else
+          {
+            foreach (var item in Items)
+            {
+              item.IsSelected = false;
+            }
           }
 
           OnSelectionChanged();
@@ -348,7 +356,7 @@ namespace FlowReports.UI.ViewModel
         _band.AddTextItem();
         Debug.Assert(Items.Last() is TextItemViewModel);
         var textItemViewModel = Items.Last() as TextItemViewModel;
-        textItemViewModel.Text = $"[{dataSourceItemViewModel.Name}]";
+        textItemViewModel.Text = $"{Settings.DATASOURCE_OPENING_BRACKET}{dataSourceItemViewModel.Name}{Settings.DATASOURCE_CLOSING_BRACKET}";
         textItemViewModel.Left = dropInfo.DropPosition.X;
         textItemViewModel.Top = dropInfo.DropPosition.Y;
       }
