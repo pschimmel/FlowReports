@@ -12,7 +12,18 @@ namespace FlowReports.Model.DataSources
         TextField => GetFormattedItem(item as TextField, x, y),
         DateField => GetFormattedItem(item as DateField, x, y),
         NumberField => GetFormattedItem(item as NumberField, x, y),
+        BooleanField => GetBooleanItem(item as BooleanField, x, y),
         _ => throw new NotImplementedException("Unknown DataSourceItem type."),
+      };
+    }
+
+    private static ReportItem GetBooleanItem(BooleanField booleanField, double x, double y)
+    {
+      return new BooleanItem
+      {
+        DataSource = FormatDataSource(booleanField.Name),
+        Left = x,
+        Top = y
       };
     }
 
@@ -25,13 +36,17 @@ namespace FlowReports.Model.DataSources
 
     private static TextItem GetTextItem(string dataSource, double x, double y)
     {
-      string text = $"{Settings.DATASOURCE_OPENING_BRACKET}{dataSource}{Settings.DATASOURCE_CLOSING_BRACKET}";
-      return new TextItem()
+      return new TextItem
       {
-        Text = text,
+        Text = FormatDataSource(dataSource),
         Left = x,
-        Top = y,
+        Top = y
       };
+    }
+
+    private static string FormatDataSource(string dataSource)
+    {
+      return $"{Settings.DATASOURCE_OPENING_BRACKET}{dataSource}{Settings.DATASOURCE_CLOSING_BRACKET}";
     }
   }
 }

@@ -70,6 +70,15 @@ namespace FlowReports.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add checkbox.
+        /// </summary>
+        public static string AddBooleanItem {
+            get {
+                return ResourceManager.GetString("AddBooleanItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add subband.
         /// </summary>
         public static string AddSubband {

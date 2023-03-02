@@ -188,6 +188,13 @@ namespace FlowReports.UI.ViewModel
       return Items.Last();
     }
 
+    public IItemViewModel AddBooleanItem()
+    {
+      _band.AddBooleanItem();
+      Debug.Assert(Items.Last() is BooleanItemViewModel);
+      return Items.Last();
+    }
+
     public void RemoveItem(IItemViewModel itemVM)
     {
       _band.RemoveItem(itemVM?.Item);

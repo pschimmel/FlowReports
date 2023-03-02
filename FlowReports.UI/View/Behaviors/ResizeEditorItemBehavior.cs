@@ -94,12 +94,15 @@ namespace FlowReports.UI.View.Behaviors
 
     private void HideAdorner()
     {
-      _adornerLayer?.Remove(_itemAdorner);
-      _itemAdorner.MoveLeftBorder -= ItemAdorner_MoveLeftBorder;
-      _itemAdorner.MoveRightBorder -= ItemAdorner_MoveRightBorder;
-      _itemAdorner.MoveTopBorder -= ItemAdorner_MoveTopBorder;
-      _itemAdorner.MoveBottomBorder -= ItemAdorner_MoveBottomBorder;
-      _itemAdorner = null;
+      if (_itemAdorner != null)
+      {
+        _adornerLayer?.Remove(_itemAdorner);
+        _itemAdorner.MoveLeftBorder -= ItemAdorner_MoveLeftBorder;
+        _itemAdorner.MoveRightBorder -= ItemAdorner_MoveRightBorder;
+        _itemAdorner.MoveTopBorder -= ItemAdorner_MoveTopBorder;
+        _itemAdorner.MoveBottomBorder -= ItemAdorner_MoveBottomBorder;
+        _itemAdorner = null;
+      }
       _adornerLayer = null;
     }
 

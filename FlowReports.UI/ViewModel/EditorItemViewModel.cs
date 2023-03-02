@@ -119,7 +119,7 @@ namespace FlowReports.UI.ViewModel
 
     private void Select()
     {
-      IsSelected = !IsSelected;
+      IsSelected = true;
     }
 
     #endregion

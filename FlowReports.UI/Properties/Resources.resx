@@ -120,6 +120,9 @@
   <data name="AddBand" xml:space="preserve">
     <value>Add band</value>
   </data>
+  <data name="AddBooleanItem" xml:space="preserve">
+    <value>Add checkbox</value>
+  </data>
   <data name="AddSubband" xml:space="preserve">
     <value>Add subband</value>
   </data>

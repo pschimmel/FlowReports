@@ -12,7 +12,8 @@ namespace FlowReports.Model.DataSources
       {
         new TextFieldAnalyzer(),
         new NumberFieldAnalyzer(),
-        new DateFieldAnalyzer()
+        new DateFieldAnalyzer(),
+        new BooleanFieldAnalyzer(),
       };
     });
 

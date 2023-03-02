@@ -31,8 +31,8 @@ namespace Reports.NET
         {
 #if DEBUG
           var employee1 = new Employee { FirstName = "Michael", LastName = "Meyers", DOB = new DateTime(1975, 11, 1) };
-          var employee2 = new Employee { FirstName = "Jason", LastName = "Vorhees", DOB = new DateTime(1965, 12, 11) };
-          var employee3 = new Employee { FirstName = "Freddy", LastName = "Krueger" };
+          var employee2 = new Employee { FirstName = "Jason", LastName = "Vorhees", DOB = new DateTime(1965, 12, 11), IsExternal = true };
+          var employee3 = new Employee { FirstName = "Freddy", LastName = "Krueger", IsExternal = true };
           var employee4 = new Employee { FirstName = "Wayne", LastName = "Bruce" };
           var company1 = new Company { Name = "Nightmare Inc." };
           var company2 = new Company { Name = "DC" };
@@ -72,6 +72,8 @@ namespace Reports.NET
       public string FirstName { get; set; }
       public string LastName { get; set; }
       public DateTime? DOB { get; set; }
+      public string Email { get; set; }
+      public bool IsExternal { get; set; }
     }
   }
 }

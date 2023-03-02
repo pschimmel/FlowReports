@@ -96,10 +96,10 @@ namespace FlowReports.Model.ImportExport
     private static void ReadReportItem(ReportItem item, XmlElement node)
     {
       ReadReportElement(item, node);
-      item.Left = node.ReadAttributeOrDefault(Tags.X, ReportItem.DefaultX);
-      item.Top = node.ReadAttributeOrDefault(Tags.Y, ReportItem.DefaultY);
-      item.Width = node.ReadAttributeOrDefault(Tags.Width, ReportItem.DefaultWidth);
-      item.Height = node.ReadAttributeOrDefault(Tags.Height, ReportItem.DefaultHeight);
+      item.Left = node.ReadAttributeOrDefault(Tags.X, item.DefaultX);
+      item.Top = node.ReadAttributeOrDefault(Tags.Y, item.DefaultY);
+      item.Width = node.ReadAttributeOrDefault(Tags.Width, item.DefaultWidth);
+      item.Height = node.ReadAttributeOrDefault(Tags.Height, item.DefaultHeight);
     }
 
     private static void ReadReportElement(ReportElement element, XmlElement node)

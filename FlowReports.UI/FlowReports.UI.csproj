@@ -12,6 +12,8 @@
   <ItemGroup>
     <None Remove="Images\AddBand_16x.png" />
     <None Remove="Images\AddBand_32x.png" />
+    <None Remove="Images\AddBooleanItem_16x.png" />
+    <None Remove="Images\AddBooleanItem_32x.png" />
     <None Remove="Images\AddSubBand_16x.png" />
     <None Remove="Images\AddSubBand_32x.png" />
     <None Remove="Images\AddTextItem_16x.png" />
@@ -19,6 +21,7 @@
     <None Remove="Images\Bands_16x.png" />
     <None Remove="Images\Bands_32x.png" />
     <None Remove="Images\Calendar_16x.png" />
+    <None Remove="Images\CheckBox_16x.png" />
     <None Remove="Images\Close_16x.png" />
     <None Remove="Images\Database_16x.png" />
     <None Remove="Images\Document_16x.png" />
@@ -71,6 +74,9 @@
     <Resource Include="Images\Bands_16x.png" />
     <Resource Include="Images\Bands_32x.png" />
     <Resource Include="Images\Calendar_16x.png" />
+    <Resource Include="Images\AddBooleanItem_16x.png" />
+    <Resource Include="Images\CheckBox_16x.png" />
+    <Resource Include="Images\AddBooleanItem_32x.png" />
     <Resource Include="Images\Database_16x.png" />
     <Resource Include="Images\Number_16x.png" />
     <Resource Include="Images\PrintSetup_16x.png" />

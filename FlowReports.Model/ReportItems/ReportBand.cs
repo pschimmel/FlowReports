@@ -63,6 +63,16 @@ namespace FlowReports.Model.ReportItems
       AddItem(textItem);
     }
 
+    public void AddBooleanItem()
+    {
+      var booleanItem = new BooleanItem
+      {
+        Left = _insertPosition
+      };
+
+      AddItem(booleanItem);
+    }
+
     public void AddReportItem(ReportItem item)
     {
       AddItem(item);
