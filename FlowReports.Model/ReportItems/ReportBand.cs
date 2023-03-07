@@ -73,6 +73,16 @@ namespace FlowReports.Model.ReportItems
       AddItem(booleanItem);
     }
 
+    public void AddImageItem()
+    {
+      var imageItem = new ImageItem
+      {
+        Left = _insertPosition
+      };
+
+      AddItem(imageItem);
+    }
+
     public void AddReportItem(ReportItem item)
     {
       AddItem(item);

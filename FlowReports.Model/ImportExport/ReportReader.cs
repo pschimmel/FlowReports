@@ -67,11 +67,17 @@ namespace FlowReports.Model.ImportExport
 
     private static void ReadItem(ReportBand band, XmlElement itemNode)
     {
-      ReportItem item = ReadTextItem(itemNode);
-
-      if (item != null)
+      if (TryReadTextItem(itemNode, out TextItem textItem))
       {
-        band.Items.Add(item);
+        band.Items.Add(textItem);
+      }
+      else if (TryReadBooleanItem(itemNode, out BooleanItem booleanItem))
+      {
+        band.Items.Add(booleanItem);
+      }
+      else if (TryReadImageItem(itemNode, out ImageItem imageItem))
+      {
+        band.Items.Add(imageItem);
       }
       else
       {
@@ -79,18 +85,47 @@ namespace FlowReports.Model.ImportExport
       }
     }
 
-    private static TextItem ReadTextItem(XmlElement node)
+    private static bool TryReadTextItem(XmlElement node, out TextItem item)
     {
+      item = null;
+
       if (node.HasAttribute(Tags.Type) && node.GetAttribute(Tags.Type) == Tags.TextItem)
       {
-        var item = new TextItem();
+        item = new TextItem();
         ReadReportItem(item, node);
-        item.Text = node.ReadAttributeOrDefault(Tags.Text, string.Empty);
         item.Format = node.ReadAttributeOrDefault(Tags.Format, string.Empty);
-        return item;
+        return true;
       }
 
-      return null;
+      return false;
+    }
+
+    private static bool TryReadBooleanItem(XmlElement node, out BooleanItem item)
+    {
+      item = null;
+
+      if (node.HasAttribute(Tags.Type) && node.GetAttribute(Tags.Type) == Tags.BooleanItem)
+      {
+        item = new BooleanItem();
+        ReadReportItem(item, node);
+        return true;
+      }
+
+      return false;
+    }
+
+    private static bool TryReadImageItem(XmlElement node, out ImageItem item)
+    {
+      item = null;
+
+      if (node.HasAttribute(Tags.Type) && node.GetAttribute(Tags.Type) == Tags.ImageItem)
+      {
+        item = new ImageItem();
+        ReadReportItem(item, node);
+        return true;
+      }
+
+      return false;
     }
 
     private static void ReadReportItem(ReportItem item, XmlElement node)
@@ -100,6 +135,7 @@ namespace FlowReports.Model.ImportExport
       item.Top = node.ReadAttributeOrDefault(Tags.Y, item.DefaultY);
       item.Width = node.ReadAttributeOrDefault(Tags.Width, item.DefaultWidth);
       item.Height = node.ReadAttributeOrDefault(Tags.Height, item.DefaultHeight);
+      item.DataSource = node.ReadAttributeOrDefault(Tags.DataSource, string.Empty);
     }
 
     private static void ReadReportElement(ReportElement element, XmlElement node)

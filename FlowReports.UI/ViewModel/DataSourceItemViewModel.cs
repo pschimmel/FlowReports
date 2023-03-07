@@ -22,7 +22,8 @@ namespace FlowReports.UI.ViewModel
         NumberField => "Number_16x.png",
         TextField => "Text_16x.png",
         BooleanField => "Checkbox_16x.png",
-        _ => throw new NotImplementedException("Unknown DataSourceItem type."),
+        ImageField => "Image_16x.png",
+        _ => "Question_16x.png",
       };
     }
 

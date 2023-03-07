@@ -96,7 +96,7 @@
           </Style.Triggers>
         </Style>
       </Border.Style>
-      <TextBlock Text="{Binding Text}">
+      <TextBlock Text="{Binding DataSource}">
         <TextBlock.Style>
           <Style BasedOn="{StaticResource TextItemTextBlock}" TargetType="{x:Type TextBlock}">
             <Style.Triggers>
@@ -154,6 +154,49 @@
             StrokeEndLineCap="Round"
             StrokeStartLineCap="Round"
             StrokeThickness="2" />
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate DataType="{x:Type vm:ImageItemViewModel}">
+    <Border Width="{Binding Width}"
+            Height="{Binding Height}"
+            dd:DragDrop.DropHandler="{Binding}"
+            dd:DragDrop.IsDropTarget="True"
+            Background="Transparent"
+            BorderThickness="1"
+            Focusable="True"
+            Canvas.Left="{Binding Left}"
+            Canvas.Top="{Binding Top}">
+      <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="PreviewMouseLeftButtonDown">
+          <behaviors:InvokeCommandAction Command="{Binding SelectCommand}" />
+        </behaviors:EventTrigger>
+      </behaviors:Interaction.Triggers>
+      <behaviors:Interaction.Behaviors>
+        <viewBehaviors:ResizeEditorItemBehavior />
+      </behaviors:Interaction.Behaviors>
+      <Border.InputBindings>
+        <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+        <KeyBinding Key="Left" Command="{Binding MoveLeftCommand}" />
+        <KeyBinding Key="Right" Command="{Binding MoveRightCommand}" />
+        <KeyBinding Key="Up" Command="{Binding MoveUpCommand}" />
+        <KeyBinding Key="Down" Command="{Binding MoveDownCommand}" />
+      </Border.InputBindings>
+      <Border.Style>
+        <Style TargetType="{x:Type Border}">
+          <Setter Property="BorderBrush" Value="{StaticResource ReportItem.Border}" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSelected}" Value="true">
+              <Setter Property="BorderBrush" Value="{StaticResource ReportItem.SelectedBorder}" />
+              <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </Border.Style>
+      <Image HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch"
+             Source="{Binding DataSource}"
+             Stretch="Uniform" />
     </Border>
   </DataTemplate>
 

@@ -10,8 +10,6 @@
       : base(id)
     { }
 
-    public string DataSource { get; set; }
-
     public override double DefaultWidth => ReportBand.DefaultHeight;
 
     public override double DefaultHeight => ReportBand.DefaultHeight;
@@ -24,10 +22,7 @@
 
     public override int GetHashCode()
     {
-      return new
-      {
-        DataSource
-      }.GetHashCode();
+      return nameof(BooleanItem).GetHashCode() ^ new { DataSource }.GetHashCode();
     }
   }
 }

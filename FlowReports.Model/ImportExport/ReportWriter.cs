@@ -77,18 +77,39 @@ namespace FlowReports.Model.ImportExport
     {
       var itemNode = itemsNode.AppendChild(Tags.Item);
 
-      if (item is TextItem textBoxItem)
+      switch (item)
       {
-        WriteTextItem(textBoxItem, itemNode);
+        case TextItem textBoxItem:
+          WriteTextItem(textBoxItem, itemNode);
+          break;
+        case BooleanItem booleanItem:
+          WriteBooleanItem(booleanItem, itemNode);
+          break;
+        case ImageItem imageItem:
+          WriteImageItem(imageItem, itemNode);
+          break;
+        default:
+          throw new NotImplementedException("Unknown ReportItem type.");
       }
     }
 
     private static void WriteTextItem(TextItem item, XmlElement node)
     {
-      WriteReportItem(item, node);
       node.WriteAttribute(Tags.Type, Tags.TextItem);
-      node.WriteAttribute(Tags.Text, item.Text);
+      WriteReportItem(item, node);
       node.WriteAttribute(Tags.Format, item.Format);
+    }
+
+    private static void WriteBooleanItem(BooleanItem item, XmlElement node)
+    {
+      node.WriteAttribute(Tags.Type, Tags.BooleanItem);
+      WriteReportItem(item, node);
+    }
+
+    private static void WriteImageItem(ImageItem item, XmlElement node)
+    {
+      node.WriteAttribute(Tags.Type, Tags.ImageItem);
+      WriteReportItem(item, node);
     }
 
     private static void WriteReportItem(ReportItem item, XmlElement node)
@@ -98,6 +119,7 @@ namespace FlowReports.Model.ImportExport
       node.WriteAttribute(Tags.Y, item.Top);
       node.WriteAttribute(Tags.Width, item.Width);
       node.WriteAttribute(Tags.Height, item.Height);
+      node.WriteAttribute(Tags.DataSource, item.DataSource);
     }
 
     private static void WriteReportElement(ReportElement element, XmlElement node)

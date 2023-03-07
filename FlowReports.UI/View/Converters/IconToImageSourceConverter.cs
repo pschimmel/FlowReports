@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 namespace FlowReports.UI.View.Converters
 {
   [ValueConversion(typeof(string), typeof(ImageSource))]
-  internal class IconToResourceConverter : IValueConverter
+  internal class IconToImageSourceConverter : IValueConverter
   {
     private static readonly Dictionary<string, ImageSource> _iconCache = new();
 

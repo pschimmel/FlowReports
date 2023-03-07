@@ -28,7 +28,7 @@ namespace FlowReports.UI.Printing
 
     private static string ReplaceText(TextItem textItem, object itemData)
     {
-      string result = textItem.Text;
+      string result = textItem.DataSource;
       //  \(             # Escaped parenthesis, means "starts with a '(' character"
       //      (          # Parentheses in a regex mean "put (capture) the stuff in between into the Groups array"
       //         [^)]    # Any character that is not a ')' character
@@ -36,7 +36,7 @@ namespace FlowReports.UI.Printing
       //      )          # Close the capturing group
       //  \)             # "Ends with a ')' character"
       string regex= $"\\{Settings.DATASOURCE_OPENING_BRACKET}([^{Settings.DATASOURCE_CLOSING_BRACKET}]*)\\{Settings.DATASOURCE_CLOSING_BRACKET}";
-      var matches = Regex.Matches(textItem.Text, regex);
+      var matches = Regex.Matches(textItem.DataSource, regex);
 
       foreach (var match in matches.OfType<Match>())
       {

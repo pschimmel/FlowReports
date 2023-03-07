@@ -2,16 +2,16 @@
 
 namespace FlowReports.Model.DataSources.Analyzers
 {
-  internal class ObjectFieldAnalyzer : PropertyAnalyzer
+  internal class ImageAnalyzer : PropertyAnalyzer
   {
     public override bool IsSupported(Type type)
     {
-      return true;
+      return typeof(byte[]).IsAssignableFrom(type);
     }
 
     protected override IDataSourceItem GetItemInternal(Type type, string name)
     {
-      return new ObjectField { Name = name, Type = type };
+      return new ImageField { Name = name, Type = type };
     }
   }
 }

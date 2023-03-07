@@ -14,6 +14,7 @@ namespace FlowReports.Model.DataSources
         new NumberFieldAnalyzer(),
         new DateFieldAnalyzer(),
         new BooleanFieldAnalyzer(),
+        new ImageAnalyzer()
       };
     });
 
@@ -131,7 +132,7 @@ namespace FlowReports.Model.DataSources
     }
 
     /// <summary>
-    /// Generates a name from a type. Set pluralize to true to get name in plural.
+    /// Generates a name from a type. 
     /// </summary>
     internal static string GenerateTypeName(Type type)
     {

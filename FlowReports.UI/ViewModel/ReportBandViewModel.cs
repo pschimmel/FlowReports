@@ -195,6 +195,13 @@ namespace FlowReports.UI.ViewModel
       return Items.Last();
     }
 
+    public IItemViewModel AddImageItem()
+    {
+      _band.AddImageItem();
+      Debug.Assert(Items.Last() is ImageItemViewModel);
+      return Items.Last();
+    }
+
     public void RemoveItem(IItemViewModel itemVM)
     {
       _band.RemoveItem(itemVM?.Item);
@@ -362,7 +369,6 @@ namespace FlowReports.UI.ViewModel
       {
         var reportItem = dataSourceItemViewModel.Item.GetReportItem(dropInfo.DropPosition.X, dropInfo.DropPosition.Y);
         _band.AddReportItem(reportItem);
-        var textItemViewModel = Items.Last() as TextItemViewModel;
       }
     }
 

@@ -38,7 +38,7 @@ namespace FlowReports.Model.DataSources
     {
       return new TextItem
       {
-        Text = FormatDataSource(dataSource),
+        DataSource = FormatDataSource(dataSource),
         Left = x,
         Top = y
       };
