@@ -73,10 +73,15 @@
                          Header="{x:Static properties:Resources.AddTextItem}"
                          Icon="pack://application:,,,/FlowReports.UI;component/Images/AddTextItem_16x.png"
                          LargeIcon="pack://application:,,,/FlowReports.UI;component/Images/AddTextItem_32x.png" />
-          <fluent:Button Command="{Binding AddTextBooleanCommand}"
+          <fluent:Button Command="{Binding AddBooleanItemCommand}"
                          Header="{x:Static properties:Resources.AddBooleanItem}"
                          Icon="pack://application:,,,/FlowReports.UI;component/Images/AddBooleanItem_16x.png"
                          LargeIcon="pack://application:,,,/FlowReports.UI;component/Images/AddBooleanItem_32x.png"
+                         SizeDefinition="Middle Middle Small" />
+          <fluent:Button Command="{Binding AddImageItemCommand}"
+                         Header="{x:Static properties:Resources.AddImageItem}"
+                         Icon="pack://application:,,,/FlowReports.UI;component/Images/AddImageItem_16x.png"
+                         LargeIcon="pack://application:,,,/FlowReports.UI;component/Images/AddImageItem_32x.png"
                          SizeDefinition="Middle Middle Small" />
           <fluent:Button Command="{Binding RemoveItemCommand}"
                          Header="{x:Static properties:Resources.RemoveItem}"

@@ -205,11 +205,14 @@
   <Style x:Key="LabelTextBlockStyle" TargetType="{x:Type TextBlock}">
     <Setter Property="Margin" Value="2,0" />
     <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="HorizontalAlignment" Value="Left" />
   </Style>
 
   <Style x:Key="HeaderTextBlockStyle" TargetType="{x:Type TextBlock}">
     <Setter Property="Margin" Value="2" />
     <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="TextAlignment" Value="Center" />
   </Style>
 
   <Style x:Key="ButtonDefault" TargetType="{x:Type Button}">

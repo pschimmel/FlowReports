@@ -22,7 +22,6 @@
     public override int GetHashCode()
     {
       return nameof(ReportItem).GetHashCode() ^ new { DataSource, Format }.GetHashCode();
-
     }
   }
 }

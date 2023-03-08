@@ -13,15 +13,16 @@ namespace FlowReports.Model.DataSources
         DateField => GetFormattedItem(item as DateField, x, y),
         NumberField => GetFormattedItem(item as NumberField, x, y),
         BooleanField => GetBooleanItem(item as BooleanField, x, y),
+        ImageField => GetImageItem(item as ImageField, x, y),
         _ => throw new NotImplementedException("Unknown DataSourceItem type."),
       };
     }
 
-    private static ReportItem GetBooleanItem(BooleanField booleanField, double x, double y)
+    private static TextItem GetTextItem(string dataSource, double x, double y)
     {
-      return new BooleanItem
+      return new TextItem
       {
-        DataSource = FormatDataSource(booleanField.Name),
+        DataSource = FormatDataSource(dataSource),
         Left = x,
         Top = y
       };
@@ -34,11 +35,21 @@ namespace FlowReports.Model.DataSources
       return textItem;
     }
 
-    private static TextItem GetTextItem(string dataSource, double x, double y)
+    private static ReportItem GetBooleanItem(BooleanField booleanField, double x, double y)
     {
-      return new TextItem
+      return new BooleanItem
       {
-        DataSource = FormatDataSource(dataSource),
+        DataSource = FormatDataSource(booleanField.Name),
+        Left = x,
+        Top = y
+      };
+    }
+
+    private static ReportItem GetImageItem(ImageField imageField, double x, double y)
+    {
+      return new ImageItem
+      {
+        DataSource = FormatDataSource(imageField.Name),
         Left = x,
         Top = y
       };

@@ -70,11 +70,20 @@ namespace FlowReports.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add checkbox.
+        ///   Looks up a localized string similar to Add boolean item.
         /// </summary>
         public static string AddBooleanItem {
             get {
                 return ResourceManager.GetString("AddBooleanItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add image item.
+        /// </summary>
+        public static string AddImageItem {
+            get {
+                return ResourceManager.GetString("AddImageItem", resourceCulture);
             }
         }
         
@@ -102,6 +111,15 @@ namespace FlowReports.UI.Properties {
         public static string Bands {
             get {
                 return ResourceManager.GetString("Bands", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Boolean.
+        /// </summary>
+        public static string Boolean {
+            get {
+                return ResourceManager.GetString("Boolean", resourceCulture);
             }
         }
         
@@ -192,6 +210,15 @@ namespace FlowReports.UI.Properties {
         public static string Home {
             get {
                 return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image.
+        /// </summary>
+        public static string Image {
+            get {
+                return ResourceManager.GetString("Image", resourceCulture);
             }
         }
         
