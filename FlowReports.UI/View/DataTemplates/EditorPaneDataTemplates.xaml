@@ -17,9 +17,11 @@
             dd:DragDrop.DropHandler="{Binding}"
             dd:DragDrop.IsDropTarget="True"
             BorderThickness="0,0,0,1">
-      <behaviors:Interaction.Behaviors>
-        <viewBehaviors:ExecuteOnClickBehavior Command="{Binding DeselectItemsCommand}" />
-      </behaviors:Interaction.Behaviors>
+      <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="PreviewMouseLeftButtonDown">
+          <behaviors:InvokeCommandAction Command="{Binding DeselectItemsCommand}" />
+        </behaviors:EventTrigger>
+      </behaviors:Interaction.Triggers>
       <Border.Style>
         <Style TargetType="Border">
           <Setter Property="Background" Value="White" />
@@ -34,7 +36,7 @@
         <ItemsControl ItemsSource="{Binding Items}">
           <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-              <Canvas />
+              <Canvas Focusable="True" />
             </ItemsPanelTemplate>
           </ItemsControl.ItemsPanel>
         </ItemsControl>
@@ -65,23 +67,36 @@
             dd:DragDrop.IsDropTarget="True"
             Background="Transparent"
             BorderThickness="1"
+            Focusable="True"
             Canvas.Left="{Binding Left}"
             Canvas.Top="{Binding Top}">
+      <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="PreviewMouseLeftButtonDown">
+          <behaviors:InvokeCommandAction Command="{Binding SelectCommand}" />
+        </behaviors:EventTrigger>
+      </behaviors:Interaction.Triggers>
       <behaviors:Interaction.Behaviors>
-        <viewBehaviors:ExecuteOnClickBehavior Command="{Binding SelectCommand}" />
         <viewBehaviors:ResizeEditorItemBehavior />
       </behaviors:Interaction.Behaviors>
+      <Border.InputBindings>
+        <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+        <KeyBinding Key="Left" Command="{Binding MoveLeftCommand}" />
+        <KeyBinding Key="Right" Command="{Binding MoveRightCommand}" />
+        <KeyBinding Key="Up" Command="{Binding MoveUpCommand}" />
+        <KeyBinding Key="Down" Command="{Binding MoveDownCommand}" />
+      </Border.InputBindings>
       <Border.Style>
         <Style TargetType="{x:Type Border}">
           <Setter Property="BorderBrush" Value="{StaticResource ReportItem.Border}" />
           <Style.Triggers>
             <DataTrigger Binding="{Binding IsSelected}" Value="true">
               <Setter Property="BorderBrush" Value="{StaticResource ReportItem.SelectedBorder}" />
+              <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}" />
             </DataTrigger>
           </Style.Triggers>
         </Style>
       </Border.Style>
-      <TextBlock Text="{Binding Text}">
+      <TextBlock Text="{Binding DataSource}">
         <TextBlock.Style>
           <Style BasedOn="{StaticResource TextItemTextBlock}" TargetType="{x:Type TextBlock}">
             <Style.Triggers>
@@ -92,6 +107,96 @@
           </Style>
         </TextBlock.Style>
       </TextBlock>
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate DataType="{x:Type vm:BooleanItemViewModel}">
+    <Border Width="{Binding Width}"
+            Height="{Binding Height}"
+            dd:DragDrop.DropHandler="{Binding}"
+            dd:DragDrop.IsDropTarget="True"
+            Background="Transparent"
+            BorderThickness="1"
+            Focusable="True"
+            Canvas.Left="{Binding Left}"
+            Canvas.Top="{Binding Top}">
+      <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="PreviewMouseLeftButtonDown">
+          <behaviors:InvokeCommandAction Command="{Binding SelectCommand}" />
+        </behaviors:EventTrigger>
+      </behaviors:Interaction.Triggers>
+      <behaviors:Interaction.Behaviors>
+        <viewBehaviors:ResizeEditorItemBehavior />
+      </behaviors:Interaction.Behaviors>
+      <Border.InputBindings>
+        <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+        <KeyBinding Key="Left" Command="{Binding MoveLeftCommand}" />
+        <KeyBinding Key="Right" Command="{Binding MoveRightCommand}" />
+        <KeyBinding Key="Up" Command="{Binding MoveUpCommand}" />
+        <KeyBinding Key="Down" Command="{Binding MoveDownCommand}" />
+      </Border.InputBindings>
+      <Border.Style>
+        <Style TargetType="{x:Type Border}">
+          <Setter Property="BorderBrush" Value="{StaticResource ReportItem.Border}" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSelected}" Value="true">
+              <Setter Property="BorderBrush" Value="{StaticResource ReportItem.SelectedBorder}" />
+              <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </Border.Style>
+      <Path HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Data="M 0 0 L 8 8 M 0 8 L 8 0"
+            Stretch="Fill"
+            Stroke="{StaticResource General.Foreground}"
+            StrokeEndLineCap="Round"
+            StrokeStartLineCap="Round"
+            StrokeThickness="2" />
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate DataType="{x:Type vm:ImageItemViewModel}">
+    <Border Width="{Binding Width}"
+            Height="{Binding Height}"
+            dd:DragDrop.DropHandler="{Binding}"
+            dd:DragDrop.IsDropTarget="True"
+            Background="Transparent"
+            BorderThickness="1"
+            Focusable="True"
+            Canvas.Left="{Binding Left}"
+            Canvas.Top="{Binding Top}">
+      <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="PreviewMouseLeftButtonDown">
+          <behaviors:InvokeCommandAction Command="{Binding SelectCommand}" />
+        </behaviors:EventTrigger>
+      </behaviors:Interaction.Triggers>
+      <behaviors:Interaction.Behaviors>
+        <viewBehaviors:ResizeEditorItemBehavior />
+      </behaviors:Interaction.Behaviors>
+      <Border.InputBindings>
+        <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+        <KeyBinding Key="Left" Command="{Binding MoveLeftCommand}" />
+        <KeyBinding Key="Right" Command="{Binding MoveRightCommand}" />
+        <KeyBinding Key="Up" Command="{Binding MoveUpCommand}" />
+        <KeyBinding Key="Down" Command="{Binding MoveDownCommand}" />
+      </Border.InputBindings>
+      <Border.Style>
+        <Style TargetType="{x:Type Border}">
+          <Setter Property="BorderBrush" Value="{StaticResource ReportItem.Border}" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSelected}" Value="true">
+              <Setter Property="BorderBrush" Value="{StaticResource ReportItem.SelectedBorder}" />
+              <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </Border.Style>
+      <Image HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch"
+             Source="{Binding DataSource}"
+             Stretch="Uniform" />
     </Border>
   </DataTemplate>
 

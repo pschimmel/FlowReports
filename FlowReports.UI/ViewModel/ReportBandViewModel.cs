@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using ES.Tools.Core.MVVM;
 using ES.Tools.UI;
+using FlowReports.Model.DataSources;
 using FlowReports.Model.Events;
 using FlowReports.Model.ReportItems;
 using GongSolutions.Wpf.DragDrop;
@@ -89,6 +90,13 @@ namespace FlowReports.UI.ViewModel
           if (_isSelected)
           {
             SelectBand();
+          }
+          else
+          {
+            foreach (var item in Items)
+            {
+              item.IsSelected = false;
+            }
           }
 
           OnSelectionChanged();
@@ -177,6 +185,20 @@ namespace FlowReports.UI.ViewModel
     {
       _band.AddTextItem();
       Debug.Assert(Items.Last() is TextItemViewModel);
+      return Items.Last();
+    }
+
+    public IItemViewModel AddBooleanItem()
+    {
+      _band.AddBooleanItem();
+      Debug.Assert(Items.Last() is BooleanItemViewModel);
+      return Items.Last();
+    }
+
+    public IItemViewModel AddImageItem()
+    {
+      _band.AddImageItem();
+      Debug.Assert(Items.Last() is ImageItemViewModel);
       return Items.Last();
     }
 
@@ -345,12 +367,8 @@ namespace FlowReports.UI.ViewModel
       }
       else if (dropInfo.Data is DataSourceItemViewModel dataSourceItemViewModel && parentIsEditorContainer)
       {
-        _band.AddTextItem();
-        Debug.Assert(Items.Last() is TextItemViewModel);
-        var textItemViewModel = Items.Last() as TextItemViewModel;
-        textItemViewModel.Text = $"[{dataSourceItemViewModel.Name}]";
-        textItemViewModel.Left = dropInfo.DropPosition.X;
-        textItemViewModel.Top = dropInfo.DropPosition.Y;
+        var reportItem = dataSourceItemViewModel.Item.GetReportItem(dropInfo.DropPosition.X, dropInfo.DropPosition.Y);
+        _band.AddReportItem(reportItem);
       }
     }
 

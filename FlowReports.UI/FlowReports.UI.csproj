@@ -12,13 +12,19 @@
   <ItemGroup>
     <None Remove="Images\AddBand_16x.png" />
     <None Remove="Images\AddBand_32x.png" />
+    <None Remove="Images\AddBooleanItem_16x.png" />
+    <None Remove="Images\AddBooleanItem_32x.png" />
+    <None Remove="Images\AddImageItem_16x.png" />
+    <None Remove="Images\AddImageItem_32x.png" />
     <None Remove="Images\AddSubBand_16x.png" />
     <None Remove="Images\AddSubBand_32x.png" />
     <None Remove="Images\AddTextItem_16x.png" />
     <None Remove="Images\AddTextItem_32x.png" />
     <None Remove="Images\Bands_16x.png" />
     <None Remove="Images\Bands_32x.png" />
+    <None Remove="Images\Bunny.png" />
     <None Remove="Images\Calendar_16x.png" />
+    <None Remove="Images\CheckBox_16x.png" />
     <None Remove="Images\Close_16x.png" />
     <None Remove="Images\Database_16x.png" />
     <None Remove="Images\Document_16x.png" />
@@ -26,6 +32,9 @@
     <None Remove="Images\EditBandDetails_16x.png" />
     <None Remove="Images\EditBandDetails_32x.png" />
     <None Remove="Images\FlowReports.ico" />
+    <None Remove="Images\Fox.jpg" />
+    <None Remove="Images\Hamster.png" />
+    <None Remove="Images\Image_16x.png" />
     <None Remove="Images\New_16x.png" />
     <None Remove="Images\Number_16x.png" />
     <None Remove="Images\Open_16x.png" />
@@ -35,6 +44,7 @@
     <None Remove="Images\PrintSetup_x32.png" />
     <None Remove="Images\Print_16x.png" />
     <None Remove="Images\Print_32x.png" />
+    <None Remove="Images\Question_16x.png" />
     <None Remove="Images\RemoveBand_16x.png" />
     <None Remove="Images\RemoveBand_32x.png" />
     <None Remove="Images\RemoveItem_16x.png" />
@@ -43,12 +53,25 @@
     <None Remove="Images\ReportItem_32x.png" />
     <None Remove="Images\SaveAs_16x.png" />
     <None Remove="Images\Save_16x.png" />
+    <None Remove="Images\Splash.png" />
     <None Remove="Images\Text_16x.png" />
     <None Remove="Images\ZoomIn_x32.png" />
     <None Remove="Images\ZoomOut_x32.png" />
     <None Remove="Images\ZoomToActualSize_x32.png" />
     <None Remove="Images\ZoomToPageWidth_x32.png" />
     <None Remove="Images\ZoomToWholePage_x32.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\Bunny.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Fox.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Images\Hamster.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -68,15 +91,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\AddImageItem_32x.png" />
+    <Resource Include="Images\AddImageItem_16x.png" />
     <Resource Include="Images\Bands_16x.png" />
     <Resource Include="Images\Bands_32x.png" />
     <Resource Include="Images\Calendar_16x.png" />
+    <Resource Include="Images\AddBooleanItem_16x.png" />
+    <Resource Include="Images\CheckBox_16x.png" />
+    <Resource Include="Images\AddBooleanItem_32x.png" />
     <Resource Include="Images\Database_16x.png" />
+    <Resource Include="Images\Image_16x.png" />
     <Resource Include="Images\Number_16x.png" />
     <Resource Include="Images\PrintSetup_16x.png" />
     <Resource Include="Images\PrintSetup_x32.png" />
     <Resource Include="Images\Print_16x.png" />
     <Resource Include="Images\Print_32x.png" />
+    <Resource Include="Images\Question_16x.png" />
     <Resource Include="Images\ReportItem_16x.png" />
     <Resource Include="Images\ReportItem_32x.png" />
     <Resource Include="Images\Document_16x.png" />
@@ -107,6 +137,10 @@
     <Resource Include="Images\ZoomToActualSize_x32.png" />
     <Resource Include="Images\ZoomToPageWidth_x32.png" />
     <Resource Include="Images\ZoomToWholePage_x32.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SplashScreen Include="Images\Splash.png" />
   </ItemGroup>
 
   <ItemGroup>

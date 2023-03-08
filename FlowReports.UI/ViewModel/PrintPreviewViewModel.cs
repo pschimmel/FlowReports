@@ -3,6 +3,7 @@ using System.Windows.Documents;
 using System.Windows.Xps.Packaging;
 using ES.Tools.Core.Infrastructure;
 using FlowReports.Model;
+using FlowReports.UI.Printing;
 
 namespace FlowReports.UI.ViewModel
 {

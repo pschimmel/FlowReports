@@ -7,7 +7,9 @@
     public const string LastChanged = nameof(LastChanged);
     public const string Bands = nameof(Bands);
     public const string Band = nameof(Band);
+    public const string BooleanItem = nameof(BooleanItem);
     public const string DataSource = nameof(DataSource);
+    public const string ImageItem = nameof(ImageItem);
     public const string Items = nameof(Items);
     public const string Item = nameof(Item);
     public const string Type = nameof(Type);

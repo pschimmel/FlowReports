@@ -21,7 +21,9 @@ namespace FlowReports.UI.ViewModel
         DateField => "Calendar_16x.png",
         NumberField => "Number_16x.png",
         TextField => "Text_16x.png",
-        _ => throw new NotImplementedException("Unknown DataSourceItem type."),
+        BooleanField => "Checkbox_16x.png",
+        ImageField => "Image_16x.png",
+        _ => "Question_16x.png",
       };
     }
 
@@ -30,5 +32,7 @@ namespace FlowReports.UI.ViewModel
     public bool CanHaveChildren => false;
 
     public string Icon { get; }
+
+    public IDataSourceItem Item => _item;
   }
 }

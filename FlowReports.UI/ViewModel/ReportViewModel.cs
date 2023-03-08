@@ -11,7 +11,6 @@ namespace FlowReports.UI.ViewModel
   {
     #region Fields
 
-    private readonly Report _report;
     private ReportBandViewModel _selectedBand;
     private IItemViewModel _selectedItem;
     private bool _isDirty;
@@ -20,6 +19,8 @@ namespace FlowReports.UI.ViewModel
     private readonly ActionCommand _editBandDetailsCommand;
     private readonly ActionCommand _removeBandCommand;
     private readonly ActionCommand _addTextItemCommand;
+    private readonly ActionCommand _addBooleanItemCommand;
+    private readonly ActionCommand _addImageItemCommand;
     private readonly ActionCommand _removeItemCommand;
     private readonly Lazy<IEnumerable<DataSourceViewModel>> _lazyDataSource;
 
@@ -30,7 +31,7 @@ namespace FlowReports.UI.ViewModel
     public ReportViewModel(Report report)
       : base(report.Bands)
     {
-      _report = report;
+      Report = report;
       SelectionChanged += ReportVM_SelectionChanged;
 
       _addNewBandCommand = new ActionCommand(AddNewBand, CanAddNewBand);
@@ -38,6 +39,8 @@ namespace FlowReports.UI.ViewModel
       _editBandDetailsCommand = new ActionCommand(EditBandDetails, CanEditBandDetails);
       _removeBandCommand = new ActionCommand(RemoveBand, CanRemoveBand);
       _addTextItemCommand = new ActionCommand(AddTextItem, CanAddTextItem);
+      _addBooleanItemCommand = new ActionCommand(AddBooleanItem, CanAddBooleanItem);
+      _addImageItemCommand = new ActionCommand(AddImageItem, CanAddImageItem);
       _removeItemCommand = new ActionCommand(RemoveItem, CanRemoveItem);
       _lazyDataSource = new Lazy<IEnumerable<DataSourceViewModel>>(() => new DataSourceViewModel[] { new DataSourceViewModel(report.DataSource) });
       IsDirty = false;
@@ -116,7 +119,7 @@ namespace FlowReports.UI.ViewModel
 
     public IEnumerable<DataSourceViewModel> DataSourceVM => _lazyDataSource.Value;
 
-    internal Report Report => _report;
+    internal Report Report { get; private set; }
 
     #endregion
 
@@ -150,7 +153,7 @@ namespace FlowReports.UI.ViewModel
         throw new ApplicationException("Don't know where to save to.");
       }
 
-      ReportWriter.Write(_report, FilePath);
+      ReportWriter.Write(Report, FilePath);
       IsDirty = false;
     }
 
@@ -162,7 +165,7 @@ namespace FlowReports.UI.ViewModel
 
     public void Attach<T>(IEnumerable<T> items) where T : class
     {
-      _report.Analyze(items);
+      Report.Analyze(items);
     }
 
     #endregion
@@ -247,11 +250,45 @@ namespace FlowReports.UI.ViewModel
 
     private void AddTextItem()
     {
-      var newItem = SelectedBand?.AddTextItem();
+      var newItem = SelectedBand.AddTextItem();
       SelectedItem = newItem;
     }
 
     private bool CanAddTextItem()
+    {
+      return SelectedBand != null;
+    }
+
+    #endregion
+
+    #region Add Boolean Item
+
+    public ICommand AddBooleanItemCommand => _addBooleanItemCommand;
+
+    private void AddBooleanItem()
+    {
+      var newItem = SelectedBand.AddBooleanItem();
+      SelectedItem = newItem;
+    }
+
+    private bool CanAddBooleanItem()
+    {
+      return SelectedBand != null;
+    }
+
+    #endregion
+
+    #region Add Image Item
+
+    public ICommand AddImageItemCommand => _addImageItemCommand;
+
+    private void AddImageItem()
+    {
+      var newItem = SelectedBand.AddImageItem();
+      SelectedItem = newItem;
+    }
+
+    private bool CanAddImageItem()
     {
       return SelectedBand != null;
     }

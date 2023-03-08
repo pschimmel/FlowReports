@@ -2,10 +2,6 @@
 {
   public abstract class ReportItem : ReportElement
   {
-    public const double DefaultX = 0;
-    public const double DefaultY = 0;
-    public const double DefaultWidth = 100;
-    public const double DefaultHeight = ReportBand.DefaultHeight;
 
     protected ReportItem()
       : this(Guid.NewGuid())
@@ -18,12 +14,22 @@
       Height = DefaultHeight;
     }
 
+    public virtual double DefaultX => 0;
+
+    public virtual double DefaultY => 0;
+
+    public virtual double DefaultWidth => 100;
+
+    public virtual double DefaultHeight => ReportBand.DefaultHeight;
+
     public double Left { get; set; }
 
     public double Top { get; set; }
 
-    public double Width { get; set; }
+    public virtual double Width { get; set; }
 
-    public double Height { get; set; }
+    public virtual double Height { get; set; }
+
+    public string DataSource { get; set; }
   }
 }

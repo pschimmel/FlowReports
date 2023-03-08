@@ -28,7 +28,7 @@ namespace FlowReports.UnitTests.Model
     [Test]
     public void DataSourceAnalyzerTest_ItemIsIEnumerable()
     {
-      TestItemWithKnownListType[] list = new TestItemWithKnownListType[] { new TestItemWithKnownListType(), new TestItemWithKnownListType() };
+      var list = new TestItemWithKnownListType[] { new TestItemWithKnownListType(), new TestItemWithKnownListType() };
       DataSourceAnalyzer.Analyze(list);
     }
 
@@ -45,7 +45,7 @@ namespace FlowReports.UnitTests.Model
       josef.Children.Add(hans);
       gerda.Children.Add(hans);
 
-      Person[] list = new Person[] { hans, helmut };
+      var list = new Person[] { hans, helmut };
       DataSource dataSource = DataSourceAnalyzer.Analyze(list);
       Assert.That(dataSource, Is.Not.Null);
     }

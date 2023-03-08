@@ -7,10 +7,10 @@
     <Setter Property="Margin" Value="2,0" />
   </Style>
 
-  <DataTemplate DataType="{x:Type vm:TextItemViewModel}">
+  <DataTemplate x:Key="ItemViewModelTemplate" DataType="{x:Type vm:IItemViewModel}">
     <Grid>
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" SharedSizeGroup="Header" />
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
       <Grid.RowDefinitions>
@@ -19,35 +19,59 @@
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
-      <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Text" Grid.ColumnSpan="2" />
-      <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.Top}" Grid.Row="1" />
-      <TextBox Style="{StaticResource DoubleTextBoxStyle}"
-               Text="{Binding Top, StringFormat=f1}"
-               Grid.Row="1"
-               Grid.Column="1" />
-      <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.Left}" Grid.Row="2" />
+      <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.Top}" TextAlignment="Center" />
+      <TextBox Style="{StaticResource DoubleTextBoxStyle}" Text="{Binding Top, StringFormat=f1}" Grid.Column="1" />
+      <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.Left}" Grid.Row="1" />
       <TextBox Style="{StaticResource DoubleTextBoxStyle}"
                Text="{Binding Left, StringFormat=f1}"
-               Grid.Row="2"
+               Grid.Row="1"
                Grid.Column="2" />
-      <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.Width}" Grid.Row="3" />
+      <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.Width}" Grid.Row="2" />
       <TextBox Style="{StaticResource DoubleTextBoxStyle}"
                Text="{Binding Width, StringFormat=f1}"
-               Grid.Row="3"
+               Grid.Row="2"
                Grid.Column="1" />
-      <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.Height}" Grid.Row="4" />
+      <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.Height}" Grid.Row="3" />
       <TextBox Style="{StaticResource DoubleTextBoxStyle}"
                Text="{Binding Height, StringFormat=f1}"
+               Grid.Row="3"
+               Grid.Column="1" />
+      <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.DataSource}" Grid.Row="4" />
+      <TextBox Style="{StaticResource EditTextBoxStyle}"
+               Text="{Binding DataSource, UpdateSourceTrigger=PropertyChanged}"
                Grid.Row="4"
                Grid.Column="1" />
-      <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.Text}" Grid.Row="5" />
-      <TextBox Style="{StaticResource EditTextBoxStyle}"
-               Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
-               Grid.Row="5"
-               Grid.Column="1" />
     </Grid>
+  </DataTemplate>
+
+  <DataTemplate DataType="{x:Type vm:TextItemViewModel}">
+    <StackPanel Grid.IsSharedSizeScope="True">
+      <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="{x:Static properties:Resources.Text}" Grid.ColumnSpan="2" />
+      <ContentPresenter ContentTemplate="{StaticResource ItemViewModelTemplate}" />
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="Header" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.Format}" />
+        <TextBox Style="{StaticResource EditTextBoxStyle}" Text="{Binding Format, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" />
+      </Grid>
+    </StackPanel>
+  </DataTemplate>
+
+  <DataTemplate DataType="{x:Type vm:BooleanItemViewModel}">
+    <StackPanel Grid.IsSharedSizeScope="True">
+      <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="{x:Static properties:Resources.Boolean}" Grid.ColumnSpan="2" />
+      <ContentPresenter ContentTemplate="{StaticResource ItemViewModelTemplate}" />
+    </StackPanel>
+  </DataTemplate>
+
+  <DataTemplate DataType="{x:Type vm:ImageItemViewModel}">
+    <StackPanel Grid.IsSharedSizeScope="True">
+      <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="{x:Static properties:Resources.Image}" Grid.ColumnSpan="2" />
+      <ContentPresenter ContentTemplate="{StaticResource ItemViewModelTemplate}" />
+    </StackPanel>
   </DataTemplate>
 
 </ResourceDictionary>

@@ -259,7 +259,7 @@ namespace FlowReports.UI.ViewModel
     {
       if (CanSave())
       {
-        var message = MessageInfo.Question(Properties.Resources.SaveFileQuestion);
+        var message = MessageInfo.Question(Properties.Resources.SaveFileQuestion, canCancel: true);
         EventService.Instance.Publish("Message", message);
 
         if (message.DialogResult == MessageBoxResult.Yes)
