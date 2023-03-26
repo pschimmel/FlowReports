@@ -97,10 +97,7 @@ namespace FlowReports.UI.View.Behaviors
       if (_itemAdorner != null)
       {
         _adornerLayer?.Remove(_itemAdorner);
-        _itemAdorner.MoveLeftBorder -= ItemAdorner_MoveLeftBorder;
-        _itemAdorner.MoveRightBorder -= ItemAdorner_MoveRightBorder;
-        _itemAdorner.MoveTopBorder -= ItemAdorner_MoveTopBorder;
-        _itemAdorner.MoveBottomBorder -= ItemAdorner_MoveBottomBorder;
+        _itemAdorner.ChangeLocation -= ItemAdorner_ChangeLocation;
         _itemAdorner = null;
       }
       _adornerLayer = null;
@@ -111,32 +108,15 @@ namespace FlowReports.UI.View.Behaviors
       _adornerLayer = AdornerLayer.GetAdornerLayer(AssociatedObject);
       _itemAdorner = new ReportItemAdorner(AssociatedObject);
       _adornerLayer.Add(_itemAdorner);
-      _itemAdorner.MoveLeftBorder += ItemAdorner_MoveLeftBorder;
-      _itemAdorner.MoveRightBorder += ItemAdorner_MoveRightBorder;
-      _itemAdorner.MoveTopBorder += ItemAdorner_MoveTopBorder;
-      _itemAdorner.MoveBottomBorder += ItemAdorner_MoveBottomBorder;
+      _itemAdorner.ChangeLocation += ItemAdorner_ChangeLocation;
     }
 
-    private void ItemAdorner_MoveTopBorder(double delta)
+    private void ItemAdorner_ChangeLocation(Rect newLocation)
     {
-      _vm.Height -= delta;
-      _vm.Top += delta;
-    }
-
-    private void ItemAdorner_MoveLeftBorder(double delta)
-    {
-      _vm.Width -= delta;
-      _vm.Left += delta;
-    }
-
-    private void ItemAdorner_MoveRightBorder(double delta)
-    {
-      _vm.Width += delta;
-    }
-
-    private void ItemAdorner_MoveBottomBorder(double delta)
-    {
-      _vm.Height += delta;
+      _vm.Top += newLocation.Top;
+      _vm.Left += newLocation.Left;
+      _vm.Width = newLocation.Width;
+      _vm.Height = newLocation.Height;
     }
   }
 }
