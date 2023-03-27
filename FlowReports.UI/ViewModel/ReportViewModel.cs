@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Input;
 using ES.Tools.Core.MVVM;
 using FlowReports.Model;
 using FlowReports.Model.Events;
 using FlowReports.Model.ImportExport;
+using FlowReports.Model.ReportItems;
 
 namespace FlowReports.UI.ViewModel
 {
@@ -13,6 +16,7 @@ namespace FlowReports.UI.ViewModel
 
     private ReportBandViewModel _selectedBand;
     private IItemViewModel _selectedItem;
+    private readonly Lazy<IEnumerable<DataSourceViewModel>> _lazyDataSource;
     private bool _isDirty;
     private readonly ActionCommand _addNewBandCommand;
     private readonly ActionCommand _addSubBandCommand;
@@ -22,7 +26,9 @@ namespace FlowReports.UI.ViewModel
     private readonly ActionCommand _addBooleanItemCommand;
     private readonly ActionCommand _addImageItemCommand;
     private readonly ActionCommand _removeItemCommand;
-    private readonly Lazy<IEnumerable<DataSourceViewModel>> _lazyDataSource;
+    private readonly ActionCommand _cutCommand;
+    private readonly ActionCommand _copyCommand;
+    private readonly ActionCommand _pasteCommand;
 
     #endregion
 
@@ -42,6 +48,9 @@ namespace FlowReports.UI.ViewModel
       _addBooleanItemCommand = new ActionCommand(AddBooleanItem, CanAddBooleanItem);
       _addImageItemCommand = new ActionCommand(AddImageItem, CanAddImageItem);
       _removeItemCommand = new ActionCommand(RemoveItem, CanRemoveItem);
+      _cutCommand = new ActionCommand(Cut, CanCut);
+      _copyCommand = new ActionCommand(Copy, CanCopy);
+      _pasteCommand = new ActionCommand(Paste, CanPaste);
       _lazyDataSource = new Lazy<IEnumerable<DataSourceViewModel>>(() => new DataSourceViewModel[] { new DataSourceViewModel(report.DataSource) });
       IsDirty = false;
     }
@@ -63,15 +72,17 @@ namespace FlowReports.UI.ViewModel
           }
 
           _selectedBand = value;
-          OnPropertyChanged();
-          _addSubBandCommand.RaiseCanExecuteChanged();
-          _removeBandCommand.RaiseCanExecuteChanged();
-          _addTextItemCommand.RaiseCanExecuteChanged();
 
           if (_selectedBand != null)
           {
             _selectedBand.ItemSelected += SelectedBand_ItemSelected;
           }
+
+          OnPropertyChanged();
+          _addSubBandCommand.RaiseCanExecuteChanged();
+          _removeBandCommand.RaiseCanExecuteChanged();
+          _addTextItemCommand.RaiseCanExecuteChanged();
+          _pasteCommand.RaiseCanExecuteChanged();
         }
       }
     }
@@ -94,8 +105,11 @@ namespace FlowReports.UI.ViewModel
           {
             _selectedItem.PropertyChanged += SelectedItem_PropertyChanged;
           }
+
           OnPropertyChanged();
           _removeItemCommand.RaiseCanExecuteChanged();
+          _cutCommand.RaiseCanExecuteChanged();
+          _copyCommand.RaiseCanExecuteChanged();
         }
       }
     }
@@ -169,6 +183,8 @@ namespace FlowReports.UI.ViewModel
     }
 
     #endregion
+
+    #region Commands
 
     #region Add Band
 
@@ -295,7 +311,7 @@ namespace FlowReports.UI.ViewModel
 
     #endregion
 
-    #region Remove Text Item
+    #region Remove Item
 
     public ICommand RemoveItemCommand => _removeItemCommand;
 
@@ -309,6 +325,82 @@ namespace FlowReports.UI.ViewModel
     {
       return SelectedItem != null;
     }
+
+    #endregion
+
+    #region Cut
+
+    public ICommand CutCommand => _cutCommand;
+
+    private void Cut()
+    {
+      if (SelectedItem != null)
+      {
+        var xml = ReportWriter.GetXMLRepresentation(new List<ReportItem> { SelectedItem.Item });
+        Clipboard.SetData(DataFormats.UnicodeText, xml);
+        _pasteCommand.RaiseCanExecuteChanged();
+        RemoveItem();
+      }
+    }
+
+    private bool CanCut()
+    {
+      return SelectedItem != null && CanRemoveItem();
+    }
+
+    #endregion
+
+    #region Copy
+
+    public ICommand CopyCommand => _copyCommand;
+
+    private void Copy()
+    {
+      if (SelectedItem != null)
+      {
+        var xml = ReportWriter.GetXMLRepresentation(new List<ReportItem> { SelectedItem.Item });
+        Clipboard.SetData(DataFormats.UnicodeText, xml);
+        _pasteCommand.RaiseCanExecuteChanged();
+      }
+    }
+
+    private bool CanCopy()
+    {
+      return SelectedItem != null;
+    }
+
+    #endregion
+
+    #region Paste
+
+    public ICommand PasteCommand => _pasteCommand;
+
+    private void Paste()
+    {
+      var text = Clipboard.GetText();
+      IEnumerable<ReportItem> items = Enumerable.Empty<ReportItem>();
+
+      try
+      {
+        items = ReportReader.GetItems(text);
+      }
+      catch (Exception ex)
+      {
+        Debug.Fail(ex.Message);
+      }
+
+      foreach (var item in items)
+      {
+        SelectedBand.Band.AddReportItem(item);
+      }
+    }
+
+    private bool CanPaste()
+    {
+      return Clipboard.ContainsText() && SelectedBand != null;
+    }
+
+    #endregion
 
     #endregion
 

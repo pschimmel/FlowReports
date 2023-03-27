@@ -26,13 +26,12 @@ namespace FlowReports.Model.ImportExport
 
     private static XmlDocument PrepareDocument()
     {
-      var xml = new XmlDocument();
-      return xml;
+      return new XmlDocument();
     }
 
-    private static void ReadReport(this Report report, XmlDocument xml)
+    private static void ReadReport(this Report report, XmlDocument doc)
     {
-      var reportNode = xml.DocumentElement; // DocumentElement will be the root element, i.e. the report
+      var reportNode = doc.DocumentElement; // DocumentElement will be the root element, i.e. the report
       report.LastChanged = reportNode.ReadAttributeOrDefault(Tags.LastChanged, DateTime.Now);
       ReadBands(report.Bands, reportNode);
     }
@@ -58,26 +57,47 @@ namespace FlowReports.Model.ImportExport
       {
         foreach (var itemNode in itemsNode.SelectNodes(Tags.Item).OfType<XmlElement>())
         {
-          ReadItem(band, itemNode);
+          ReadItem(band.Items, itemNode);
         }
       }
 
       ReadBands(band.SubBands, bandNode);
     }
 
-    private static void ReadItem(ReportBand band, XmlElement itemNode)
+    public static IEnumerable<ReportItem> GetItems(string xml)
+    {
+      var items = new List<ReportItem>();
+
+      if (string.IsNullOrWhiteSpace(xml))
+      {
+        return Enumerable.Empty<ReportItem>();
+      }
+
+      var doc = PrepareDocument();
+      doc.LoadXml(xml);
+      var itemsNode = doc.DocumentElement;
+
+      foreach (var itemNode in itemsNode.SelectNodes(Tags.Item).OfType<XmlElement>())
+      {
+        ReadItem(items, itemNode);
+      }
+
+      return items;
+    }
+
+    private static void ReadItem(List<ReportItem> items, XmlElement itemNode)
     {
       if (TryReadTextItem(itemNode, out TextItem textItem))
       {
-        band.Items.Add(textItem);
+        items.Add(textItem);
       }
       else if (TryReadBooleanItem(itemNode, out BooleanItem booleanItem))
       {
-        band.Items.Add(booleanItem);
+        items.Add(booleanItem);
       }
       else if (TryReadImageItem(itemNode, out ImageItem imageItem))
       {
-        band.Items.Add(imageItem);
+        items.Add(imageItem);
       }
       else
       {

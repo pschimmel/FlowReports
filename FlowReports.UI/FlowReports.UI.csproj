@@ -26,6 +26,8 @@
     <None Remove="Images\Calendar_16x.png" />
     <None Remove="Images\CheckBox_16x.png" />
     <None Remove="Images\Close_16x.png" />
+    <None Remove="Images\Copy_16x.png" />
+    <None Remove="Images\Cut_16x.png" />
     <None Remove="Images\Database_16x.png" />
     <None Remove="Images\Document_16x.png" />
     <None Remove="Images\Document_32x.png" />
@@ -38,6 +40,7 @@
     <None Remove="Images\New_16x.png" />
     <None Remove="Images\Number_16x.png" />
     <None Remove="Images\Open_16x.png" />
+    <None Remove="Images\Paste_16x.png" />
     <None Remove="Images\PrintPreview_16x.png" />
     <None Remove="Images\PrintPreview_32x.png" />
     <None Remove="Images\PrintSetup_16x.png" />
@@ -69,6 +72,8 @@
     <Content Include="Images\Fox.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Images\Copy_16x.png" />
+    <Resource Include="Images\Cut_16x.png" />
     <Resource Include="Images\Hamster.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -102,6 +107,7 @@
     <Resource Include="Images\Database_16x.png" />
     <Resource Include="Images\Image_16x.png" />
     <Resource Include="Images\Number_16x.png" />
+    <Resource Include="Images\Paste_16x.png" />
     <Resource Include="Images\PrintSetup_16x.png" />
     <Resource Include="Images\PrintSetup_x32.png" />
     <Resource Include="Images\Print_16x.png" />

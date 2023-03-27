@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using System.Xml;
 using FlowReports.Model.ReportItems;
 
@@ -10,14 +11,30 @@ namespace FlowReports.Model.ImportExport
     {
       var xml = PrepareDocument();
       WriteReport(report, xml);
-      xml.Save(fileName);
+      var settings = GetXMLSettings();
+
+      using var writer = XmlWriter.Create(fileName, settings);
+      xml.Save(writer);
     }
 
     public static void Write(Report report, Stream stream)
     {
       var xml = PrepareDocument();
       WriteReport(report, xml);
-      xml.Save(stream);
+      var settings = GetXMLSettings();
+      using var writer = XmlWriter.Create(stream, settings);
+      xml.Save(writer);
+    }
+
+    private static XmlWriterSettings GetXMLSettings()
+    {
+      return new XmlWriterSettings
+      {
+        Indent = true,
+        IndentChars = "  ",
+        NewLineChars = "\r\n",
+        NewLineHandling = NewLineHandling.Replace
+      };
     }
 
     private static XmlDocument PrepareDocument()
@@ -73,7 +90,33 @@ namespace FlowReports.Model.ImportExport
       }
     }
 
-    private static void WriteItem(ReportItem item, XmlElement itemsNode)
+    public static string GetXMLRepresentation(IEnumerable<ReportItem> items)
+    {
+      if (items == null)
+      {
+        return string.Empty;
+      }
+
+      var doc = PrepareDocument();
+      var itemsNode = doc.AppendChild(Tags.Items);
+
+      foreach (var item in items)
+      {
+        WriteItem(item, itemsNode);
+      }
+
+      var sb = new StringBuilder();
+      var settings = GetXMLSettings();
+
+      using (var writer = XmlWriter.Create(sb, settings))
+      {
+        doc.Save(writer);
+      }
+
+      return sb.ToString();
+    }
+
+    private static void WriteItem(ReportItem item, XmlNode itemsNode)
     {
       var itemNode = itemsNode.AppendChild(Tags.Item);
 

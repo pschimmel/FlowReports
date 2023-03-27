@@ -37,12 +37,26 @@
           </fluent:BackstageTabControl>
         </fluent:Backstage>
       </fluent:Ribbon.Menu>
-      <fluent:RibbonTabItem Header="{x:Static properties:Resources.Home}" ReduceOrder="Report, Bands, ReportItems, Report, Bands, ReportItems, Report, Bands, ReportItems, Report, Bands, ReportItems">
+      <fluent:RibbonTabItem Header="{x:Static properties:Resources.Home}" ReduceOrder="Report, Clipboard, Bands, ReportItems, Report, Clipboard, Bands, ReportItems, Report, Clipboard, Bands, ReportItems, Report, Clipboard, Bands, ReportItems">
         <fluent:RibbonGroupBox x:Name="Report" Header="{x:Static properties:Resources.Report}" Icon="pack://application:,,,/FlowReports.UI;component/Images/Document_16x.png">
           <fluent:Button Command="{Binding PrintPreviewCommand}"
                          Header="{x:Static properties:Resources.PrintPreview}"
                          Icon="pack://application:,,,/FlowReports.UI;component/Images/PrintPreview_16x.png"
                          LargeIcon="pack://application:,,,/FlowReports.UI;component/Images/PrintPreview_32x.png" />
+        </fluent:RibbonGroupBox>
+        <fluent:RibbonGroupBox x:Name="Clipboard" DataContext="{Binding ReportVM}" Header="{x:Static properties:Resources.Clipboard}">
+          <fluent:Button Command="{Binding CutCommand}"
+                         Header="{x:Static properties:Resources.Cut}"
+                         Icon="pack://application:,,,/FlowReports.UI;component/Images/Cut_16x.png"
+                         SizeDefinition="Middle Middle Small" />
+          <fluent:Button Command="{Binding CopyCommand}"
+                         Header="{x:Static properties:Resources.Copy}"
+                         Icon="pack://application:,,,/FlowReports.UI;component/Images/Copy_16x.png"
+                         SizeDefinition="Middle Middle Small" />
+          <fluent:Button Command="{Binding PasteCommand}"
+                         Header="{x:Static properties:Resources.Paste}"
+                         Icon="pack://application:,,,/FlowReports.UI;component/Images/Paste_16x.png"
+                         SizeDefinition="Middle Middle Small" />
         </fluent:RibbonGroupBox>
         <fluent:RibbonGroupBox x:Name="Bands"
                                DataContext="{Binding ReportVM}"

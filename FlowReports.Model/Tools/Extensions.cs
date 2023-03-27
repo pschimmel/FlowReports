@@ -22,15 +22,13 @@
         return false;
       }
 
-      using (IEnumerator<T> e1 = first.GetEnumerator())
-      using (IEnumerator<T> e2 = second.GetEnumerator())
+      using IEnumerator<T> e1 = first.GetEnumerator();
+      using IEnumerator<T> e2 = second.GetEnumerator();
+      while (e1.MoveNext() && e2.MoveNext())
       {
-        while (e1.MoveNext() && e2.MoveNext())
+        if (!Equals(e1.Current, e2.Current))
         {
-          if (!Equals(e1.Current, e2.Current))
-          {
-            return false;
-          }
+          return false;
         }
       }
 
