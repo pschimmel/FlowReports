@@ -135,6 +135,11 @@
       </Border>
       <GridSplitter HorizontalAlignment="Center" VerticalAlignment="Stretch" Grid.Column="1" />
       <Border x:Name="EditorContainer" Background="{StaticResource Editor.Background}" Grid.Column="2">
+        <Border.InputBindings>
+          <KeyBinding Command="{Binding ReportVM.CutCommand}" Gesture="Ctrl+X" />
+          <KeyBinding Command="{Binding ReportVM.CopyCommand}" Gesture="Ctrl+C" />
+          <KeyBinding Command="{Binding ReportVM.PasteCommand}" Gesture="Ctrl+V" />
+        </Border.InputBindings>
         <Border.Resources>
           <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -2,10 +2,10 @@
 
 namespace FlowReports.UI.ViewModel
 {
-  internal class BooleanItemViewModel : EditorItemViewModel<BooleanItem>
+  internal class BooleanItemViewModel : ItemViewModel<BooleanItem>
   {
-    public BooleanItemViewModel(BooleanItem item, ReportBandViewModel bandVM)
-      : base(item, bandVM)
+    public BooleanItemViewModel(BooleanItem item, object data, double deltaY)
+      : base(item, data, deltaY)
     { }
   }
 }

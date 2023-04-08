@@ -15,7 +15,7 @@ namespace FlowReports.UI.ViewModel
     #region Fields
 
     private ReportBandViewModel _selectedBand;
-    private IItemViewModel _selectedItem;
+    private IEditorItemViewModel _selectedItem;
     private readonly Lazy<IEnumerable<DataSourceViewModel>> _lazyDataSource;
     private bool _isDirty;
     private readonly ActionCommand _addNewBandCommand;
@@ -87,7 +87,7 @@ namespace FlowReports.UI.ViewModel
       }
     }
 
-    public IItemViewModel SelectedItem
+    public IEditorItemViewModel SelectedItem
     {
       get => _selectedItem;
       set
@@ -413,7 +413,7 @@ namespace FlowReports.UI.ViewModel
 
     private void SelectedBand_ItemSelected(object sender, EventArgs e)
     {
-      if (sender is IItemViewModel itemViewModel)
+      if (sender is IEditorItemViewModel itemViewModel)
       {
         SelectedItem = itemViewModel;
       }

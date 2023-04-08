@@ -2,10 +2,10 @@
 
 namespace FlowReports.UI.ViewModel
 {
-  internal class ImageItemViewModel : EditorItemViewModel<ImageItem>
+  internal class ImageItemViewModel : ItemViewModel<ImageItem>
   {
-    public ImageItemViewModel(ImageItem item, ReportBandViewModel bandVM)
-      : base(item, bandVM)
+    public ImageItemViewModel(ImageItem item, object data, double deltaY)
+      : base(item, data, deltaY)
     { }
   }
 }

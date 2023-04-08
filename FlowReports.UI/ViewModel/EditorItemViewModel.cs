@@ -8,7 +8,7 @@ using GongSolutions.Wpf.DragDrop;
 
 namespace FlowReports.UI.ViewModel
 {
-  internal abstract class EditorItemViewModel<T> : ViewModelBase, IItemViewModel, IDropTarget where T : ReportItem
+  internal abstract class EditorItemViewModel<T> : ViewModelBase, IEditorItemViewModel, IDropTarget where T : ReportItem
   {
     #region Fields
 

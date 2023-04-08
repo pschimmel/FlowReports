@@ -7,8 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using ES.Tools.Core.Infrastructure;
 using FlowReports.Model;
-using FlowReports.Model.DataSources.DataSourceItems;
 using FlowReports.Model.ReportItems;
+using FlowReports.UI.ViewModel;
 
 namespace FlowReports.UI.Printing
 {
@@ -174,15 +174,12 @@ namespace FlowReports.UI.Printing
         // Draw all report items once for each item in the data source
         foreach (var item in band.Items)
         {
-          var control = ReportControlFactory.CreateControl(item, itemData);
-          if (control != null)
-          {
-            _currentCanvas.Children.Add(control);
-            double top = _currentY + item.Top;
-            double left = item.Left;
-            Canvas.SetTop(control, top);
-            Canvas.SetLeft(control, left);
-          }
+          var vm = ViewModelFactory.CreatePreviewItemViewModel(item, itemData, _currentY);
+          var control = new ContentControl();
+          control.Content = vm;
+          _currentCanvas.Children.Add(control);
+          control.SetValue(Canvas.TopProperty, vm.Top);
+          control.SetValue(Canvas.LeftProperty, vm.Left);
         }
 
         // Increase current y position
@@ -229,40 +226,9 @@ namespace FlowReports.UI.Printing
         Height = ActualHeight,
         Width = ActualWidth
       };
+
+      _currentCanvas.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/FlowReports.UI;Component/View/DataTemplates/ReportDataTemplates.xaml", UriKind.RelativeOrAbsolute) });
       _currentY = 0;
-    }
-
-    private bool TryFindSource(IDataSourceItemContainer root, string fullName, out IDataSourceItemContainer source)
-    {
-      source = null;
-      string[] nameArray = fullName.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-
-      if (nameArray.Length > 0)
-      {
-        string name = nameArray.First();
-
-        if (root.Name == name)
-        {
-          if (nameArray.Length == 1)
-          {
-            source = root;
-            return true;
-          }
-
-          foreach (var childRoot in root)
-          {
-            if (childRoot is IDataSourceItemContainer childRootContainer &&
-                TryFindSource(childRootContainer, string.Join(".", nameArray.Skip(1).ToArray()), out var childSource) &&
-                childSource != null)
-            {
-              source = childSource;
-              return true;
-            }
-          }
-        }
-      }
-
-      return false;
     }
 
     private void OnProgress(double value)

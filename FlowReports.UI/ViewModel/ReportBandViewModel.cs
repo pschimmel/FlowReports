@@ -34,7 +34,7 @@ namespace FlowReports.UI.ViewModel
       : base(band.SubBands)
     {
       _band = band;
-      Items = new ObservableCollection<IItemViewModel>();
+      Items = new ObservableCollection<IEditorItemViewModel>();
 
       foreach (var item in band.Items)
       {
@@ -120,7 +120,7 @@ namespace FlowReports.UI.ViewModel
       }
     }
 
-    public ObservableCollection<IItemViewModel> Items { get; }
+    public ObservableCollection<IEditorItemViewModel> Items { get; }
 
     #endregion
 
@@ -181,28 +181,28 @@ namespace FlowReports.UI.ViewModel
 
     #region Public Methods
 
-    public IItemViewModel AddTextItem()
+    public IEditorItemViewModel AddTextItem()
     {
       _band.AddTextItem();
-      Debug.Assert(Items.Last() is TextItemViewModel);
+      Debug.Assert(Items.Last() is EditorTextItemViewModel);
       return Items.Last();
     }
 
-    public IItemViewModel AddBooleanItem()
+    public IEditorItemViewModel AddBooleanItem()
     {
       _band.AddBooleanItem();
-      Debug.Assert(Items.Last() is BooleanItemViewModel);
+      Debug.Assert(Items.Last() is EditorBooleanItemViewModel);
       return Items.Last();
     }
 
-    public IItemViewModel AddImageItem()
+    public IEditorItemViewModel AddImageItem()
     {
       _band.AddImageItem();
-      Debug.Assert(Items.Last() is ImageItemViewModel);
+      Debug.Assert(Items.Last() is EditorImageItemViewModel);
       return Items.Last();
     }
 
-    public void RemoveItem(IItemViewModel itemVM)
+    public void RemoveItem(IEditorItemViewModel itemVM)
     {
       _band.RemoveItem(itemVM?.Item);
     }
@@ -213,7 +213,7 @@ namespace FlowReports.UI.ViewModel
 
     private void ItemVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if (e.PropertyName == nameof(IItemViewModel.IsSelected) && sender is IItemViewModel viewModel)
+      if (e.PropertyName == nameof(IEditorItemViewModel.IsSelected) && sender is IEditorItemViewModel viewModel)
       {
         if (viewModel.IsSelected)
         {
@@ -260,13 +260,13 @@ namespace FlowReports.UI.ViewModel
 
     #region Private Methods
 
-    private void SelectItem(IItemViewModel itemVM)
+    private void SelectItem(IEditorItemViewModel itemVM)
     {
       IsSelected = true;
       SelectItem(ReportVM, itemVM);
     }
 
-    private static void SelectItem(IBandParentViewModel parentVM, IItemViewModel itemVM)
+    private static void SelectItem(IBandParentViewModel parentVM, IEditorItemViewModel itemVM)
     {
       if (parentVM != null)
       {
