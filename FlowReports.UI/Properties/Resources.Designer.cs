@@ -340,15 +340,6 @@ namespace FlowReports.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Print preview.
-        /// </summary>
-        public static string PrintPreview {
-            get {
-                return ResourceManager.GetString("PrintPreview", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Question.
         /// </summary>
         public static string Question {
@@ -412,6 +403,15 @@ namespace FlowReports.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show print preview.
+        /// </summary>
+        public static string ShowPrintPreview {
+            get {
+                return ResourceManager.GetString("ShowPrintPreview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Text.
         /// </summary>
         public static string Text {
@@ -435,6 +435,15 @@ namespace FlowReports.UI.Properties {
         public static string Top {
             get {
                 return ResourceManager.GetString("Top", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View.
+        /// </summary>
+        public static string View {
+            get {
+                return ResourceManager.GetString("View", resourceCulture);
             }
         }
         
@@ -475,7 +484,7 @@ namespace FlowReports.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 100%.
+        ///   Looks up a localized string similar to Actual size.
         /// </summary>
         public static string ZoomToActualSize {
             get {
@@ -484,7 +493,7 @@ namespace FlowReports.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zoom to page.
+        ///   Looks up a localized string similar to Fit to page.
         /// </summary>
         public static string ZoomToPage {
             get {
@@ -493,11 +502,20 @@ namespace FlowReports.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zoom to page width.
+        ///   Looks up a localized string similar to Fit to width.
         /// </summary>
         public static string ZoomToPageWidth {
             get {
                 return ResourceManager.GetString("ZoomToPageWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Two pages.
+        /// </summary>
+        public static string ZoomTwoPages {
+            get {
+                return ResourceManager.GetString("ZoomTwoPages", resourceCulture);
             }
         }
     }

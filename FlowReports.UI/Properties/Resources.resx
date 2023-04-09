@@ -210,9 +210,6 @@
   <data name="Print" xml:space="preserve">
     <value>Print</value>
   </data>
-  <data name="PrintPreview" xml:space="preserve">
-    <value>Print preview</value>
-  </data>
   <data name="Question" xml:space="preserve">
     <value>Question</value>
   </data>
@@ -234,6 +231,9 @@
   <data name="SaveFileQuestion" xml:space="preserve">
     <value>Would you like to save the current file?</value>
   </data>
+  <data name="ShowPrintPreview" xml:space="preserve">
+    <value>Show print preview</value>
+  </data>
   <data name="Text" xml:space="preserve">
     <value>Text</value>
   </data>
@@ -242,6 +242,9 @@
   </data>
   <data name="Top" xml:space="preserve">
     <value>Top</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Warning</value>
@@ -256,12 +259,15 @@
     <value>Zoom out</value>
   </data>
   <data name="ZoomToActualSize" xml:space="preserve">
-    <value>100%</value>
+    <value>Actual size</value>
   </data>
   <data name="ZoomToPage" xml:space="preserve">
-    <value>Zoom to page</value>
+    <value>Fit to page</value>
   </data>
   <data name="ZoomToPageWidth" xml:space="preserve">
-    <value>Zoom to page width</value>
+    <value>Fit to width</value>
+  </data>
+  <data name="ZoomTwoPages" xml:space="preserve">
+    <value>Two pages</value>
   </data>
 </root>

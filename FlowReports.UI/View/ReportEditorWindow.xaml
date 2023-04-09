@@ -7,7 +7,7 @@
                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                      xmlns:properties="clr-namespace:FlowReports.UI.Properties"
                      xmlns:toolsUI="clr-namespace:ES.Tools.UI;assembly=ES.Tools"
-                     xmlns:viewmodel="clr-namespace:FlowReports.UI.ViewModel"
+                     xmlns:viewmodel="clr-namespace:FlowReports.UI.ViewModel" 
                      Title="{Binding Title}"
                      Width="800"
                      Height="450"
@@ -39,8 +39,8 @@
       </fluent:Ribbon.Menu>
       <fluent:RibbonTabItem Header="{x:Static properties:Resources.Home}" ReduceOrder="Report, Clipboard, Bands, ReportItems, Report, Clipboard, Bands, ReportItems, Report, Clipboard, Bands, ReportItems, Report, Clipboard, Bands, ReportItems">
         <fluent:RibbonGroupBox x:Name="Report" Header="{x:Static properties:Resources.Report}" Icon="pack://application:,,,/FlowReports.UI;component/Images/Document_16x.png">
-          <fluent:Button Command="{Binding PrintPreviewCommand}"
-                         Header="{x:Static properties:Resources.PrintPreview}"
+          <fluent:Button Command="{Binding ShowPrintPreviewCommand}"
+                         Header="{x:Static properties:Resources.ShowPrintPreview}"
                          Icon="pack://application:,,,/FlowReports.UI;component/Images/PrintPreview_16x.png"
                          LargeIcon="pack://application:,,,/FlowReports.UI;component/Images/PrintPreview_32x.png" />
         </fluent:RibbonGroupBox>

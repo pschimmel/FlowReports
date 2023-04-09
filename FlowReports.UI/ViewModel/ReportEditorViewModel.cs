@@ -18,7 +18,7 @@ namespace FlowReports.UI.ViewModel
     private readonly ActionCommand _saveCommand;
     private readonly ActionCommand _saveAsCommand;
     private readonly ActionCommand _closeCommand;
-    private readonly ActionCommand _printPreviewCommand;
+    private readonly ActionCommand _showPrintPreviewCommand;
     private readonly Lazy<OpenFileDialog> _openFileDialog = new(() => CreateOpenFileDialog());
     private readonly Lazy<SaveFileDialog> _saveFileDialog = new(() => CreateSaveFileDialog());
     private ReportViewModel _reportVM = ReportViewModel.NewReport();
@@ -36,7 +36,7 @@ namespace FlowReports.UI.ViewModel
       _loadCommand = new ActionCommand(Load, CanLoad);
       _saveCommand = new ActionCommand(Save, CanSave);
       _saveAsCommand = new ActionCommand(SaveAs, CanSaveAs);
-      _printPreviewCommand = new ActionCommand(PrintPreview, CanPrintPreview);
+      _showPrintPreviewCommand = new ActionCommand(ShowPrintPreview, CanShowPrintPreview);
       IsInitializing = false;
     }
 
@@ -201,18 +201,18 @@ namespace FlowReports.UI.ViewModel
 
     #endregion
 
-    #region Print Preview
+    #region Show Print Preview
 
-    public ICommand PrintPreviewCommand => _printPreviewCommand;
+    public ICommand ShowPrintPreviewCommand => _showPrintPreviewCommand;
 
-    private void PrintPreview()
+    private void ShowPrintPreview()
     {
       using var vm = new PrintPreviewViewModel(ReportVM.Report);
       var view = ViewFactory.Instance.CreateView(vm);
       view.ShowDialog();
     }
 
-    private bool CanPrintPreview()
+    private bool CanShowPrintPreview()
     {
       return true;
     }

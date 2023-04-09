@@ -27,6 +27,7 @@
     <None Remove="Images\CheckBox_16x.png" />
     <None Remove="Images\Close_16x.png" />
     <None Remove="Images\Copy_16x.png" />
+    <None Remove="Images\Copy_32x.png" />
     <None Remove="Images\Cut_16x.png" />
     <None Remove="Images\Database_16x.png" />
     <None Remove="Images\Document_16x.png" />
@@ -58,11 +59,19 @@
     <None Remove="Images\Save_16x.png" />
     <None Remove="Images\Splash.png" />
     <None Remove="Images\Text_16x.png" />
-    <None Remove="Images\ZoomIn_x32.png" />
-    <None Remove="Images\ZoomOut_x32.png" />
-    <None Remove="Images\ZoomToActualSize_x32.png" />
-    <None Remove="Images\ZoomToPageWidth_x32.png" />
-    <None Remove="Images\ZoomToWholePage_x32.png" />
+    <None Remove="Images\View_16x.png" />
+    <None Remove="Images\ZoomIn_16x.png" />
+    <None Remove="Images\ZoomIn_32x.png" />
+    <None Remove="Images\ZoomOut_16x.png" />
+    <None Remove="Images\ZoomOut_32x.png" />
+    <None Remove="Images\ZoomToActualSize_16x.png" />
+    <None Remove="Images\ZoomToActualSize_32x.png" />
+    <None Remove="Images\ZoomToFit_16x.png" />
+    <None Remove="Images\ZoomToFit_32x.png" />
+    <None Remove="Images\ZoomToTwoPages_16x.png" />
+    <None Remove="Images\ZoomToTwoPages_32x.png" />
+    <None Remove="Images\ZoomToWidth_16x.png" />
+    <None Remove="Images\ZoomToWidth_32x.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -73,6 +82,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Images\Copy_16x.png" />
+    <Resource Include="Images\Copy_32x.png" />
     <Resource Include="Images\Cut_16x.png" />
     <Resource Include="Images\Hamster.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
@@ -138,11 +148,19 @@
     <Resource Include="Images\SaveAs_16x.png" />
     <Resource Include="Images\Save_16x.png" />
     <Resource Include="Images\Text_16x.png" />
-    <Resource Include="Images\ZoomIn_x32.png" />
-    <Resource Include="Images\ZoomOut_x32.png" />
-    <Resource Include="Images\ZoomToActualSize_x32.png" />
-    <Resource Include="Images\ZoomToPageWidth_x32.png" />
-    <Resource Include="Images\ZoomToWholePage_x32.png" />
+    <Resource Include="Images\ZoomIn_16x.png" />
+    <Resource Include="Images\ZoomIn_32x.png" />
+    <Resource Include="Images\ZoomOut_16x.png" />
+    <Resource Include="Images\ZoomOut_32x.png" />
+    <Resource Include="Images\ZoomToActualSize_16x.png" />
+    <Resource Include="Images\ZoomToActualSize_32x.png" />
+    <Resource Include="Images\ZoomToTwoPages_16x.png" />
+    <Resource Include="Images\ZoomToFit_16x.png" />
+    <Resource Include="Images\ZoomToFit_32x.png" />
+    <Resource Include="Images\ZoomToWidth_32x.png" />
+    <Resource Include="Images\ZoomToTwoPages_32x.png" />
+    <Resource Include="Images\ZoomToWidth_16x.png" />
+    <Resource Include="Images\View_16x.png" />
   </ItemGroup>
 
   <ItemGroup>

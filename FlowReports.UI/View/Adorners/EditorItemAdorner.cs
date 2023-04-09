@@ -4,7 +4,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace FlowReports.UI.View
+namespace FlowReports.UI.View.Adorners
 {
   internal class ReportItemAdorner : Adorner
   {
@@ -126,7 +126,7 @@ namespace FlowReports.UI.View
     {
       base.OnPreviewMouseMove(e);
 
-      Point pos = e.GetPosition(AdornedElement);
+      var pos = e.GetPosition(AdornedElement);
       var background = GetBackground();
       var leftTop = GetLeftTopGripper();
       var rightTop = GetRightTopGripper();

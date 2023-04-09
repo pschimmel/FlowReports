@@ -210,9 +210,6 @@
   <data name="Print" xml:space="preserve">
     <value>Drucken</value>
   </data>
-  <data name="PrintPreview" xml:space="preserve">
-    <value>Druckvorschau</value>
-  </data>
   <data name="Question" xml:space="preserve">
     <value>Frage</value>
   </data>
@@ -234,6 +231,9 @@
   <data name="SaveFileQuestion" xml:space="preserve">
     <value>Möchten Sie die aktuelle Datei speichern?</value>
   </data>
+  <data name="ShowPrintPreview" xml:space="preserve">
+    <value>Druckvorschau anzeigen</value>
+  </data>
   <data name="Text" xml:space="preserve">
     <value>Text</value>
   </data>
@@ -242,6 +242,9 @@
   </data>
   <data name="Top" xml:space="preserve">
     <value>Oben</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Ansicht</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Warnung</value>
@@ -253,15 +256,18 @@
     <value>Hineinzoomen</value>
   </data>
   <data name="ZoomOut" xml:space="preserve">
-    <value>Hinauszoomen</value>
+    <value>Herauszoomen</value>
   </data>
   <data name="ZoomToActualSize" xml:space="preserve">
-    <value>100%</value>
+    <value>Tatsächliche Größe</value>
   </data>
   <data name="ZoomToPage" xml:space="preserve">
-    <value>Auf Seite zoomen</value>
+    <value>An Seite anpassen</value>
   </data>
   <data name="ZoomToPageWidth" xml:space="preserve">
-    <value>Auf Seitenbreite zoomen</value>
+    <value>An Breite anpassen</value>
+  </data>
+  <data name="ZoomTwoPages" xml:space="preserve">
+    <value>Zwei Seiten</value>
   </data>
 </root>

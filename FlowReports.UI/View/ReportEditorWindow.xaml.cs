@@ -28,6 +28,9 @@ namespace FlowReports.UI
       }
       else
       {
+        EventService.Instance.Unsubscribe("CloseEditor");
+        EventService.Instance.Unsubscribe("Message");
+
         if (Services.Instance.HasService<ExecuteOnApplicationClosing>())
         {
           var service = Services.Instance.GetService<ExecuteOnApplicationClosing>();

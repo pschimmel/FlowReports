@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Documents;
+using FlowReports.UI.View.Adorners;
 using FlowReports.UI.ViewModel;
 using Microsoft.Xaml.Behaviors;
 
