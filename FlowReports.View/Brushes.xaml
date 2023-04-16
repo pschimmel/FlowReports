@@ -70,4 +70,12 @@
 
   <!--#endregion-->
 
+  <!--#region Editor brushes-->
+
+  <SolidColorBrush x:Key="PrintPreview.Background" o:Freeze="True" Color="White" />
+  <SolidColorBrush x:Key="PrintPreview.Document.Background" o:Freeze="True" Color="LightGray" />
+  <SolidColorBrush x:Key="PrintPreview.Border" o:Freeze="True" Color="Gray" />
+
+  <!--#endregion-->
+
 </ResourceDictionary>
