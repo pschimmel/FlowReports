@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Documents;
 using FlowReports.UI.View.Adorners;
-using FlowReports.UI.ViewModel;
+using FlowReports.ViewModel.EditorItems;
 using Microsoft.Xaml.Behaviors;
 
 namespace FlowReports.UI.View.Behaviors

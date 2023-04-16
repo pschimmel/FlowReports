@@ -6,7 +6,7 @@
                      xmlns:local="clr-namespace:FlowReports.UI.View"
                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                      xmlns:properties="clr-namespace:FlowReports.UI.Properties"
-                     xmlns:viewmodel="clr-namespace:FlowReports.UI.ViewModel"
+                     xmlns:viewmodel="clr-namespace:FlowReports.ViewModel;assembly=FlowReports.ViewModel"
                      Title="PrintPreviewWindow"
                      Width="800"
                      Height="450"

@@ -1,29 +1,29 @@
-﻿using System.Windows;
+﻿using FlowReports.ViewModel.Infrastructure;
 
 namespace FlowReports.UI.Infrastructure
 {
   internal static class Extensions
   {
-    public static MessageBoxButton Get(this MessageBoxButtons buttons)
+    public static System.Windows.MessageBoxButton Get(this MessageBoxButtons buttons)
     {
       return buttons switch
       {
-        MessageBoxButtons.OK => MessageBoxButton.OK,
-        MessageBoxButtons.OKCancel => MessageBoxButton.OKCancel,
-        MessageBoxButtons.YesNo => MessageBoxButton.YesNo,
-        MessageBoxButtons.YesNoCancel => MessageBoxButton.YesNoCancel,
+        MessageBoxButtons.OK => System.Windows.MessageBoxButton.OK,
+        MessageBoxButtons.OKCancel => System.Windows.MessageBoxButton.OKCancel,
+        MessageBoxButtons.YesNo => System.Windows.MessageBoxButton.YesNo,
+        MessageBoxButtons.YesNoCancel => System.Windows.MessageBoxButton.YesNoCancel,
         _ => throw new ArgumentException("Unknown enumeration value."),
       };
     }
 
-    public static MessageBoxImage Get(this MessageBoxIcons icon)
+    public static System.Windows.MessageBoxImage Get(this MessageBoxIcons icon)
     {
       return icon switch
       {
-        MessageBoxIcons.Information => MessageBoxImage.Information,
-        MessageBoxIcons.Warning => MessageBoxImage.Warning,
-        MessageBoxIcons.Error => MessageBoxImage.Error,
-        MessageBoxIcons.Question => MessageBoxImage.Question,
+        MessageBoxIcons.Information => System.Windows.MessageBoxImage.Information,
+        MessageBoxIcons.Warning => System.Windows.MessageBoxImage.Warning,
+        MessageBoxIcons.Error => System.Windows.MessageBoxImage.Error,
+        MessageBoxIcons.Question => System.Windows.MessageBoxImage.Question,
         _ => throw new ArgumentException("Unknown enumeration value.")
       };
     }

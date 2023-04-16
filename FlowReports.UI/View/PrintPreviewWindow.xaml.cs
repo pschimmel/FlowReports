@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using ES.Tools.Core.Infrastructure;
 using ES.Tools.Core.MVVM;
-using FlowReports.UI.ViewModel;
+using FlowReports.ViewModel;
 using Fluent;
 
 namespace FlowReports.UI.View

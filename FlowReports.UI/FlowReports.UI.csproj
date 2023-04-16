@@ -98,6 +98,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FlowReports.Model\FlowReports.Model.csproj" />
+    <ProjectReference Include="..\FlowReports.ViewModel\FlowReports.ViewModel.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net48'">

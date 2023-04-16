@@ -3,7 +3,8 @@ using System.Windows;
 using ES.Tools.Core.Infrastructure;
 using ES.Tools.Core.MVVM;
 using FlowReports.UI.Infrastructure;
-using FlowReports.UI.ViewModel;
+using FlowReports.ViewModel;
+using FlowReports.ViewModel.Infrastructure;
 using Fluent;
 
 namespace FlowReports.UI

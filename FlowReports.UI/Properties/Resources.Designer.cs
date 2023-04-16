@@ -196,15 +196,6 @@ namespace FlowReports.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error.
-        /// </summary>
-        public static string Error {
-            get {
-                return ResourceManager.GetString("Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to File.
         /// </summary>
         public static string File {
@@ -246,15 +237,6 @@ namespace FlowReports.UI.Properties {
         public static string Image {
             get {
                 return ResourceManager.GetString("Image", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Information.
-        /// </summary>
-        public static string Information {
-            get {
-                return ResourceManager.GetString("Information", resourceCulture);
             }
         }
         
@@ -340,15 +322,6 @@ namespace FlowReports.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Question.
-        /// </summary>
-        public static string Question {
-            get {
-                return ResourceManager.GetString("Question", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Remove band.
         /// </summary>
         public static string RemoveBand {
@@ -394,15 +367,6 @@ namespace FlowReports.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Would you like to save the current file?.
-        /// </summary>
-        public static string SaveFileQuestion {
-            get {
-                return ResourceManager.GetString("SaveFileQuestion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Show print preview.
         /// </summary>
         public static string ShowPrintPreview {
@@ -444,15 +408,6 @@ namespace FlowReports.UI.Properties {
         public static string View {
             get {
                 return ResourceManager.GetString("View", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Warning.
-        /// </summary>
-        public static string Warning {
-            get {
-                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
         

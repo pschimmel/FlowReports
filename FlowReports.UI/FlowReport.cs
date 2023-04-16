@@ -1,7 +1,7 @@
 ﻿using ES.Tools.Core.MVVM;
 using FlowReports.Model;
 using FlowReports.Model.ImportExport;
-using FlowReports.UI.ViewModel;
+using FlowReports.ViewModel;
 
 namespace FlowReports.UI
 {
