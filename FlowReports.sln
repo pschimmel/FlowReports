@@ -25,7 +25,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports.App", "FlowReports.App\FlowReports.App.csproj", "{285A9841-E34D-4185-9022-A587D19C3259}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowReports.ViewModel", "FlowReports.ViewModel\FlowReports.ViewModel.csproj", "{28C928B0-4CC4-4042-B1AB-976650A9302E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports.ViewModel", "FlowReports.ViewModel\FlowReports.ViewModel.csproj", "{28C928B0-4CC4-4042-B1AB-976650A9302E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowReports.View", "FlowReports.View\FlowReports.View.csproj", "{8D06ACEF-78BD-4A32-B84E-0413D3682FDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,13 +55,17 @@ Global
 		{28C928B0-4CC4-4042-B1AB-976650A9302E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28C928B0-4CC4-4042-B1AB-976650A9302E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28C928B0-4CC4-4042-B1AB-976650A9302E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D06ACEF-78BD-4A32-B84E-0413D3682FDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D06ACEF-78BD-4A32-B84E-0413D3682FDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D06ACEF-78BD-4A32-B84E-0413D3682FDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D06ACEF-78BD-4A32-B84E-0413D3682FDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {7EC9A44C-0463-4A87-A2D6-88AE22DFF535}
-		RESX_SortFileContentOnSave = True
 		RESX_ConfirmAddLanguageFile = True
+		RESX_SortFileContentOnSave = True
+		SolutionGuid = {7EC9A44C-0463-4A87-A2D6-88AE22DFF535}
 	EndGlobalSection
 EndGlobal

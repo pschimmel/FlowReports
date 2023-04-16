@@ -1,7 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:properties="clr-namespace:FlowReports.UI.Properties">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:properties="clr-namespace:FlowReports.View.Properties">
 
   <ResourceDictionary.MergedDictionaries>
-    <ResourceDictionary Source="pack://application:,,,/FlowReports.UI;Component/View/Brushes.xaml" />
+    <ResourceDictionary Source="pack://application:,,,/FlowReports.View;Component/Brushes.xaml" />
   </ResourceDictionary.MergedDictionaries>
 
   <BooleanToVisibilityConverter x:Key="VisibilityConverter" />

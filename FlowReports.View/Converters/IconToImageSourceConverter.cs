@@ -4,7 +4,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace FlowReports.UI.View.Converters
+namespace FlowReports.View.Converters
 {
   [ValueConversion(typeof(string), typeof(ImageSource))]
   internal class IconToImageSourceConverter : IValueConverter
@@ -19,7 +19,7 @@ namespace FlowReports.UI.View.Converters
 
         if (!_iconCache.TryGetValue(valueAsString, out ImageSource imageSource))
         {
-          imageSource = new BitmapImage(new Uri("pack://application:,,,/FlowReports.UI;component/Images/" + valueAsString, UriKind.Absolute));
+          imageSource = new BitmapImage(new Uri("pack://application:,,,/FlowReports.View;component/Images/" + valueAsString, UriKind.Absolute));
           _iconCache[valueAsString] = imageSource;
         }
 

@@ -2,12 +2,12 @@
 using System.Windows;
 using ES.Tools.Core.Infrastructure;
 using ES.Tools.Core.MVVM;
-using FlowReports.UI.Infrastructure;
+using FlowReports.View.Infrastructure;
 using FlowReports.ViewModel;
 using FlowReports.ViewModel.Infrastructure;
 using Fluent;
 
-namespace FlowReports.UI
+namespace FlowReports.View
 {
   /// <summary>
   /// Interaction logic for ReportEditorWindow.xaml
@@ -61,7 +61,7 @@ namespace FlowReports.UI
 
     private void ShowMessage(MessageInfo messageInfo)
     {
-      System.Windows.MessageBoxResult result = MessageBox.Show(messageInfo.Message, messageInfo.Title, messageInfo.Buttons.Get(), messageInfo.Icon.Get());
+      var result = MessageBox.Show(messageInfo.Message, messageInfo.Title, messageInfo.Buttons.Get(), messageInfo.Icon.Get());
       messageInfo.DialogResult = result.Get();
     }
   }

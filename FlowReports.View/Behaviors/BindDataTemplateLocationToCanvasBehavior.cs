@@ -5,7 +5,7 @@ using ES.Tools.UI;
 using FlowReports.ViewModel.EditorItems;
 using Microsoft.Xaml.Behaviors;
 
-namespace FlowReports.UI.View.Behaviors
+namespace FlowReports.View.Behaviors
 {
   /// <summary>
   /// Behavior that connects the size and location properties of a <see cref="IEditorItemViewModel"/> with the respective properties

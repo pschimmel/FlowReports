@@ -4,7 +4,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace FlowReports.UI.View.Adorners
+namespace FlowReports.View.Adorners
 {
   internal class ReportItemAdorner : Adorner
   {

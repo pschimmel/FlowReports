@@ -4,7 +4,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace FlowReports.UI.View.Converters
+namespace FlowReports.View.Converters
 {
   [ValueConversion(typeof(object), typeof(ImageSource))]
   internal class ObjectToImageSourceConverter : IValueConverter

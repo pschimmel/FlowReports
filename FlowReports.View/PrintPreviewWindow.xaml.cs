@@ -4,7 +4,7 @@ using ES.Tools.Core.MVVM;
 using FlowReports.ViewModel;
 using Fluent;
 
-namespace FlowReports.UI.View
+namespace FlowReports.View
 {
   /// <summary>
   /// Interaction logic for PrintPreviewWindow.xaml

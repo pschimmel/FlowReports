@@ -1,13 +1,13 @@
-﻿<Application x:Class="Reports.NET.App"
+﻿<Application x:Class="FlowReports.UI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Reports.NET">
+             xmlns:local="clr-namespace:FlowReports.UI">
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Generic.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Fluent;component/Themes/Themes/Light.Blue.Colorful.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/FlowReports.UI;Component/View/Styles.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FlowReports.View;Component/Styles.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

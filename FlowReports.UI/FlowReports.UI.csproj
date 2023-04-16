@@ -10,68 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\AddBand_16x.png" />
-    <None Remove="Images\AddBand_32x.png" />
-    <None Remove="Images\AddBooleanItem_16x.png" />
-    <None Remove="Images\AddBooleanItem_32x.png" />
-    <None Remove="Images\AddImageItem_16x.png" />
-    <None Remove="Images\AddImageItem_32x.png" />
-    <None Remove="Images\AddSubBand_16x.png" />
-    <None Remove="Images\AddSubBand_32x.png" />
-    <None Remove="Images\AddTextItem_16x.png" />
-    <None Remove="Images\AddTextItem_32x.png" />
-    <None Remove="Images\Bands_16x.png" />
-    <None Remove="Images\Bands_32x.png" />
     <None Remove="Images\Bunny.png" />
-    <None Remove="Images\Calendar_16x.png" />
-    <None Remove="Images\CheckBox_16x.png" />
-    <None Remove="Images\Close_16x.png" />
-    <None Remove="Images\Copy_16x.png" />
-    <None Remove="Images\Copy_32x.png" />
-    <None Remove="Images\Cut_16x.png" />
-    <None Remove="Images\Database_16x.png" />
-    <None Remove="Images\Document_16x.png" />
-    <None Remove="Images\Document_32x.png" />
-    <None Remove="Images\EditBandDetails_16x.png" />
-    <None Remove="Images\EditBandDetails_32x.png" />
     <None Remove="Images\FlowReports.ico" />
     <None Remove="Images\Fox.jpg" />
     <None Remove="Images\Hamster.png" />
-    <None Remove="Images\Image_16x.png" />
-    <None Remove="Images\New_16x.png" />
-    <None Remove="Images\Number_16x.png" />
-    <None Remove="Images\Open_16x.png" />
-    <None Remove="Images\Paste_16x.png" />
-    <None Remove="Images\PrintPreview_16x.png" />
-    <None Remove="Images\PrintPreview_32x.png" />
-    <None Remove="Images\PrintSetup_16x.png" />
-    <None Remove="Images\PrintSetup_x32.png" />
-    <None Remove="Images\Print_16x.png" />
-    <None Remove="Images\Print_32x.png" />
-    <None Remove="Images\Question_16x.png" />
-    <None Remove="Images\RemoveBand_16x.png" />
-    <None Remove="Images\RemoveBand_32x.png" />
-    <None Remove="Images\RemoveItem_16x.png" />
-    <None Remove="Images\RemoveItem_32x.png" />
-    <None Remove="Images\ReportItem_16x.png" />
-    <None Remove="Images\ReportItem_32x.png" />
-    <None Remove="Images\SaveAs_16x.png" />
-    <None Remove="Images\Save_16x.png" />
     <None Remove="Images\Splash.png" />
-    <None Remove="Images\Text_16x.png" />
-    <None Remove="Images\View_16x.png" />
-    <None Remove="Images\ZoomIn_16x.png" />
-    <None Remove="Images\ZoomIn_32x.png" />
-    <None Remove="Images\ZoomOut_16x.png" />
-    <None Remove="Images\ZoomOut_32x.png" />
-    <None Remove="Images\ZoomToActualSize_16x.png" />
-    <None Remove="Images\ZoomToActualSize_32x.png" />
-    <None Remove="Images\ZoomToFit_16x.png" />
-    <None Remove="Images\ZoomToFit_32x.png" />
-    <None Remove="Images\ZoomToTwoPages_16x.png" />
-    <None Remove="Images\ZoomToTwoPages_32x.png" />
-    <None Remove="Images\ZoomToWidth_16x.png" />
-    <None Remove="Images\ZoomToWidth_32x.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -81,24 +24,19 @@
     <Content Include="Images\Fox.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Images\Copy_16x.png" />
-    <Resource Include="Images\Copy_32x.png" />
-    <Resource Include="Images\Cut_16x.png" />
     <Resource Include="Images\Hamster.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ES.Tools" Version="0.6.30.123" />
     <PackageReference Include="ES.Tools.Core" Version="0.6.30.123" />
-    <PackageReference Include="Fluent.Ribbon" Version="9.0.4" />
-    <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FlowReports.Model\FlowReports.Model.csproj" />
     <ProjectReference Include="..\FlowReports.ViewModel\FlowReports.ViewModel.csproj" />
+    <ProjectReference Include="..\FlowReports.View\FlowReports.View.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
@@ -107,80 +45,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\AddImageItem_32x.png" />
-    <Resource Include="Images\AddImageItem_16x.png" />
-    <Resource Include="Images\Bands_16x.png" />
-    <Resource Include="Images\Bands_32x.png" />
-    <Resource Include="Images\Calendar_16x.png" />
-    <Resource Include="Images\AddBooleanItem_16x.png" />
-    <Resource Include="Images\CheckBox_16x.png" />
-    <Resource Include="Images\AddBooleanItem_32x.png" />
-    <Resource Include="Images\Database_16x.png" />
-    <Resource Include="Images\Image_16x.png" />
-    <Resource Include="Images\Number_16x.png" />
-    <Resource Include="Images\Paste_16x.png" />
-    <Resource Include="Images\PrintSetup_16x.png" />
-    <Resource Include="Images\PrintSetup_x32.png" />
-    <Resource Include="Images\Print_16x.png" />
-    <Resource Include="Images\Print_32x.png" />
-    <Resource Include="Images\Question_16x.png" />
-    <Resource Include="Images\ReportItem_16x.png" />
-    <Resource Include="Images\ReportItem_32x.png" />
-    <Resource Include="Images\Document_16x.png" />
-    <Resource Include="Images\Document_32x.png" />
-    <Resource Include="Images\EditBandDetails_16x.png" />
-    <Resource Include="Images\EditBandDetails_32x.png" />
-    <Resource Include="Images\AddTextItem_16x.png" />
-    <Resource Include="Images\AddTextItem_32x.png" />
     <Resource Include="Images\FlowReports.ico" />
-    <Resource Include="Images\New_16x.png" />
-    <Resource Include="Images\Open_16x.png" />
-    <Resource Include="Images\PrintPreview_16x.png" />
-    <Resource Include="Images\PrintPreview_32x.png" />
-    <Resource Include="Images\RemoveItem_16x.png" />
-    <Resource Include="Images\RemoveItem_32x.png" />
-    <Resource Include="Images\RemoveBand_16x.png" />
-    <Resource Include="Images\AddBand_16x.png" />
-    <Resource Include="Images\RemoveBand_32x.png" />
-    <Resource Include="Images\AddBand_32x.png" />
-    <Resource Include="Images\AddSubBand_16x.png" />
-    <Resource Include="Images\AddSubBand_32x.png" />
-    <Resource Include="Images\Close_16x.png" />
-    <Resource Include="Images\SaveAs_16x.png" />
-    <Resource Include="Images\Save_16x.png" />
-    <Resource Include="Images\Text_16x.png" />
-    <Resource Include="Images\ZoomIn_16x.png" />
-    <Resource Include="Images\ZoomIn_32x.png" />
-    <Resource Include="Images\ZoomOut_16x.png" />
-    <Resource Include="Images\ZoomOut_32x.png" />
-    <Resource Include="Images\ZoomToActualSize_16x.png" />
-    <Resource Include="Images\ZoomToActualSize_32x.png" />
-    <Resource Include="Images\ZoomToTwoPages_16x.png" />
-    <Resource Include="Images\ZoomToFit_16x.png" />
-    <Resource Include="Images\ZoomToFit_32x.png" />
-    <Resource Include="Images\ZoomToWidth_32x.png" />
-    <Resource Include="Images\ZoomToTwoPages_32x.png" />
-    <Resource Include="Images\ZoomToWidth_16x.png" />
-    <Resource Include="Images\View_16x.png" />
   </ItemGroup>
 
   <ItemGroup>
     <SplashScreen Include="Images\Splash.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿using FlowReports.ViewModel.Infrastructure;
 
-namespace FlowReports.UI.Infrastructure
+namespace FlowReports.View.Infrastructure
 {
   internal static class Extensions
   {

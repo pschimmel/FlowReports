@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using ES.Tools.Core.MVVM;
 
-namespace FlowReports.UI.View
+namespace FlowReports.View
 {
   /// <summary>
   /// Interaction logic for ReportBandDetails.xaml

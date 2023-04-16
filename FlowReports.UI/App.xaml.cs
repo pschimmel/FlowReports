@@ -3,12 +3,11 @@ using System.IO;
 using System.Reflection;
 using System.Windows;
 using ES.Tools.Core.MVVM;
-using FlowReports.UI;
-using FlowReports.UI.View;
+using FlowReports.View;
 using FlowReports.ViewModel;
 using FlowReports.ViewModel.EditorItems;
 
-namespace Reports.NET
+namespace FlowReports.UI
 {
   /// <summary>
   /// Interaction logic for App.xaml
