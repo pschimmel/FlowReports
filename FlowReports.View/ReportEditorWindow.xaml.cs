@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Navigation;
 using ES.Tools.Core.Infrastructure;
 using ES.Tools.Core.MVVM;
 using FlowReports.View.Infrastructure;
@@ -63,6 +65,12 @@ namespace FlowReports.View
     {
       var result = MessageBox.Show(messageInfo.Message, messageInfo.Title, messageInfo.Buttons.Get(), messageInfo.Icon.Get());
       messageInfo.DialogResult = result.Get();
+    }
+
+    private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+    {
+      Process.Start(e.Uri.ToString());
+      Backstage.IsOpen = false;
     }
   }
 }

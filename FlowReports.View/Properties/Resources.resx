@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
   <data name="AddBand" xml:space="preserve">
     <value>Add band</value>
   </data>
@@ -195,14 +198,23 @@
   <data name="Open" xml:space="preserve">
     <value>Open...</value>
   </data>
+  <data name="PageOrientation" xml:space="preserve">
+    <value>Page orientation</value>
+  </data>
   <data name="PageSettings" xml:space="preserve">
     <value>Page settings</value>
+  </data>
+  <data name="PageSize" xml:space="preserve">
+    <value>Page size</value>
   </data>
   <data name="Paste" xml:space="preserve">
     <value>Paste</value>
   </data>
   <data name="Print" xml:space="preserve">
     <value>Print</value>
+  </data>
+  <data name="Printer" xml:space="preserve">
+    <value>Printer</value>
   </data>
   <data name="RemoveBand" xml:space="preserve">
     <value>Remove band</value>

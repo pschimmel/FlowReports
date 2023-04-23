@@ -61,6 +61,15 @@ namespace FlowReports.View.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add band.
         /// </summary>
         public static string AddBand {
@@ -295,11 +304,29 @@ namespace FlowReports.View.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Page orientation.
+        /// </summary>
+        public static string PageOrientation {
+            get {
+                return ResourceManager.GetString("PageOrientation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Page settings.
         /// </summary>
         public static string PageSettings {
             get {
                 return ResourceManager.GetString("PageSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page size.
+        /// </summary>
+        public static string PageSize {
+            get {
+                return ResourceManager.GetString("PageSize", resourceCulture);
             }
         }
         
@@ -318,6 +345,15 @@ namespace FlowReports.View.Properties {
         public static string Print {
             get {
                 return ResourceManager.GetString("Print", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Printer.
+        /// </summary>
+        public static string Printer {
+            get {
+                return ResourceManager.GetString("Printer", resourceCulture);
             }
         }
         

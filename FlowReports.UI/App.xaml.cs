@@ -6,6 +6,7 @@ using ES.Tools.Core.MVVM;
 using FlowReports.View;
 using FlowReports.ViewModel;
 using FlowReports.ViewModel.EditorItems;
+using NAS.ViewModel.Printing;
 
 namespace FlowReports.UI
 {
@@ -21,6 +22,7 @@ namespace FlowReports.UI
       ViewFactory.Instance.Register<ReportEditorViewModel, ReportEditorWindow>();
       ViewFactory.Instance.Register<ReportBandViewModel, ReportBandDetails>();
       ViewFactory.Instance.Register<PrintPreviewViewModel, PrintPreviewWindow>();
+      ViewFactory.Instance.Register<PageSettingsViewModel, PageSettingsWindow>();
 
       var args = e.Args;
       if (args.Length > 0 &&

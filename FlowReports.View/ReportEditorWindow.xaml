@@ -25,15 +25,68 @@
     </Grid.RowDefinitions>
     <fluent:Ribbon CanUseSimplified="True" UseLayoutRounding="True">
       <fluent:Ribbon.Menu>
-        <fluent:Backstage Header="{x:Static properties:Resources.File}">
+        <fluent:Backstage x:Name="Backstage" Header="{x:Static properties:Resources.File}">
           <fluent:BackstageTabControl>
-            <!--<fluent:BackstageTabItem Header="About" Icon="pack://application:,,,/CMS.ResX;component/Images/Information.png" IsSelected="True">
-              <Grid />
-            </fluent:BackstageTabItem>-->
             <fluent:Button Command="{Binding NewCommand}" Header="{x:Static properties:Resources.New}" Icon="pack://application:,,,/FlowReports.View;component/Images/New_16x.png" />
             <fluent:Button Command="{Binding LoadCommand}" Header="{x:Static properties:Resources.Open}" Icon="pack://application:,,,/FlowReports.View;component/Images/Open_16x.png" />
             <fluent:Button Command="{Binding SaveCommand}" Header="{x:Static properties:Resources.Save}" Icon="pack://application:,,,/FlowReports.View;component/Images/Save_16x.png" />
             <fluent:Button Command="{Binding SaveAsCommand}" Header="{x:Static properties:Resources.SaveAs}" Icon="pack://application:,,,/FlowReports.View;component/Images/SaveAs_16x.png" />
+            <fluent:BackstageTabItem Header="{x:Static properties:Resources.About}" Icon="pack://application:,,,/FlowReports.View;component/Images/Information_16x.png" IsSelected="True">
+              <Grid HorizontalAlignment="Stretch">
+                <Grid.DataContext>
+                  <viewmodel:AboutViewModel />
+                </Grid.DataContext>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Background="Wheat" Orientation="Horizontal" Grid.ColumnSpan="2">
+                  <TextBlock Margin="5"
+                             FontSize="16"
+                             FontWeight="Bold"
+                             Text="{Binding ApplicationName}" />
+                  <Image Margin="5" Source="pack://application:,,,/FlowReports.View;component/Images/FlowReports_64x.png" />
+                </StackPanel>
+                <TextBlock Padding="5"
+                           FontWeight="Bold"
+                           Text="Application"
+                           Grid.Row="1" />
+                <TextBlock Padding="5"
+                           Text="{Binding ApplicationLongName}"
+                           Grid.Row="1"
+                           Grid.Column="1" />
+                <TextBlock Padding="5"
+                           FontWeight="Bold"
+                           Text="Version"
+                           Grid.Row="2" />
+                <TextBlock Padding="5"
+                           Text="{Binding Version}"
+                           Grid.Row="2"
+                           Grid.Column="1" />
+                <TextBlock Padding="5"
+                           FontWeight="Bold"
+                           Text="Created by"
+                           Grid.Row="3" />
+                <TextBlock Padding="5"
+                           Text="Engineering Solutions"
+                           Grid.Row="3"
+                           Grid.Column="1" />
+                <TextBlock Padding="5"
+                           FontWeight="Bold"
+                           Text="Website"
+                           Grid.Row="4" />
+                <TextBlock Padding="5" Grid.Row="4" Grid.Column="1">
+                  <Hyperlink NavigateUri="http://engineeringsolutions.de" RequestNavigate="Hyperlink_RequestNavigate">http://engineeringsolutions.de</Hyperlink>
+                </TextBlock>
+              </Grid>
+            </fluent:BackstageTabItem>
             <fluent:SeparatorTabItem />
             <fluent:Button Command="{Binding CloseCommand}" Header="{x:Static properties:Resources.Close}" Icon="pack://application:,,,/FlowReports.View;component/Images/Close_16x.png" />
           </fluent:BackstageTabControl>

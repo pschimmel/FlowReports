@@ -31,7 +31,9 @@
     <None Remove="Images\Document_32x.png" />
     <None Remove="Images\EditBandDetails_16x.png" />
     <None Remove="Images\EditBandDetails_32x.png" />
+    <None Remove="Images\FlowReports_64x.png" />
     <None Remove="Images\Image_16x.png" />
+    <None Remove="Images\Information_16x.png" />
     <None Remove="Images\New_16x.png" />
     <None Remove="Images\Number_16x.png" />
     <None Remove="Images\Open_16x.png" />
@@ -115,7 +117,9 @@
     <Resource Include="Images\Document_32x.png" />
     <Resource Include="Images\EditBandDetails_16x.png" />
     <Resource Include="Images\EditBandDetails_32x.png" />
+    <Resource Include="Images\FlowReports_64x.png" />
     <Resource Include="Images\Image_16x.png" />
+    <Resource Include="Images\Information_16x.png" />
     <Resource Include="Images\New_16x.png" />
     <Resource Include="Images\Number_16x.png" />
     <Resource Include="Images\Open_16x.png" />
