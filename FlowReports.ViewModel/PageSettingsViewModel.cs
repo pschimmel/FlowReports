@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Printing;
 using FlowReports.ViewModel;
+using FlowReports.ViewModel.Printing;
 
 namespace NAS.ViewModel.Printing
 {
@@ -16,35 +17,32 @@ namespace NAS.ViewModel.Printing
 
     #region Constructor
 
-    public PageSettingsViewModel(PrintQueue printer, PageMediaSize pageSize, PageOrientation orientation, double zoom)
+    public PageSettingsViewModel(PageInformation info)
     {
+      if (info is null || info.Printer is null)
+      {
+        return;
+      }
+
       var server = new PrintServer();
       var queues = server.GetPrintQueues(new[] { EnumeratedPrintQueueTypes.Local, EnumeratedPrintQueueTypes.Connections });
       Printers = queues?.OrderBy(x => x.FullName).ToList() ?? new List<PrintQueue>();
-      if (printer != null)
+      if (info.Printer != null)
       {
-        SelectedPrinter = Printers.FirstOrDefault(x => x.FullName == printer.FullName);
+        SelectedPrinter = Printers.FirstOrDefault(x => x.FullName == info.Printer.FullName);
       }
 
       UpdatePaperSizes();
-      if (pageSize != null)
+      if (info.PageSize != null)
       {
-        _selectedPageSize = PageSizes.FirstOrDefault(x => x.PageMediaSizeName == pageSize.PageMediaSizeName);
+        _selectedPageSize = PageSizes.FirstOrDefault(x => x.PageMediaSizeName == info.PageSize.PageMediaSizeName);
       }
 
-      if (orientation == PageOrientation.ReverseLandscape)
-      {
-        orientation = PageOrientation.Landscape;
-      }
-
-      if (orientation == PageOrientation.ReversePortrait)
-      {
-        orientation = PageOrientation.ReversePortrait;
-      }
-
-      _orientation = orientation;
-
-      Zoom = Convert.ToInt32(zoom * 100);
+      _orientation = info.Orientation == PageOrientation.ReverseLandscape
+        ? PageOrientation.Landscape
+        : info.Orientation == PageOrientation.ReversePortrait
+          ? PageOrientation.ReversePortrait
+          : info.Orientation;
     }
 
     #endregion
@@ -100,8 +98,6 @@ namespace NAS.ViewModel.Printing
     public double PageWidth { get; set; }
 
     public double PageHeight { get; set; }
-
-    public int Zoom { get; set; }
 
     #endregion
 

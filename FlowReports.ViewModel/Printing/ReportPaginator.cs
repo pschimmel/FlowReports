@@ -29,34 +29,18 @@ namespace FlowReports.ViewModel.Printing
     /// <summary>
     /// Initializes a new instance of the <see cref="NASDocumentPaginator"/> class.
     /// </summary>
-    public ReportPaginator(Report report, (PageMediaSize Size, PageImageableArea PrintableArea, PageOrientation Orientation)? pageInformation = null)
+    public ReportPaginator(Report report, PageInformation pageInfo = null)
     {
       _report = report ?? throw new ArgumentNullException(nameof(report));
       _data = report.Data;
 
-      PageMediaSize pageMediaSize = null;
+      pageInfo ??= PageInformation.Default;
 
-      if (pageInformation == null)
-      {
-        try
-        {
-          var printQueue = LocalPrintServer.GetDefaultPrintQueue();
-          var ticket = printQueue.DefaultPrintTicket;
-          pageMediaSize = ticket.PageMediaSize;
-          _printableArea = printQueue.GetPrintCapabilities(ticket).PageImageableArea;
-          Orientation = ticket.PageOrientation ?? PageOrientation.Portrait;
-        }
-        catch
-        {
-        }
-      }
-      else
-      {
-        _printableArea = pageInformation.Value.PrintableArea;
-        Orientation = pageInformation.Value.Orientation;
-        pageMediaSize = pageInformation.Value.Size;
-      }
+      if (pageInfo is null) { return; }
 
+      _printableArea = pageInfo.PrintableArea;
+      Orientation = pageInfo.Orientation;
+      var pageMediaSize = pageInfo.PageSize;
       Debug.Assert(pageMediaSize != null);
       _pageSize = Orientation == PageOrientation.Landscape || Orientation == PageOrientation.ReverseLandscape
         ? new Size(pageMediaSize.Height ?? 0, pageMediaSize.Width ?? 0)

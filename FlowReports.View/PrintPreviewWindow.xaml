@@ -71,6 +71,12 @@
                          Icon="pack://application:,,,/FlowReports.View;component/Images/Copy_16x.png"
                          LargeIcon="pack://application:,,,/FlowReports.View;component/Images/Copy_32x.png" />
         </fluent:RibbonGroupBox>
+        <fluent:RibbonGroupBox x:Name="Printer" Header="{x:Static properties:Resources.Printer}" Icon="pack://application:,,,/FlowReports.View;component/Images/Print_16x.png">
+          <fluent:Button Command="{Binding PrintSetupCommand}"
+                         Header="{x:Static properties:Resources.PrintSetup}"
+                         Icon="pack://application:,,,/FlowReports.View;component/Images/PrintSetup_16x.png"
+                         LargeIcon="pack://application:,,,/FlowReports.View;component/Images/PrintSetup_32x.png" />
+        </fluent:RibbonGroupBox>
         <fluent:RibbonGroupBox x:Name="View" Header="{x:Static properties:Resources.View}" Icon="pack://application:,,,/FlowReports.View;component/Images/View_16x.png">
           <fluent:Button Command="NavigationCommands.IncreaseZoom"
                          CommandTarget="{Binding ElementName=documentViewer}"
@@ -110,6 +116,9 @@
       </fluent:RibbonTabItem>
     </fluent:Ribbon>
 
-    <DocumentViewer x:Name="documentViewer" Document="{Binding Document}" Grid.Row="1" BorderBrush="{StaticResource PrintPreview.Border}" />
+    <DocumentViewer x:Name="documentViewer"
+                    BorderBrush="{StaticResource PrintPreview.Border}"
+                    Document="{Binding Document}"
+                    Grid.Row="1" />
   </Grid>
 </fluent:RibbonWindow>

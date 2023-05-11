@@ -216,6 +216,9 @@
   <data name="Printer" xml:space="preserve">
     <value>Printer</value>
   </data>
+  <data name="PrintSetup" xml:space="preserve">
+    <value>Print setup</value>
+  </data>
   <data name="RemoveBand" xml:space="preserve">
     <value>Remove band</value>
   </data>

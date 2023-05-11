@@ -34,14 +34,16 @@
     <None Remove="Images\FlowReports_64x.png" />
     <None Remove="Images\Image_16x.png" />
     <None Remove="Images\Information_16x.png" />
+    <None Remove="Images\Landscape_32x.png" />
     <None Remove="Images\New_16x.png" />
     <None Remove="Images\Number_16x.png" />
     <None Remove="Images\Open_16x.png" />
     <None Remove="Images\Paste_16x.png" />
+    <None Remove="Images\Portrait_32x.png" />
     <None Remove="Images\PrintPreview_16x.png" />
     <None Remove="Images\PrintPreview_32x.png" />
     <None Remove="Images\PrintSetup_16x.png" />
-    <None Remove="Images\PrintSetup_x32.png" />
+    <None Remove="Images\PrintSetup_32x.png" />
     <None Remove="Images\Print_16x.png" />
     <None Remove="Images\Print_32x.png" />
     <None Remove="Images\Question_16x.png" />
@@ -71,8 +73,13 @@
 
   <ItemGroup>
     <PackageReference Include="ES.Tools" Version="0.6.30.123" />
-    <PackageReference Include="Fluent.Ribbon" Version="9.0.4" />
+    <PackageReference Include="Fluent.Ribbon" Version="10.0.0" />
     <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <Reference Include="ReachFramework" />
+    <Reference Include="System.Printing" />
   </ItemGroup>
 
   <ItemGroup>
@@ -110,6 +117,8 @@
     <Resource Include="Images\CheckBox_16x.png" />
     <Resource Include="Images\Close_16x.png" />
     <Resource Include="Images\Copy_16x.png" />
+    <Resource Include="Images\Portrait_32x.png" />
+    <Resource Include="Images\Landscape_32x.png" />
     <Resource Include="Images\Copy_32x.png" />
     <Resource Include="Images\Cut_16x.png" />
     <Resource Include="Images\Database_16x.png" />
@@ -127,7 +136,7 @@
     <Resource Include="Images\PrintPreview_16x.png" />
     <Resource Include="Images\PrintPreview_32x.png" />
     <Resource Include="Images\PrintSetup_16x.png" />
-    <Resource Include="Images\PrintSetup_x32.png" />
+    <Resource Include="Images\PrintSetup_32x.png" />
     <Resource Include="Images\Print_16x.png" />
     <Resource Include="Images\Print_32x.png" />
     <Resource Include="Images\Question_16x.png" />

@@ -358,6 +358,15 @@ namespace FlowReports.View.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Print setup.
+        /// </summary>
+        public static string PrintSetup {
+            get {
+                return ResourceManager.GetString("PrintSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove band.
         /// </summary>
         public static string RemoveBand {

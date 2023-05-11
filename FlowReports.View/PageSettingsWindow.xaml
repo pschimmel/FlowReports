@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:printing="clr-namespace:NAS.ViewModel.Printing;assembly=FlowReports.ViewModel"
-        xmlns:properties="clr-namespace:FlowReports.View.Properties"
-        Title="{x:Static properties:Resources.PageSettings}"
+        xmlns:properties="clr-namespace:FlowReports.View.Properties" xmlns:converters="clr-namespace:FlowReports.View.Converters"
+        Title="{x:Static properties:Resources.PrintSetup}"
         Width="363"
         Height="213"
         d:DataContext="{d:DesignInstance Type=printing:PageSettingsViewModel}"
@@ -13,11 +13,9 @@
         ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
-  <!--
   <Window.Resources>
     <converters:PageOrientationConverter x:Key="PageOrientationConverter" />
   </Window.Resources>
-  -->
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
@@ -59,9 +57,14 @@
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
-      <ToggleButton Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Orientation, Converter={StaticResource PageOrientationConverter}}">
-        <Image Width="16" Source="pack://application:,,,/NAS.View;component/Images/PortraitLandscape.png" />
-      </ToggleButton>
+      <StackPanel Orientation="Horizontal">
+        <RadioButton GroupName="Orientation" VerticalContentAlignment="Center" Margin="2" IsChecked="{Binding Orientation, Converter={StaticResource PageOrientationConverter}}">
+          <Image Source="pack://application:,,,/FlowReports.View;component/Images/Portrait_32x.png"/>
+        </RadioButton>
+        <RadioButton GroupName="Orientation" VerticalContentAlignment="Center" Margin="2">
+          <Image Source="pack://application:,,,/FlowReports.View;component/Images/Landscape_32x.png"/>
+        </RadioButton>
+      </StackPanel>
       <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Column="1">
         <TextBlock Margin="2"
                    VerticalAlignment="Center"
