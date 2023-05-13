@@ -34,6 +34,7 @@
     <None Remove="Images\FlowReports_64x.png" />
     <None Remove="Images\Image_16x.png" />
     <None Remove="Images\Information_16x.png" />
+    <None Remove="Images\Information_32x.png" />
     <None Remove="Images\Landscape_32x.png" />
     <None Remove="Images\New_16x.png" />
     <None Remove="Images\Number_16x.png" />
@@ -57,6 +58,8 @@
     <None Remove="Images\Save_16x.png" />
     <None Remove="Images\Text_16x.png" />
     <None Remove="Images\View_16x.png" />
+    <None Remove="Images\Web_16x.png" />
+    <None Remove="Images\Web_32x.png" />
     <None Remove="Images\ZoomIn_16x.png" />
     <None Remove="Images\ZoomIn_32x.png" />
     <None Remove="Images\ZoomOut_16x.png" />
@@ -117,6 +120,7 @@
     <Resource Include="Images\CheckBox_16x.png" />
     <Resource Include="Images\Close_16x.png" />
     <Resource Include="Images\Copy_16x.png" />
+    <Resource Include="Images\Information_32x.png" />
     <Resource Include="Images\Portrait_32x.png" />
     <Resource Include="Images\Landscape_32x.png" />
     <Resource Include="Images\Copy_32x.png" />
@@ -150,6 +154,8 @@
     <Resource Include="Images\Save_16x.png" />
     <Resource Include="Images\Text_16x.png" />
     <Resource Include="Images\View_16x.png" />
+    <Resource Include="Images\Web_16x.png" />
+    <Resource Include="Images\Web_32x.png" />
     <Resource Include="Images\ZoomIn_16x.png" />
     <Resource Include="Images\ZoomIn_32x.png" />
     <Resource Include="Images\ZoomOut_16x.png" />

@@ -15,6 +15,8 @@ namespace FlowReports.Model
 
     public static string SettingsFileName => Path.Combine(GetStoragePath(), "FlowReports.Settings.xml");
 
+    public static string Website => @"http://www.engineeringsolutions.de";
+
     public static string GetStoragePath()
     {
       return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "FlowReports");

@@ -6,6 +6,7 @@
                      xmlns:local="clr-namespace:FlowReports.View"
                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                      xmlns:properties="clr-namespace:FlowReports.View.Properties"
+                     xmlns:toolsUI="clr-namespace:ES.Tools.UI;assembly=ES.Tools"
                      xmlns:viewmodel="clr-namespace:FlowReports.ViewModel;assembly=FlowReports.ViewModel"
                      Title="PrintPreviewWindow"
                      Width="800"
@@ -15,36 +16,12 @@
                      WindowState="Maximized"
                      mc:Ignorable="d">
   <Window.Resources>
-    <Style x:Key="{x:Type DocumentViewer}" TargetType="{x:Type DocumentViewer}">
-      <Setter Property="Foreground" Value="{StaticResource General.Foreground}" />
-      <Setter Property="Background" Value="{StaticResource PrintPreview.Background}" />
-      <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type DocumentViewer}">
-            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Focusable="False">
-              <Grid Background="{StaticResource PrintPreview.Background}" KeyboardNavigation.TabNavigation="Local">
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="*" />
-                  <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <ScrollViewer x:Name="PART_ContentHost"
-                              Background="{StaticResource PrintPreview.Document.Background}"
-                              CanContentScroll="true"
-                              HorizontalScrollBarVisibility="Auto"
-                              IsTabStop="true" />
-
-                <!--  Search is disabled  -->
-                <!--<ContentControl x:Name="PART_FindToolBarHost" Grid.Row="1" />-->
-              </Grid>
-            </Border>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <toolsUI:SharedResourceDictionary Source="pack://application:,,,/FlowReports.View;Component/DataTemplates/GeneralDataTemplates.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
   </Window.Resources>
-
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />

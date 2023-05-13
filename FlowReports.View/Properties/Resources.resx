@@ -249,6 +249,9 @@
   <data name="View" xml:space="preserve">
     <value>View</value>
   </data>
+  <data name="Website" xml:space="preserve">
+    <value>Website</value>
+  </data>
   <data name="Width" xml:space="preserve">
     <value>Width</value>
   </data>

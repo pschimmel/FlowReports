@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Input;
 using ES.Tools.Core.Infrastructure;
@@ -13,12 +14,14 @@ namespace FlowReports.ViewModel
   {
     #region Fields
 
-    private readonly ActionCommand _newCommand;
-    private readonly ActionCommand _loadCommand;
-    private readonly ActionCommand _saveCommand;
-    private readonly ActionCommand _saveAsCommand;
-    private readonly ActionCommand _closeCommand;
-    private readonly ActionCommand _showPrintPreviewCommand;
+    private ActionCommand _newCommand;
+    private ActionCommand _loadCommand;
+    private ActionCommand _saveCommand;
+    private ActionCommand _saveAsCommand;
+    private ActionCommand _closeCommand;
+    private ActionCommand _showPrintPreviewCommand;
+    private ActionCommand _aboutCommand;
+    private ActionCommand _openWebsiteCommand;
     private readonly Lazy<OpenFileDialog> _openFileDialog = new(() => CreateOpenFileDialog());
     private readonly Lazy<SaveFileDialog> _saveFileDialog = new(() => CreateSaveFileDialog());
     private ReportViewModel _reportVM = ReportViewModel.NewReport();
@@ -31,12 +34,6 @@ namespace FlowReports.ViewModel
     {
       IsInitializing = true;
       ReportVM = new ReportViewModel(report) { FilePath = filePath };
-      _newCommand = new ActionCommand(New, CanNew);
-      _closeCommand = new ActionCommand(Close, CanClose);
-      _loadCommand = new ActionCommand(Load, CanLoad);
-      _saveCommand = new ActionCommand(Save, CanSave);
-      _saveAsCommand = new ActionCommand(SaveAs, CanSaveAs);
-      _showPrintPreviewCommand = new ActionCommand(ShowPrintPreview, CanShowPrintPreview);
       IsInitializing = false;
     }
 
@@ -95,7 +92,7 @@ namespace FlowReports.ViewModel
 
     #region New
 
-    public ICommand NewCommand => _newCommand;
+    public ICommand NewCommand => _newCommand ??= new ActionCommand(New, CanNew);
 
     private void New()
     {
@@ -118,7 +115,7 @@ namespace FlowReports.ViewModel
 
     #region Load
 
-    public ICommand LoadCommand => _loadCommand;
+    public ICommand LoadCommand => _loadCommand ??= new ActionCommand(Load, CanLoad);
 
     private void Load()
     {
@@ -145,7 +142,7 @@ namespace FlowReports.ViewModel
 
     #region Save
 
-    public ICommand SaveCommand => _saveCommand;
+    public ICommand SaveCommand => _saveCommand ??= new ActionCommand(Save, CanSave);
 
     private void Save()
     {
@@ -167,7 +164,7 @@ namespace FlowReports.ViewModel
 
     #region Save As
 
-    public ICommand SaveAsCommand => _saveAsCommand;
+    public ICommand SaveAsCommand => _saveAsCommand ??= new ActionCommand(SaveAs, CanSaveAs);
 
     private void SaveAs()
     {
@@ -187,7 +184,7 @@ namespace FlowReports.ViewModel
 
     #region Close
 
-    public ICommand CloseCommand => _closeCommand;
+    public ICommand CloseCommand => _closeCommand ??= new ActionCommand(Close, CanClose);
 
     private void Close()
     {
@@ -203,7 +200,7 @@ namespace FlowReports.ViewModel
 
     #region Show Print Preview
 
-    public ICommand ShowPrintPreviewCommand => _showPrintPreviewCommand;
+    public ICommand ShowPrintPreviewCommand => _showPrintPreviewCommand ??= new ActionCommand(ShowPrintPreview, CanShowPrintPreview);
 
     private void ShowPrintPreview()
     {
@@ -215,6 +212,29 @@ namespace FlowReports.ViewModel
     private bool CanShowPrintPreview()
     {
       return true;
+    }
+
+    #endregion
+
+    #region About
+
+    public ICommand AboutCommand => _aboutCommand ??= new ActionCommand(About);
+
+    private void About(object commandParameter)
+    {
+      var view = ViewFactory.Instance.CreateView<AboutViewModel>();
+      view.ShowDialog();
+    }
+
+    #endregion
+
+    #region Open Website
+
+    public ICommand OpenWebsiteCommand => _openWebsiteCommand ??= new ActionCommand(OpenWebsite);
+
+    private void OpenWebsite(object commandParameter)
+    {
+      Process.Start(Globals.Website);
     }
 
     #endregion
@@ -288,7 +308,6 @@ namespace FlowReports.ViewModel
         ReportVM.Dispose();
       }
     }
-
     #endregion
   }
 }

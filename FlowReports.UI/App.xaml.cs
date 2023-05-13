@@ -23,6 +23,7 @@ namespace FlowReports.UI
       ViewFactory.Instance.Register<ReportBandViewModel, ReportBandDetails>();
       ViewFactory.Instance.Register<PrintPreviewViewModel, PrintPreviewWindow>();
       ViewFactory.Instance.Register<PageSettingsViewModel, PageSettingsWindow>();
+      ViewFactory.Instance.Register<AboutViewModel, AboutWindow>();
 
       var args = e.Args;
       if (args.Length > 0 &&
