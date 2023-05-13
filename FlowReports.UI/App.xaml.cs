@@ -2,13 +2,13 @@
 using System.IO;
 using System.Reflection;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using ES.Tools.Core.MVVM;
-using FlowReports.UI;
-using FlowReports.UI.View;
-using FlowReports.UI.ViewModel;
+using FlowReports.View;
+using FlowReports.ViewModel;
+using FlowReports.ViewModel.EditorItems;
+using NAS.ViewModel.Printing;
 
-namespace Reports.NET
+namespace FlowReports.UI
 {
   /// <summary>
   /// Interaction logic for App.xaml
@@ -22,6 +22,8 @@ namespace Reports.NET
       ViewFactory.Instance.Register<ReportEditorViewModel, ReportEditorWindow>();
       ViewFactory.Instance.Register<ReportBandViewModel, ReportBandDetails>();
       ViewFactory.Instance.Register<PrintPreviewViewModel, PrintPreviewWindow>();
+      ViewFactory.Instance.Register<PageSettingsViewModel, PageSettingsWindow>();
+      ViewFactory.Instance.Register<AboutViewModel, AboutWindow>();
 
       var args = e.Args;
       if (args.Length > 0 &&
@@ -32,16 +34,16 @@ namespace Reports.NET
         try
         {
 #if DEBUG
-          var hamster = new BitmapImage(new Uri("pack://application:,,,/FlowReports.UI;component/Images/Hamster.png", UriKind.Absolute));
-          var employee1 = new Employee { FirstName = "Michael", LastName = "Meyers", DOB = new DateTime(1975, 11, 1), Image = LoadImage("Fox.jpg") };
+          var hamster = /*new BitmapImage(*/new Uri("pack://application:,,,/FlowReports.UI;component/Images/Hamster.png", UriKind.Absolute/*)*/);
+          //var employee1 = new Employee { FirstName = "Michael", LastName = "Meyers", DOB = new DateTime(1975, 11, 1), Image = LoadImage("Fox.jpg") };
           var employee2 = new Employee { FirstName = "Jason", LastName = "Vorhees", DOB = new DateTime(1965, 12, 11), IsExternal = true };
-          var employee3 = new Employee { FirstName = "Freddy", LastName = "Krueger", IsExternal = true, Image = LoadImage("Bunny.png") };
-          var employee4 = new Employee { FirstName = "Wayne", LastName = "Bruce" } ;
-          var company1 = new Company { Name = "Nightmare Inc."/*, Image = hamster*/ };
+          //var employee3 = new Employee { FirstName = "Freddy", LastName = "Krueger", IsExternal = true, Image = LoadImage("Bunny.png") };
+          var employee4 = new Employee { FirstName = "Wayne", LastName = "Bruce", Image = hamster } ;
+          var company1 = new Company { Name = "Nightmare Inc." };
           var company2 = new Company { Name = "DC" };
-          company1.Employees.Add(employee1);
+          //company1.Employees.Add(employee1);
           company1.Employees.Add(employee2);
-          company1.Employees.Add(employee3);
+          //company1.Employees.Add(employee3);
           company2.Employees.Add(employee4);
           var companies = new List<Company> { company1, company2 };
 
@@ -84,7 +86,7 @@ namespace Reports.NET
       public DateTime? DOB { get; set; }
       public string Email { get; set; }
       public bool IsExternal { get; set; }
-      public byte[] Image { get; set; }
+      public object Image { get; set; }
     }
   }
 }
