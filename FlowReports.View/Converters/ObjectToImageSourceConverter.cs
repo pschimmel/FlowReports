@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 namespace FlowReports.View.Converters
 {
   [ValueConversion(typeof(object), typeof(ImageSource))]
-  internal class ObjectToImageSourceConverter : IValueConverter
+  public class ObjectToImageSourceConverter : IValueConverter
   {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {

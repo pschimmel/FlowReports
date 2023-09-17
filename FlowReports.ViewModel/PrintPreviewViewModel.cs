@@ -7,7 +7,6 @@ using ES.Tools.Core.MVVM;
 using FlowReports.Model;
 using FlowReports.ViewModel.Infrastructure;
 using FlowReports.ViewModel.Printing;
-using NAS.ViewModel.Printing;
 
 namespace FlowReports.ViewModel
 {

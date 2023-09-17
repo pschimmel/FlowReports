@@ -5,7 +5,7 @@ using System.Windows.Data;
 namespace FlowReports.View.Converters
 {
   [ValueConversion(typeof(PageOrientation), typeof(bool))]
-  public class PageOrientationConverter : IValueConverter
+  internal class PageOrientationConverter : IValueConverter
   {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {

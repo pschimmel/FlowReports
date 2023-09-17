@@ -13,7 +13,7 @@
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
       <Image Source="{Binding Icon, Converter={StaticResource IconToImageSourceConverter}}" />
-      <TextBlock Margin="2,0,0,0" Text="{Binding Name}" Grid.Column="1" />
+      <TextBlock Grid.Column="1" Margin="2,0,0,0" Text="{Binding Name}" />
     </Grid>
   </HierarchicalDataTemplate>
 
@@ -24,7 +24,7 @@
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
       <Image Source="{Binding Icon, Converter={StaticResource IconToImageSourceConverter}}" />
-      <TextBlock Margin="2,0,0,0" Text="{Binding Name}" Grid.Column="1" />
+      <TextBlock Grid.Column="1" Margin="2,0,0,0" Text="{Binding Name}" />
     </Grid>
   </DataTemplate>
 

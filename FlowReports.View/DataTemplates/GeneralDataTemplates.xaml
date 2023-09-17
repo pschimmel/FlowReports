@@ -20,7 +20,7 @@
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
-      <DockPanel Background="Wheat" LastChildFill="True" Grid.ColumnSpan="2">
+      <DockPanel Grid.ColumnSpan="2" Background="Wheat" LastChildFill="True">
         <Image Width="64"
                Height="64"
                Margin="5"
@@ -32,35 +32,35 @@
                    FontWeight="Bold"
                    Text="{Binding ApplicationName}" />
       </DockPanel>
-      <TextBlock Padding="5"
+      <TextBlock Grid.Row="1"
+                 Padding="5"
                  FontWeight="Bold"
-                 Text="Application"
-                 Grid.Row="1" />
-      <TextBlock Padding="5"
-                 Text="{Binding ApplicationLongName}"
-                 Grid.Row="1"
-                 Grid.Column="1" />
-      <TextBlock Padding="5"
+                 Text="Application" />
+      <TextBlock Grid.Row="1"
+                 Grid.Column="1"
+                 Padding="5"
+                 Text="{Binding ApplicationLongName}" />
+      <TextBlock Grid.Row="2"
+                 Padding="5"
                  FontWeight="Bold"
-                 Text="Version"
-                 Grid.Row="2" />
-      <TextBlock Padding="5"
-                 Text="{Binding Version}"
-                 Grid.Row="2"
-                 Grid.Column="1" />
-      <TextBlock Padding="5"
+                 Text="Version" />
+      <TextBlock Grid.Row="2"
+                 Grid.Column="1"
+                 Padding="5"
+                 Text="{Binding Version}" />
+      <TextBlock Grid.Row="3"
+                 Padding="5"
                  FontWeight="Bold"
-                 Text="Created by"
-                 Grid.Row="3" />
-      <TextBlock Padding="5"
-                 Text="Engineering Solutions"
-                 Grid.Row="3"
-                 Grid.Column="1" />
-      <TextBlock Padding="5"
+                 Text="Created by" />
+      <TextBlock Grid.Row="3"
+                 Grid.Column="1"
+                 Padding="5"
+                 Text="Engineering Solutions" />
+      <TextBlock Grid.Row="4"
+                 Padding="5"
                  FontWeight="Bold"
-                 Text="Website"
-                 Grid.Row="4" />
-      <TextBlock Padding="5" Grid.Row="4" Grid.Column="1">
+                 Text="Website" />
+      <TextBlock Grid.Row="4" Grid.Column="1" Padding="5">
         <Hyperlink NavigateUri="{Binding Website}">
           <behaviors:Interaction.Behaviors>
             <viewBehaviors:HyperlinkNavigateBehavior />

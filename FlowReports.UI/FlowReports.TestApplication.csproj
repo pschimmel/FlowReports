@@ -11,19 +11,21 @@
 
   <ItemGroup>
     <None Remove="Images\Bunny.png" />
+    <None Remove="Images\EditReport.png" />
     <None Remove="Images\FlowReports.ico" />
     <None Remove="Images\Fox.jpg" />
     <None Remove="Images\Hamster.png" />
+    <None Remove="Images\ShowReport.png" />
     <None Remove="Images\Splash.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Images\Bunny.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\Fox.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Images\Bunny.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Fox.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\Hamster.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -34,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FlowReports.App\FlowReports.App.csproj" />
     <ProjectReference Include="..\FlowReports.Model\FlowReports.Model.csproj" />
     <ProjectReference Include="..\FlowReports.ViewModel\FlowReports.ViewModel.csproj" />
     <ProjectReference Include="..\FlowReports.View\FlowReports.View.csproj" />
@@ -46,10 +49,18 @@
 
   <ItemGroup>
     <Resource Include="Images\FlowReports.ico" />
+    <Resource Include="Images\EditReport.png" />
+    <Resource Include="Images\ShowReport.png" />
   </ItemGroup>
 
   <ItemGroup>
     <SplashScreen Include="Images\Splash.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Examples\Example.flow">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

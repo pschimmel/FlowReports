@@ -13,6 +13,7 @@ namespace FlowReports.Model
     public DateTime LastChanged { get; internal set; }
     public IEnumerable Data { get; internal set; }
     public Type TypeOfData { get; internal set; }
+    public string FilePath { get; set; }
 
     public void Analyze<T>(IEnumerable<T> items) where T : class
     {

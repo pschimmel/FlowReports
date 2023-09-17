@@ -38,11 +38,11 @@
           <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock Margin="4,0" Text="{Binding DataSource}" />
-        <Border Margin="10,0,0,0"
+        <Border Grid.Row="1"
+                Margin="10,0,0,0"
                 HorizontalAlignment="Stretch"
                 BorderBrush="{StaticResource ReportBand.BorderBrush}"
-                BorderThickness="1,1,0,0"
-                Grid.Row="1">
+                BorderThickness="1,1,0,0">
           <Border.Style>
             <Style TargetType="Border">
               <Style.Triggers>
@@ -52,7 +52,7 @@
               </Style.Triggers>
             </Style>
           </Border.Style>
-          <ItemsControl ItemsSource="{Binding Bands}" Grid.Row="1" />
+          <ItemsControl Grid.Row="1" ItemsSource="{Binding Bands}" />
         </Border>
       </Grid>
     </Border>

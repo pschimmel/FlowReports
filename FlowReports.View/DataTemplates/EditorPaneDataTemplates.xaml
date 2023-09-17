@@ -43,11 +43,11 @@
             </ItemsPanelTemplate>
           </ItemsControl.ItemsPanel>
         </ItemsControl>
-        <Border Margin="0,0,0,0"
+        <Border Grid.Row="1"
+                Margin="0,0,0,0"
                 HorizontalAlignment="Stretch"
                 BorderBrush="{StaticResource ReportBand.BorderBrush}"
-                BorderThickness="0,1,0,0"
-                Grid.Row="1">
+                BorderThickness="0,1,0,0">
           <Border.Style>
             <Style TargetType="Border">
               <Style.Triggers>
@@ -57,22 +57,22 @@
               </Style.Triggers>
             </Style>
           </Border.Style>
-          <ItemsControl ItemsSource="{Binding Bands}" Grid.Row="1" />
+          <ItemsControl Grid.Row="1" ItemsSource="{Binding Bands}" />
         </Border>
       </Grid>
     </Border>
   </DataTemplate>
 
   <DataTemplate DataType="{x:Type vm:EditorTextItemViewModel}">
-    <Border Width="{Binding Width}"
+    <Border Canvas.Left="{Binding Left}"
+            Canvas.Top="{Binding Top}"
+            Width="{Binding Width}"
             Height="{Binding Height}"
             dd:DragDrop.DropHandler="{Binding}"
             dd:DragDrop.IsDropTarget="True"
             Background="Transparent"
             BorderThickness="1"
-            Focusable="True"
-            Canvas.Left="{Binding Left}"
-            Canvas.Top="{Binding Top}">
+            Focusable="True">
       <behaviors:Interaction.Triggers>
         <behaviors:EventTrigger EventName="PreviewMouseLeftButtonDown">
           <behaviors:InvokeCommandAction Command="{Binding SelectCommand}" />
@@ -115,15 +115,15 @@
   </DataTemplate>
 
   <DataTemplate DataType="{x:Type vm:EditorBooleanItemViewModel}">
-    <Border Width="{Binding Width}"
+    <Border Canvas.Left="{Binding Left}"
+            Canvas.Top="{Binding Top}"
+            Width="{Binding Width}"
             Height="{Binding Height}"
             dd:DragDrop.DropHandler="{Binding}"
             dd:DragDrop.IsDropTarget="True"
             Background="Transparent"
             BorderThickness="1"
-            Focusable="True"
-            Canvas.Left="{Binding Left}"
-            Canvas.Top="{Binding Top}">
+            Focusable="True">
       <behaviors:Interaction.Triggers>
         <behaviors:EventTrigger EventName="PreviewMouseLeftButtonDown">
           <behaviors:InvokeCommandAction Command="{Binding SelectCommand}" />
@@ -163,15 +163,15 @@
   </DataTemplate>
 
   <DataTemplate DataType="{x:Type vm:EditorImageItemViewModel}">
-    <Border Width="{Binding Width}"
+    <Border Canvas.Left="{Binding Left}"
+            Canvas.Top="{Binding Top}"
+            Width="{Binding Width}"
             Height="{Binding Height}"
             dd:DragDrop.DropHandler="{Binding}"
             dd:DragDrop.IsDropTarget="True"
             Background="Transparent"
             BorderThickness="1"
-            Focusable="True"
-            Canvas.Left="{Binding Left}"
-            Canvas.Top="{Binding Top}">
+            Focusable="True">
       <behaviors:Interaction.Triggers>
         <behaviors:EventTrigger EventName="PreviewMouseLeftButtonDown">
           <behaviors:InvokeCommandAction Command="{Binding SelectCommand}" />

@@ -22,23 +22,23 @@ namespace FlowReports.ViewModel
     private ActionCommand _showPrintPreviewCommand;
     private ActionCommand _aboutCommand;
     private ActionCommand _openWebsiteCommand;
-    private readonly Lazy<OpenFileDialog> _openFileDialog = new(() => CreateOpenFileDialog());
-    private readonly Lazy<SaveFileDialog> _saveFileDialog = new(() => CreateSaveFileDialog());
+    private readonly Lazy<OpenFileDialog> _openFileDialog = new(CreateOpenFileDialog);
+    private readonly Lazy<SaveFileDialog> _saveFileDialog = new(CreateSaveFileDialog);
     private ReportViewModel _reportVM = ReportViewModel.NewReport();
 
     #endregion
 
     #region Constructor
 
-    public ReportEditorViewModel(Report report, string filePath)
+    public ReportEditorViewModel(Report report)
     {
       IsInitializing = true;
-      ReportVM = new ReportViewModel(report) { FilePath = filePath };
+      ReportVM = new ReportViewModel(report);
       IsInitializing = false;
     }
 
     public ReportEditorViewModel()
-      : this(new Report(), null)
+      : this(new Report())
     { }
 
     #endregion
@@ -261,7 +261,7 @@ namespace FlowReports.ViewModel
       {
         CheckPathExists = true,
         CheckFileExists = true,
-        Filter = Properties.Resources.NASFiles + "|*.nas"
+        Filter = Properties.Resources.FlowReportFiles + "|*.flow"
       };
     }
 
@@ -271,7 +271,7 @@ namespace FlowReports.ViewModel
       {
         CheckPathExists = true,
         CheckFileExists = true,
-        Filter = Properties.Resources.NASFiles + "|*.nas"
+        Filter = Properties.Resources.FlowReportFiles + "|*.flow"
       };
     }
 

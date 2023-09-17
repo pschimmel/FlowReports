@@ -6,12 +6,13 @@ namespace FlowReports.Model.ImportExport
 {
   public static class ReportReader
   {
-    public static Report Read(string fileName)
+    public static Report Read(string filePath)
     {
       var xml = PrepareDocument();
-      xml.Load(fileName);
+      xml.Load(filePath);
       Report report = new();
       report.ReadReport(xml);
+      report.FilePath = filePath;
       return report;
     }
 

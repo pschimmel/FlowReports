@@ -1,9 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Printing;
-using FlowReports.ViewModel;
-using FlowReports.ViewModel.Printing;
 
-namespace NAS.ViewModel.Printing
+namespace FlowReports.ViewModel.Printing
 {
   public class PageSettingsViewModel : ViewModelBase
   {

@@ -130,7 +130,11 @@ namespace FlowReports.ViewModel
       }
     }
 
-    public string FilePath { get; set; }
+    public string FilePath
+    {
+      get => Report.FilePath;
+      set => Report.FilePath = value;
+    }
 
     public IEnumerable<DataSourceViewModel> DataSourceVM => _lazyDataSource.Value;
 

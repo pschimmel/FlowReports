@@ -1,20 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>   
-	<TargetFrameworks>net7.0-windows;net48</TargetFrameworks>
+  	<TargetFrameworks>net7.0-windows;net48</TargetFrameworks>
     <LangVersion>10.0</LangVersion>
-    <UseWPF>true</UseWPF>
     <BaseOutputPath>..\Output\bin</BaseOutputPath>
-    <ApplicationIcon>Images\FlowReports.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\FlowReports.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Images\FlowReports.ico" />
+    <ProjectReference Include="..\FlowReports.Model\FlowReports.Model.csproj" />
+    <ProjectReference Include="..\FlowReports.ViewModel\FlowReports.ViewModel.csproj" />
+    <ProjectReference Include="..\FlowReports.View\FlowReports.View.csproj" />
   </ItemGroup>
 
 </Project>

@@ -70,20 +70,20 @@ namespace FlowReports.ViewModel.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to FlowReport files (*.nas).
+        /// </summary>
+        public static string FlowReportFiles {
+            get {
+                return ResourceManager.GetString("FlowReportFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Information.
         /// </summary>
         public static string Information {
             get {
                 return ResourceManager.GetString("Information", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to NAS files (*.nas).
-        /// </summary>
-        public static string NASFiles {
-            get {
-                return ResourceManager.GetString("NASFiles", resourceCulture);
             }
         }
         
