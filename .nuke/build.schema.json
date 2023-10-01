@@ -95,6 +95,7 @@
             "enum": [
               "Clean",
               "Compile",
+              "CreateRelease",
               "Pack",
               "PublishToGithub",
               "PublishToNuGet",
@@ -115,6 +116,7 @@
             "enum": [
               "Clean",
               "Compile",
+              "CreateRelease",
               "Pack",
               "PublishToGithub",
               "PublishToNuGet",
