@@ -15,8 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		CHANGELOG.md = CHANGELOG.md
+		.github\workflows\continuous.yml = .github\workflows\continuous.yml
 		GitVersion.yml = GitVersion.yml
 		LICENSE.txt = LICENSE.txt
+		.nuke\parameters.json = .nuke\parameters.json
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -65,8 +67,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_ConfirmAddLanguageFile = True
-		RESX_SortFileContentOnSave = True
 		SolutionGuid = {7EC9A44C-0463-4A87-A2D6-88AE22DFF535}
+		RESX_SortFileContentOnSave = True
+		RESX_ConfirmAddLanguageFile = True
 	EndGlobalSection
 EndGlobal

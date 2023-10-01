@@ -64,10 +64,6 @@
           "description": "Nuget Api Key",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
-        "NugetFeed": {
-          "type": "string",
-          "description": "Nuget Feed Url for Public Access of Pre Releases"
-        },
         "Partition": {
           "type": "string",
           "description": "Partition to use on CI"
@@ -95,7 +91,6 @@
             "enum": [
               "Clean",
               "Compile",
-              "CreateRelease",
               "Pack",
               "PublishToGithub",
               "PublishToNuGet",
@@ -116,7 +111,6 @@
             "enum": [
               "Clean",
               "Compile",
-              "CreateRelease",
               "Pack",
               "PublishToGithub",
               "PublishToNuGet",
