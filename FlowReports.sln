@@ -3,25 +3,32 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports.UI", "FlowReports.UI\FlowReports.UI.csproj", "{7D0F3D41-9DDA-49EB-BAFF-65C943561915}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports.TestApplication", "FlowReports.UI\FlowReports.TestApplication.csproj", "{7D0F3D41-9DDA-49EB-BAFF-65C943561915}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports.Model", "FlowReports.Model\FlowReports.Model.csproj", "{1D9AA1F3-6459-4E37-B355-7FBD8192EE97}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports.UnitTests", "FlowReports.UnitTests\FlowReports.UnitTests.csproj", "{9E8B311A-B12A-495C-978A-9A238F2BD902}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{B6E5F771-83F8-4525-BAC5-EDB4A59BBCD0}"
-	ProjectSection(SolutionItems) = preProject
-		Example.nas = Example.nas
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{40686216-16A5-4FF2-B5B9-5213B9199FFD}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		CHANGELOG.md = CHANGELOG.md
+		.github\workflows\continuous.yml = .github\workflows\continuous.yml
+		GitVersion.yml = GitVersion.yml
 		LICENSE.txt = LICENSE.txt
+		.nuke\parameters.json = .nuke\parameters.json
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports.App", "FlowReports.App\FlowReports.App.csproj", "{285A9841-E34D-4185-9022-A587D19C3259}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports.ViewModel", "FlowReports.ViewModel\FlowReports.ViewModel.csproj", "{28C928B0-4CC4-4042-B1AB-976650A9302E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports.View", "FlowReports.View\FlowReports.View.csproj", "{8D06ACEF-78BD-4A32-B84E-0413D3682FDD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{C987A4FC-7DC4-4942-88FC-9F33D55693FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +48,20 @@ Global
 		{9E8B311A-B12A-495C-978A-9A238F2BD902}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E8B311A-B12A-495C-978A-9A238F2BD902}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E8B311A-B12A-495C-978A-9A238F2BD902}.Release|Any CPU.Build.0 = Release|Any CPU
+		{285A9841-E34D-4185-9022-A587D19C3259}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{285A9841-E34D-4185-9022-A587D19C3259}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{285A9841-E34D-4185-9022-A587D19C3259}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{285A9841-E34D-4185-9022-A587D19C3259}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28C928B0-4CC4-4042-B1AB-976650A9302E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28C928B0-4CC4-4042-B1AB-976650A9302E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28C928B0-4CC4-4042-B1AB-976650A9302E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28C928B0-4CC4-4042-B1AB-976650A9302E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D06ACEF-78BD-4A32-B84E-0413D3682FDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D06ACEF-78BD-4A32-B84E-0413D3682FDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D06ACEF-78BD-4A32-B84E-0413D3682FDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D06ACEF-78BD-4A32-B84E-0413D3682FDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C987A4FC-7DC4-4942-88FC-9F33D55693FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C987A4FC-7DC4-4942-88FC-9F33D55693FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
