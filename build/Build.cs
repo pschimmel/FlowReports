@@ -1,5 +1,8 @@
 // See examples on:
+// https://anktsrkr.github.io/post/getting-started-with-nuke/
 // https://anktsrkr.github.io/post/write-your-first-building-block-in-nuke/
+// https://anktsrkr.github.io/post/manage-your-package-version-using-nuke/
+// https://anktsrkr.github.io/post/manage-your-package-release-using-nuke-in-github/
 
 using System;
 using System.Linq;
@@ -164,15 +167,15 @@ class Build : NukeBuild
       ArtifactsDirectory.GlobFiles(ArtifactsDirectory, ArtifactsType)
         .Where(x => string.IsNullOrWhiteSpace(ExcludedArtifactsType) || !x.Name.EndsWith(ExcludedArtifactsType))
         .ToList()
-      //  .ForEach(x =>
-      //  {
-      //    DotNetTasks.DotNetNuGetPush(s => s
-      //      .SetTargetPath(x)
-      //      .SetSource(GithubNugetFeed)
-      //      .SetApiKey(GitHubActions.Token)
-      //      .EnableSkipDuplicate()
-      //    );
-      //  });
+        .ForEach(x =>
+        {
+          DotNetTasks.DotNetNuGetPush(s => s
+            .SetTargetPath(x)
+            .SetSource(GithubNugetFeed)
+            .SetApiKey(GitHubActions.Token)
+            .EnableSkipDuplicate()
+          );
+        });
       ;
     });
 
