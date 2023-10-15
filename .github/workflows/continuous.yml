@@ -26,6 +26,9 @@ on:
     branches:
       - 'releases/**'
 
+permissions:
+  packages: write
+
 jobs:
   windows-latest:
     name: windows-latest

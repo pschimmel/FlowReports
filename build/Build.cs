@@ -22,6 +22,7 @@ using Serilog;
   GitHubActionsImage.WindowsLatest,
   AutoGenerate = true,
   FetchDepth = 0,
+  WritePermissions = new[] { GitHubActionsPermissions.Packages },
   OnPushBranches = new[] { MasterBranch, DevelopmentBranch, ReleasesBranch },
   OnPullRequestBranches = new[] { ReleasesBranch },
   InvokedTargets = new[] { nameof(Pack) },
