@@ -15,11 +15,12 @@ using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.NUnit;
+using Serilog;
 
 [GitHubActions(
   "continuous",
   GitHubActionsImage.WindowsLatest,
-  AutoGenerate = false,
+  AutoGenerate = true,
   FetchDepth = 0,
   OnPushBranches = new[] { MasterBranch, DevelopmentBranch, ReleasesBranch },
   OnPullRequestBranches = new[] { ReleasesBranch },
@@ -164,17 +165,23 @@ class Build : NukeBuild
     .OnlyWhenStatic(() => GitRepository.IsOnDevelopBranch() || GitHubActions.IsPullRequest)
     .Executes(() =>
     {
-      ArtifactsDirectory.GlobFiles(ArtifactsDirectory, ArtifactsType)
+      Globbing.GlobFiles(ArtifactsDirectory, ArtifactsType)
         .Where(x => string.IsNullOrWhiteSpace(ExcludedArtifactsType) || !x.Name.EndsWith(ExcludedArtifactsType))
         .ToList()
         .ForEach(x =>
         {
-          DotNetTasks.DotNetNuGetPush(s => s
-            .SetTargetPath(x)
-            .SetSource(GithubNugetFeed)
-            .SetApiKey(GitHubActions.Token)
-            .EnableSkipDuplicate()
-          );
+          if (GitHubActions == null)
+            Log.Information("GitHub Actions == null");
+          else if (GitHubActions.Token == null)
+            Log.Information("GitHub Token == null");
+          else
+            Log.Information("GitHub Token = {Token}", GitHubActions.Token);
+          //DotNetTasks.DotNetNuGetPush(s => s
+          //           .SetTargetPath(x)
+          //           .SetSource(GithubNugetFeed)
+          //           .SetApiKey(GitHubActions.Token)
+          //           .EnableSkipDuplicate()
+          //);
         });
       ;
     });
@@ -186,14 +193,14 @@ class Build : NukeBuild
     .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch())
     .Executes(() =>
     {
-      ArtifactsDirectory.GlobFiles(ArtifactsDirectory, ArtifactsType)
+      Globbing.GlobFiles(ArtifactsDirectory, ArtifactsType)
         .Where(x => string.IsNullOrWhiteSpace(ExcludedArtifactsType) || !x.Name.EndsWith(ExcludedArtifactsType))
         .ToList()
         .ForEach(x =>
         {
           DotNetTasks.DotNetNuGetPush(s => s
             .SetTargetPath(x)
-          //.SetSource(NugetFeed)
+            //.SetSource(NugetFeed)
             .SetApiKey(NuGetApiKey)
             .EnableSkipDuplicate()
           );
@@ -228,7 +235,7 @@ class Build : NukeBuild
   //                                                 .Repository
   //                                      .Release.Create(owner, name, newRelease);
 
-  //     ArtifactsDirectory.GlobFiles(ArtifactsDirectory, ArtifactsType)
+  //     Globbing.GlobFiles(ArtifactsDirectory, ArtifactsType)
   //                       .Where(x => string.IsNullOrWhiteSpace(ExcludedArtifactsType) || !x.Name.EndsWith(ExcludedArtifactsType))
   //                       .ToList()
   //                       .ForEach(async x => await UploadReleaseAssetToGithub(createdRelease, x));

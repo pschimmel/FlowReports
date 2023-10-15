@@ -22,13 +22,9 @@ on:
       - master
       - development
       - 'releases/**'
-    paths-ignore:
-      - '**/README.md'
   pull_request:
     branches:
       - 'releases/**'
-    paths-ignore:
-      - '**/README.md'
 
 jobs:
   windows-latest:
@@ -45,12 +41,8 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
-      - name: 'Run: Pack'
-        run: ./build.cmd Pack
+      - name: 'Run: Clean'
+        run: ./build.cmd Clean
         env:
           NuGetApiKey: ${{ secrets.NUGET_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/upload-artifact@v1
-        with:
-          name: .artifacts
-          path: .artifacts
