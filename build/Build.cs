@@ -5,6 +5,8 @@
 // https://anktsrkr.github.io/post/manage-your-package-release-using-nuke-in-github/
 
 using System;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
@@ -47,22 +49,22 @@ class Build : NukeBuild
   const string DevelopmentBranch = "development";
   const string ReleasesBranch = "releases/**";
 
-  [Nuke.Common.Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
+  [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
   readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
   //[Nuke.Common.Parameter("Nuget Feed Url for Public Access of Pre Releases")]
   //readonly string NugetFeed;
 
-  [Nuke.Common.Parameter("Nuget Api Key"), Secret]
+  [Parameter("Nuget Api Key"), Secret]
   readonly string NuGetApiKey;
 
-  [Nuke.Common.Parameter("Copyright Details")]
+  [Parameter("Copyright Details")]
   readonly string Copyright;
 
-  [Nuke.Common.Parameter("Artifacts Type")]
+  [Parameter("Artifacts Type")]
   readonly string ArtifactsType;
 
-  [Nuke.Common.Parameter("Excluded Artifacts Type")]
+  [Parameter("Excluded Artifacts Type")]
   readonly string ExcludedArtifactsType;
 
   [GitVersion]
@@ -73,6 +75,8 @@ class Build : NukeBuild
 
   [Solution(GenerateProjects = true)]
   readonly Solution Solution;
+
+  static readonly string ApplicationName = "FlowReports";
 
   static GitHubActions GitHubActions => GitHubActions.Instance;
 
@@ -157,6 +161,16 @@ class Build : NukeBuild
          .SetAssemblyVersion(GitVersion.AssemblySemVer)
          .SetInformationalVersion(GitVersion.InformationalVersion)
          .SetFileVersion(GitVersion.AssemblySemFileVer));
+
+      RootDirectory.ZipTo(ArtifactsDirectory / (ApplicationName + "_" + GitVersion.NuGetVersionV2 + "_src.zip"),
+                          x => !x.ToFileInfo().FullName.Contains(".artifacts") &&
+                               !x.ToFileInfo().FullName.Contains(@"\.vs") &&
+                               !x.ToFileInfo().FullName.Contains(@"\temp") &&
+                               !x.ToFileInfo().FullName.Contains(@"\Output") &&
+                               !x.ToFileInfo().FullName.Contains(@"\bin\") &&
+                               !x.ToFileInfo().FullName.Contains(@"\obj\"),
+                          CompressionLevel.SmallestSize,
+                          FileMode.Create);
     });
 
   Target PublishToGithub => _ => _
@@ -174,10 +188,12 @@ class Build : NukeBuild
           if (GitHubActions == null)
           {
             Log.Information("GitHub Actions == null");
+            return;
           }
           else if (GitHubActions.Token == null)
           {
             Log.Information("GitHub Token == null");
+            return;
           }
           else
           {
