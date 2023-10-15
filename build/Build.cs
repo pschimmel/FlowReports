@@ -171,17 +171,24 @@ class Build : NukeBuild
         .ForEach(x =>
         {
           if (GitHubActions == null)
+          {
             Log.Information("GitHub Actions == null");
+          }
           else if (GitHubActions.Token == null)
+          {
             Log.Information("GitHub Token == null");
+          }
           else
+          {
             Log.Information("GitHub Token = {Token}", GitHubActions.Token);
-          //DotNetTasks.DotNetNuGetPush(s => s
-          //           .SetTargetPath(x)
-          //           .SetSource(GithubNugetFeed)
-          //           .SetApiKey(GitHubActions.Token)
-          //           .EnableSkipDuplicate()
-          //);
+          }
+
+          DotNetTasks.DotNetNuGetPush(s => s
+                     .SetTargetPath(x)
+                     .SetSource(GithubNugetFeed)
+                     .SetApiKey(GitHubActions.Token)
+                     .EnableSkipDuplicate()
+          );
         });
       ;
     });
