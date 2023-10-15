@@ -24,7 +24,7 @@ using Serilog;
   FetchDepth = 0,
   OnPushBranches = new[] { MasterBranch, DevelopmentBranch, ReleasesBranch },
   OnPullRequestBranches = new[] { ReleasesBranch },
-  InvokedTargets = new[] { nameof(Clean) },
+  InvokedTargets = new[] { nameof(Pack) },
   EnableGitHubToken = true,
   ImportSecrets = new[]
   {
