@@ -1,0 +1,199 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+  	<TargetFrameworks>net7.0-windows;net48</TargetFrameworks>
+    <LangVersion>10.0</LangVersion>
+    <UseWPF>true</UseWPF>
+    <BaseOutputPath>..\Output\bin</BaseOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="View\AboutWindow.xaml" />
+    <None Remove="View\Brushes.xaml" />
+    <None Remove="View\DataTemplates\BandPaneDataTemplates.xaml" />
+    <None Remove="View\DataTemplates\DataSourcePaneDataTemplates.xaml" />
+    <None Remove="View\DataTemplates\EditorPaneDataTemplates.xaml" />
+    <None Remove="View\DataTemplates\GeneralDataTemplates.xaml" />
+    <None Remove="View\DataTemplates\PropertiesPaneDataTemplates.xaml" />
+    <None Remove="View\DataTemplates\ReportDataTemplates.xaml" />
+    <None Remove="View\Images\AddBand_16x.png" />
+    <None Remove="View\Images\AddBand_32x.png" />
+    <None Remove="View\Images\AddBooleanItem_16x.png" />
+    <None Remove="View\Images\AddBooleanItem_32x.png" />
+    <None Remove="View\Images\AddImageItem_16x.png" />
+    <None Remove="View\Images\AddImageItem_32x.png" />
+    <None Remove="View\Images\AddSubBand_16x.png" />
+    <None Remove="View\Images\AddSubBand_32x.png" />
+    <None Remove="View\Images\AddTextItem_16x.png" />
+    <None Remove="View\Images\AddTextItem_32x.png" />
+    <None Remove="View\Images\Bands_16x.png" />
+    <None Remove="View\Images\Bands_32x.png" />
+    <None Remove="View\Images\Calendar_16x.png" />
+    <None Remove="View\Images\CheckBox_16x.png" />
+    <None Remove="View\Images\Close_16x.png" />
+    <None Remove="View\Images\Copy_16x.png" />
+    <None Remove="View\Images\Copy_32x.png" />
+    <None Remove="View\Images\Cut_16x.png" />
+    <None Remove="View\Images\Database_16x.png" />
+    <None Remove="View\Images\Document_16x.png" />
+    <None Remove="View\Images\Document_32x.png" />
+    <None Remove="View\Images\EditBandDetails_16x.png" />
+    <None Remove="View\Images\EditBandDetails_32x.png" />
+    <None Remove="View\Images\FlowReports_64x.png" />
+    <None Remove="View\Images\Image_16x.png" />
+    <None Remove="View\Images\Information_16x.png" />
+    <None Remove="View\Images\Information_32x.png" />
+    <None Remove="View\Images\Landscape_32x.png" />
+    <None Remove="View\Images\New_16x.png" />
+    <None Remove="View\Images\Number_16x.png" />
+    <None Remove="View\Images\Open_16x.png" />
+    <None Remove="View\Images\Paste_16x.png" />
+    <None Remove="View\Images\Portrait_32x.png" />
+    <None Remove="View\Images\PrintPreview_16x.png" />
+    <None Remove="View\Images\PrintPreview_32x.png" />
+    <None Remove="View\Images\PrintSetup_16x.png" />
+    <None Remove="View\Images\PrintSetup_32x.png" />
+    <None Remove="View\Images\Print_16x.png" />
+    <None Remove="View\Images\Print_32x.png" />
+    <None Remove="View\Images\Question_16x.png" />
+    <None Remove="View\Images\RemoveBand_16x.png" />
+    <None Remove="View\Images\RemoveBand_32x.png" />
+    <None Remove="View\Images\RemoveItem_16x.png" />
+    <None Remove="View\Images\RemoveItem_32x.png" />
+    <None Remove="View\Images\ReportItem_16x.png" />
+    <None Remove="View\Images\ReportItem_32x.png" />
+    <None Remove="View\Images\SaveAs_16x.png" />
+    <None Remove="View\Images\Save_16x.png" />
+    <None Remove="View\Images\Text_16x.png" />
+    <None Remove="View\Images\View_16x.png" />
+    <None Remove="View\Images\Web_16x.png" />
+    <None Remove="View\Images\Web_32x.png" />
+    <None Remove="View\Images\ZoomIn_16x.png" />
+    <None Remove="View\Images\ZoomIn_32x.png" />
+    <None Remove="View\Images\ZoomOut_16x.png" />
+    <None Remove="View\Images\ZoomOut_32x.png" />
+    <None Remove="View\Images\ZoomToActualSize_16x.png" />
+    <None Remove="View\Images\ZoomToActualSize_32x.png" />
+    <None Remove="View\Images\ZoomToFit_16x.png" />
+    <None Remove="View\Images\ZoomToFit_32x.png" />
+    <None Remove="View\Images\ZoomToTwoPages_16x.png" />
+    <None Remove="View\Images\ZoomToTwoPages_32x.png" />
+    <None Remove="View\Images\ZoomToWidth_16x.png" />
+    <None Remove="View\Images\ZoomToWidth_32x.png" />
+    <None Remove="View\PageSettingsWindow.xaml" />
+    <None Remove="View\PrintPreviewWindow.xaml" />
+    <None Remove="View\ReportBandDetails.xaml" />
+    <None Remove="View\ReportEditorWindow.xaml" />
+    <None Remove="View\Styles.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ES.Tools" Version="0.6.30.123" />
+    <PackageReference Include="ES.Tools.Core" Version="0.6.30.123" />
+    <PackageReference Include="Fluent.Ribbon" Version="10.0.4" />
+    <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <Reference Include="ReachFramework" />
+    <Reference Include="System.Printing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>FlowReports.UnitTests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="View\Images\AddBand_16x.png" />
+    <Resource Include="View\Images\AddBand_32x.png" />
+    <Resource Include="View\Images\AddBooleanItem_16x.png" />
+    <Resource Include="View\Images\AddBooleanItem_32x.png" />
+    <Resource Include="View\Images\AddImageItem_16x.png" />
+    <Resource Include="View\Images\AddImageItem_32x.png" />
+    <Resource Include="View\Images\AddSubBand_16x.png" />
+    <Resource Include="View\Images\AddSubBand_32x.png" />
+    <Resource Include="View\Images\AddTextItem_16x.png" />
+    <Resource Include="View\Images\AddTextItem_32x.png" />
+    <Resource Include="View\Images\Bands_16x.png" />
+    <Resource Include="View\Images\Bands_32x.png" />
+    <Resource Include="View\Images\Calendar_16x.png" />
+    <Resource Include="View\Images\CheckBox_16x.png" />
+    <Resource Include="View\Images\Close_16x.png" />
+    <Resource Include="View\Images\Copy_16x.png" />
+    <Resource Include="View\Images\Copy_32x.png" />
+    <Resource Include="View\Images\Cut_16x.png" />
+    <Resource Include="View\Images\Database_16x.png" />
+    <Resource Include="View\Images\Document_16x.png" />
+    <Resource Include="View\Images\Document_32x.png" />
+    <Resource Include="View\Images\EditBandDetails_16x.png" />
+    <Resource Include="View\Images\EditBandDetails_32x.png" />
+    <Resource Include="View\Images\FlowReports_64x.png" />
+    <Resource Include="View\Images\Image_16x.png" />
+    <Resource Include="View\Images\Information_16x.png" />
+    <Resource Include="View\Images\Information_32x.png" />
+    <Resource Include="View\Images\Landscape_32x.png" />
+    <Resource Include="View\Images\New_16x.png" />
+    <Resource Include="View\Images\Number_16x.png" />
+    <Resource Include="View\Images\Open_16x.png" />
+    <Resource Include="View\Images\Paste_16x.png" />
+    <Resource Include="View\Images\Portrait_32x.png" />
+    <Resource Include="View\Images\PrintPreview_16x.png" />
+    <Resource Include="View\Images\PrintPreview_32x.png" />
+    <Resource Include="View\Images\PrintSetup_16x.png" />
+    <Resource Include="View\Images\PrintSetup_32x.png" />
+    <Resource Include="View\Images\Print_16x.png" />
+    <Resource Include="View\Images\Print_32x.png" />
+    <Resource Include="View\Images\Question_16x.png" />
+    <Resource Include="View\Images\RemoveBand_16x.png" />
+    <Resource Include="View\Images\RemoveBand_32x.png" />
+    <Resource Include="View\Images\RemoveItem_16x.png" />
+    <Resource Include="View\Images\RemoveItem_32x.png" />
+    <Resource Include="View\Images\ReportItem_16x.png" />
+    <Resource Include="View\Images\ReportItem_32x.png" />
+    <Resource Include="View\Images\SaveAs_16x.png" />
+    <Resource Include="View\Images\Save_16x.png" />
+    <Resource Include="View\Images\Text_16x.png" />
+    <Resource Include="View\Images\View_16x.png" />
+    <Resource Include="View\Images\Web_16x.png" />
+    <Resource Include="View\Images\Web_32x.png" />
+    <Resource Include="View\Images\ZoomIn_16x.png" />
+    <Resource Include="View\Images\ZoomIn_32x.png" />
+    <Resource Include="View\Images\ZoomOut_16x.png" />
+    <Resource Include="View\Images\ZoomOut_32x.png" />
+    <Resource Include="View\Images\ZoomToActualSize_16x.png" />
+    <Resource Include="View\Images\ZoomToActualSize_32x.png" />
+    <Resource Include="View\Images\ZoomToFit_16x.png" />
+    <Resource Include="View\Images\ZoomToFit_32x.png" />
+    <Resource Include="View\Images\ZoomToTwoPages_16x.png" />
+    <Resource Include="View\Images\ZoomToTwoPages_32x.png" />
+    <Resource Include="View\Images\ZoomToWidth_16x.png" />
+    <Resource Include="View\Images\ZoomToWidth_32x.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="View\PrintPreviewWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ReportBandDetails.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.de.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

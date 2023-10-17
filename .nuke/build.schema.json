@@ -6,9 +6,9 @@
     "build": {
       "type": "object",
       "properties": {
-        "ArtifactsType": {
+        "Authors": {
           "type": "string",
-          "description": "Artifacts Type"
+          "description": "Authors"
         },
         "Configuration": {
           "type": "string",
@@ -25,10 +25,6 @@
         "Copyright": {
           "type": "string",
           "description": "Copyright Details"
-        },
-        "ExcludedArtifactsType": {
-          "type": "string",
-          "description": "Excluded Artifacts Type"
         },
         "Help": {
           "type": "boolean",
@@ -63,6 +59,10 @@
           "type": "string",
           "description": "Nuget Api Key",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+        },
+        "NuGetType": {
+          "type": "string",
+          "description": "NuGet Artifacts Type"
         },
         "Partition": {
           "type": "string",
@@ -128,6 +128,10 @@
             "Quiet",
             "Verbose"
           ]
+        },
+        "ZipType": {
+          "type": "string",
+          "description": "Zip Artifacts Type"
         }
       }
     }
