@@ -3,7 +3,6 @@
 // https://anktsrkr.github.io/post/write-your-first-building-block-in-nuke/
 // https://anktsrkr.github.io/post/manage-your-package-version-using-nuke/
 // https://anktsrkr.github.io/post/manage-your-package-release-using-nuke-in-github/
-// https://cfrenzel.com/publishing-nuget-nuke-appveyor/
 
 using System;
 using System.IO.Compression;
@@ -49,26 +48,26 @@ class Build : NukeBuild
   const string DevelopmentBranch = "development";
   const string ReleasesBranch = "releases/**";
 
-  [Nuke.Common.Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
+  [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
   readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
   //[Nuke.Common.Parameter("Nuget Feed Url for Public Access of Pre Releases")]
   //readonly string NugetFeed;
 
-  [Nuke.Common.Parameter("Nuget Api Key"), Secret]
+  [Parameter("Nuget Api Key"), Secret]
   readonly string NuGetApiKey;
 
-  [Nuke.Common.Parameter("Authors")]
+  [Parameter("Authors")]
   readonly string Authors;
 
-  [Nuke.Common.Parameter("Copyright Details")]
+  [Parameter("Copyright Details")]
   readonly string Copyright;
 
   [Nuke.Common.Parameter("NuGet Artifacts Type")]
-  readonly string NuGetType;
+  readonly string NuGetArtifactsType;
 
   [Nuke.Common.Parameter("Zip Artifacts Type")]
-  readonly string ZipType;
+  readonly string ZipArtifactsType;
 
   [GitVersion]
   readonly GitVersion GitVersion;
@@ -87,9 +86,9 @@ class Build : NukeBuild
 
   static AbsolutePath OutputDirectory => RootDirectory / "Output";
 
-  static readonly string PackageContentType = "application/octet-stream";
+  //static readonly string PackageContentType = "application/octet-stream";
 
-  static string ChangeLogFile => RootDirectory / "CHANGELOG.md";
+  //static string ChangeLogFile => RootDirectory / "CHANGELOG.md";
 
   static string GithubNugetFeed => GitHubActions != null
      ? $"https://nuget.pkg.github.com/{GitHubActions.RepositoryOwner}/index.json"
@@ -114,7 +113,7 @@ class Build : NukeBuild
     });
 
   Target Compile => _ => _
-    .Description($"Building project version {GitVersion.NuGetVersionV2}.")
+    .Description($"Building project with the version.")
     .DependsOn(Restore)
     .Executes(() =>
     {
@@ -146,15 +145,15 @@ class Build : NukeBuild
     });
 
   Target Pack => _ => _
-    .Description($"Packing project version {GitVersion.NuGetVersionV2}.")
+    .Description($"Packing project with the version.")
     .Requires(() => Configuration.Equals(Configuration.Release))
-    .Produces(ArtifactsDirectory / NuGetType, ArtifactsDirectory / ZipType)
+    .Produces(ArtifactsDirectory / NuGetArtifactsType, ArtifactsDirectory / ZipArtifactsType)
     .DependsOn(Test)
     .Triggers(PublishToGithub, PublishToNuGet)
     .Executes(() =>
     {
       DotNetTasks.DotNetPack(p =>
-        p.SetProject(Solution.FlowReports)
+        p.SetProject(Solution.FlowReports_TestApplication)
          .SetConfiguration(Configuration)
          .SetOutputDirectory(ArtifactsDirectory)
          .EnableNoBuild()
@@ -163,7 +162,7 @@ class Build : NukeBuild
          .SetCopyright(Copyright)
          .SetRepositoryUrl(@"https://github.com/pschimmel/FlowReports")
          .SetPackageProjectUrl(@"https://github.com/pschimmel/FlowReports")
-         .SetPackageLicenseUrl(@"https://github.com/pschimmel/FlowReports/blob/master/LICENSE.txt")
+         // .SetPackageLicenseUrl(@"https://github.com/pschimmel/FlowReports/blob/master/LICENSE.txt")
          .SetVersion(GitVersion.NuGetVersionV2)
          .SetAssemblyVersion(GitVersion.AssemblySemVer)
          .SetInformationalVersion(GitVersion.InformationalVersion)
@@ -184,10 +183,10 @@ class Build : NukeBuild
     .Description($"Publishing to Github for development only.")
     //.Triggers(CreateRelease)
     .Requires(() => Configuration.Equals(Configuration.Release))
-    .OnlyWhenStatic(() => GitRepository.IsOnDevelopBranch() || GitHubActions.IsPullRequest)
+    .OnlyWhenStatic(() => GitRepository.IsOnDevelopBranch())
     .Executes(() =>
     {
-      Globbing.GlobFiles(ArtifactsDirectory, NuGetType, ZipType)
+      Globbing.GlobFiles(ArtifactsDirectory, NuGetArtifactsType, ZipArtifactsType)
         .ToList()
         .ForEach(x =>
         {
@@ -223,7 +222,7 @@ class Build : NukeBuild
     .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch())
     .Executes(() =>
     {
-      Globbing.GlobFiles(ArtifactsDirectory, NuGetType)
+      Globbing.GlobFiles(ArtifactsDirectory, NuGetArtifactsType)
         .ToList()
         .ForEach(x =>
         {
@@ -237,42 +236,44 @@ class Build : NukeBuild
     });
 
   //Target CreateRelease => _ => _
-  //  .Description($"Creating release for the publishable version.")
-  //  .Requires(() => Configuration.Equals(Configuration.Release))
-  //  .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch() || GitRepository.IsOnReleaseBranch())
-  //  .Executes(async () =>
-  //  {
-  //    var credentials = new Credentials(GitHubActions.Token);
-  //    GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)), new InMemoryCredentialStore(credentials));
+  //   .Description($"Creating release for the publishable version.")
+  //   .Requires(() => Configuration.Equals(Configuration.Release))
+  //   .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch() || GitRepository.IsOnReleaseBranch())
+  //   .Executes(async () =>
+  //   {
+  //     var credentials = new Credentials(GitHubActions.Token);
+  //     GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)), new InMemoryCredentialStore(credentials));
 
-  //    var (owner, name) = (GitRepository.GetGitHubOwner(), GitRepository.GetGitHubName());
+  //     var (owner, name) = (GitRepository.GetGitHubOwner(), GitRepository.GetGitHubName());
 
-  //    var releaseTag = GitVersion.NuGetVersionV2;
-  //    var changeLogSectionEntries = ChangelogTasks.ExtractChangelogSectionNotes(ChangeLogFile);
-  //    var latestChangeLog = changeLogSectionEntries.Aggregate((c, n) => c + Environment.NewLine + n);
+  //     var releaseTag = GitVersion.NuGetVersionV2;
+  //     var changeLogSectionEntries = ChangelogTasks.ExtractChangelogSectionNotes(ChangeLogFile);
+  //     var latestChangeLog = changeLogSectionEntries.Aggregate((c, n) => c + Environment.NewLine + n);
 
-  //    var newRelease = new NewRelease(releaseTag)
-  //    {
-  //      TargetCommitish = GitVersion.Sha,
-  //      Draft = true,
-  //      Name = $"v{releaseTag}",
-  //      Prerelease = !string.IsNullOrEmpty(GitVersion.PreReleaseTag),
-  //      Body = latestChangeLog
-  //    };
+  //     var newRelease = new NewRelease(releaseTag)
+  //     {
+  //       TargetCommitish = GitVersion.Sha,
+  //       Draft = true,
+  //       Name = $"v{releaseTag}",
+  //       Prerelease = !string.IsNullOrEmpty(GitVersion.PreReleaseTag),
+  //       Body = latestChangeLog
+  //     };
 
-  //    var createdRelease = await GitHubTasks.GitHubClient
-  //                                          .Repository
-  //                                          .Release.Create(owner, name, newRelease);
+  //     var createdRelease = await GitHubTasks.GitHubClient
+  //                                                 .Repository
+  //                                      .Release.Create(owner, name, newRelease);
 
-  //    Globbing.GlobFiles(ArtifactsDirectory, NuGetType, ZipType)
-  //            .ToList()
-  //            .ForEach(async x => await UploadReleaseAssetToGithub(createdRelease, x));
+  //     Globbing.GlobFiles(ArtifactsDirectory, ArtifactsType)
+  //                       .Where(x => string.IsNullOrWhiteSpace(ExcludedArtifactsType) || !x.Name.EndsWith(ExcludedArtifactsType))
+  //                       .ToList()
+  //                       .ForEach(async x => await UploadReleaseAssetToGithub(createdRelease, x));
 
-  //    await GitHubTasks.GitHubClient
-  //                     .Repository
-  //                     .Release
-  //                     .Edit(owner, name, createdRelease.Id, new ReleaseUpdate { Draft = false });
-  //  });
+  //     await GitHubTasks
+  //           .GitHubClient
+  //           .Repository
+  //           .Release
+  //           .Edit(owner, name, createdRelease.Id, new ReleaseUpdate { Draft = false });
+  //   });
 
   //private static async Task UploadReleaseAssetToGithub(Release release, string asset)
   //{

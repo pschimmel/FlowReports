@@ -60,7 +60,7 @@
           "description": "Nuget Api Key",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
-        "NuGetType": {
+        "NuGetArtifactsType": {
           "type": "string",
           "description": "NuGet Artifacts Type"
         },
@@ -129,7 +129,7 @@
             "Verbose"
           ]
         },
-        "ZipType": {
+        "ZipArtifactsType": {
           "type": "string",
           "description": "Zip Artifacts Type"
         }
