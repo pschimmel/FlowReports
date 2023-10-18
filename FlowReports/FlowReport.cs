@@ -8,7 +8,7 @@ using FlowReports.ViewModel;
 using FlowReports.ViewModel.EditorItems;
 using FlowReports.ViewModel.Printing;
 
-namespace FlowReports.App
+namespace FlowReports
 {
   public static class FlowReport
   {

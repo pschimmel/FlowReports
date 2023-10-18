@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:properties="clr-namespace:FlowReports.View.Properties"
+                    xmlns:properties="clr-namespace:FlowReports.Properties"
                     xmlns:vm="clr-namespace:FlowReports.ViewModel.EditorItems;assembly=FlowReports.ViewModel">
 
   <Style BasedOn="{StaticResource EditTextBoxStyle}" TargetType="{x:Type TextBox}">

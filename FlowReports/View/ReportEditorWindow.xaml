@@ -5,7 +5,7 @@
                      xmlns:fluent="urn:fluent-ribbon"
                      xmlns:local="clr-namespace:FlowReports.View"
                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                     xmlns:properties="clr-namespace:FlowReports.View.Properties"
+                     xmlns:properties="clr-namespace:FlowReports.Properties"
                      xmlns:toolsUI="clr-namespace:ES.Tools.UI;assembly=ES.Tools"
                      xmlns:viewmodel="clr-namespace:FlowReports.ViewModel;assembly=FlowReports.ViewModel"
                      Title="{Binding Title}"

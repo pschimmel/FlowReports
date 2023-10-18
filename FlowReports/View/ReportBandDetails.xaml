@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:FlowReports.View"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:properties="clr-namespace:FlowReports.View.Properties"
+        xmlns:properties="clr-namespace:FlowReports.Properties"
         xmlns:viewmodel="clr-namespace:FlowReports.ViewModel;assembly=FlowReports.ViewModel"
         Title="{x:Static properties:Resources.Details}"
         Width="600"

@@ -5,7 +5,6 @@
 // https://anktsrkr.github.io/post/manage-your-package-release-using-nuke-in-github/
 
 using System;
-using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using Nuke.Common;
@@ -58,14 +57,17 @@ class Build : NukeBuild
   [Parameter("Nuget Api Key"), Secret]
   readonly string NuGetApiKey;
 
+  [Parameter("Authors")]
+  readonly string Authors;
+
   [Parameter("Copyright Details")]
   readonly string Copyright;
 
-  [Parameter("Artifacts Type")]
-  readonly string ArtifactsType;
+  [Nuke.Common.Parameter("NuGet Artifacts Type")]
+  readonly string NuGetArtifactsType;
 
-  [Parameter("Excluded Artifacts Type")]
-  readonly string ExcludedArtifactsType;
+  [Nuke.Common.Parameter("Zip Artifacts Type")]
+  readonly string ZipArtifactsType;
 
   [GitVersion]
   readonly GitVersion GitVersion;
@@ -145,7 +147,7 @@ class Build : NukeBuild
   Target Pack => _ => _
     .Description($"Packing project with the version.")
     .Requires(() => Configuration.Equals(Configuration.Release))
-    .Produces(ArtifactsDirectory / ArtifactsType)
+    .Produces(ArtifactsDirectory / NuGetArtifactsType, ArtifactsDirectory / ZipArtifactsType)
     .DependsOn(Test)
     .Triggers(PublishToGithub, PublishToNuGet)
     .Executes(() =>
@@ -156,7 +158,11 @@ class Build : NukeBuild
          .SetOutputDirectory(ArtifactsDirectory)
          .EnableNoBuild()
          .EnableNoRestore()
+         .SetAuthors(Authors)
          .SetCopyright(Copyright)
+         .SetRepositoryUrl(@"https://github.com/pschimmel/FlowReports")
+         .SetPackageProjectUrl(@"https://github.com/pschimmel/FlowReports")
+         // .SetPackageLicenseUrl(@"https://github.com/pschimmel/FlowReports/blob/master/LICENSE.txt")
          .SetVersion(GitVersion.NuGetVersionV2)
          .SetAssemblyVersion(GitVersion.AssemblySemVer)
          .SetInformationalVersion(GitVersion.InformationalVersion)
@@ -170,18 +176,17 @@ class Build : NukeBuild
                                !x.ToFileInfo().FullName.Contains(@"\bin\") &&
                                !x.ToFileInfo().FullName.Contains(@"\obj\"),
                           CompressionLevel.SmallestSize,
-                          FileMode.Create);
+                          System.IO.FileMode.Create);
     });
 
   Target PublishToGithub => _ => _
     .Description($"Publishing to Github for development only.")
     //.Triggers(CreateRelease)
     .Requires(() => Configuration.Equals(Configuration.Release))
-    .OnlyWhenStatic(() => GitRepository.IsOnDevelopBranch() || GitHubActions.IsPullRequest)
+    .OnlyWhenStatic(() => GitRepository.IsOnDevelopBranch())
     .Executes(() =>
     {
-      Globbing.GlobFiles(ArtifactsDirectory, ArtifactsType)
-        .Where(x => string.IsNullOrWhiteSpace(ExcludedArtifactsType) || !x.Name.EndsWith(ExcludedArtifactsType))
+      Globbing.GlobFiles(ArtifactsDirectory, NuGetArtifactsType, ZipArtifactsType)
         .ToList()
         .ForEach(x =>
         {
@@ -217,8 +222,7 @@ class Build : NukeBuild
     .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch())
     .Executes(() =>
     {
-      Globbing.GlobFiles(ArtifactsDirectory, ArtifactsType)
-        .Where(x => string.IsNullOrWhiteSpace(ExcludedArtifactsType) || !x.Name.EndsWith(ExcludedArtifactsType))
+      Globbing.GlobFiles(ArtifactsDirectory, NuGetArtifactsType)
         .ToList()
         .ForEach(x =>
         {

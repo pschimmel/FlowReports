@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ES.Tools.Core.MVVM;
-using FlowReports.App;
 using FlowReports.TestApplication.Model;
 using Microsoft.Win32;
 

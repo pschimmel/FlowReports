@@ -3,7 +3,7 @@
                     xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
                     xmlns:converters="clr-namespace:FlowReports.View.Converters"
                     xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
-                    xmlns:properties="clr-namespace:FlowReports.View.Properties"
+                    xmlns:properties="clr-namespace:FlowReports.Properties"
                     xmlns:viewBehaviors="clr-namespace:FlowReports.View.Behaviors"
                     xmlns:vm="clr-namespace:FlowReports.ViewModel.EditorItems;assembly=FlowReports.ViewModel">
 

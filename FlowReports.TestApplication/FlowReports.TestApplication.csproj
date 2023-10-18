@@ -47,10 +47,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FlowReports.App\FlowReports.App.csproj" />
     <ProjectReference Include="..\FlowReports.Model\FlowReports.Model.csproj" />
     <ProjectReference Include="..\FlowReports.ViewModel\FlowReports.ViewModel.csproj" />
-    <ProjectReference Include="..\FlowReports.View\FlowReports.View.csproj" />
+    <ProjectReference Include="..\FlowReports\FlowReports.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net48'">

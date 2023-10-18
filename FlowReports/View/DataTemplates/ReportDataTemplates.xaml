@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
                     xmlns:converters="clr-namespace:FlowReports.View.Converters"
-                    xmlns:properties="clr-namespace:FlowReports.View.Properties"
+                    xmlns:properties="clr-namespace:FlowReports.Properties"
                     xmlns:viewBehaviors="clr-namespace:FlowReports.View.Behaviors"
                     xmlns:vm="clr-namespace:FlowReports.ViewModel.ReportItems;assembly=FlowReports.ViewModel">
 
