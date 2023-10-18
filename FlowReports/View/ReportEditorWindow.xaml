@@ -3,7 +3,6 @@
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                      xmlns:fluent="urn:fluent-ribbon"
-                     xmlns:local="clr-namespace:FlowReports.View"
                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                      xmlns:properties="clr-namespace:FlowReports.Properties"
                      xmlns:toolsUI="clr-namespace:ES.Tools.UI;assembly=ES.Tools"
@@ -127,11 +126,11 @@
         </fluent:RibbonGroupBox>
       </fluent:RibbonTabItem>
     </fluent:Ribbon>
-    <Border HorizontalAlignment="Stretch"
+    <Border Grid.Row="1"
+            HorizontalAlignment="Stretch"
             BorderBrush="Black"
             BorderThickness="0,0,0,1"
-            UseLayoutRounding="True"
-            Grid.Row="1" />
+            UseLayoutRounding="True" />
     <Grid Grid.Row="2">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="200" />
@@ -155,8 +154,8 @@
           <ItemsControl ItemsSource="{Binding ReportVM.Bands}" />
         </StackPanel>
       </Border>
-      <GridSplitter HorizontalAlignment="Center" VerticalAlignment="Stretch" Grid.Column="1" />
-      <Border x:Name="EditorContainer" Background="{StaticResource Editor.Background}" Grid.Column="2">
+      <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+      <Border x:Name="EditorContainer" Grid.Column="2" Background="{StaticResource Editor.Background}">
         <Border.InputBindings>
           <KeyBinding Command="{Binding ReportVM.CutCommand}" Gesture="Ctrl+X" />
           <KeyBinding Command="{Binding ReportVM.CopyCommand}" Gesture="Ctrl+C" />
@@ -171,8 +170,8 @@
         </Border.Resources>
         <ItemsControl ItemsSource="{Binding ReportVM.Bands}" />
       </Border>
-      <GridSplitter HorizontalAlignment="Center" VerticalAlignment="Stretch" Grid.Column="3" />
-      <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4">
+      <GridSplitter Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+      <Grid Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
           <RowDefinition />
           <RowDefinition Height="Auto" />
@@ -188,8 +187,8 @@
           </Border.Resources>
           <TreeView ItemsSource="{Binding ReportVM.DataSourceVM}" />
         </Border>
-        <GridSplitter HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Row="1" />
-        <Border Background="{StaticResource Panel.Background}" Grid.Row="2">
+        <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+        <Border Grid.Row="2" Background="{StaticResource Panel.Background}">
           <Border.Resources>
             <ResourceDictionary>
               <ResourceDictionary.MergedDictionaries>

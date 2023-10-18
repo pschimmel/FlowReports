@@ -136,19 +136,19 @@
                           IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
                           Style="{StaticResource ExpandCollapseToggleStyle}" />
             <Border x:Name="Bd"
+                    Grid.Column="1"
                     Padding="{TemplateBinding Padding}"
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="2"
-                    Grid.Column="1">
+                    CornerRadius="2">
               <ContentPresenter x:Name="PART_Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" ContentSource="Header" />
             </Border>
             <ItemsPresenter x:Name="ItemsHost"
-                            Visibility="Collapsed"
                             Grid.Row="1"
                             Grid.Column="1"
-                            Grid.ColumnSpan="2" />
+                            Grid.ColumnSpan="2"
+                            Visibility="Collapsed" />
           </Grid>
           <ControlTemplate.Triggers>
             <Trigger Property="IsExpanded" Value="true">
