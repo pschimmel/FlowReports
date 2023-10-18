@@ -5,7 +5,7 @@
         xmlns:local="clr-namespace:FlowReports.View"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:properties="clr-namespace:FlowReports.Properties"
-        xmlns:viewmodel="clr-namespace:FlowReports.ViewModel;assembly=FlowReports.ViewModel"
+        xmlns:viewmodel="clr-namespace:FlowReports.ViewModel"
         Title="{x:Static properties:Resources.Details}"
         Width="600"
         Height="150"

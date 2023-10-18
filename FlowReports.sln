@@ -5,8 +5,6 @@ VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports.TestApplication", "FlowReports.TestApplication\FlowReports.TestApplication.csproj", "{7D0F3D41-9DDA-49EB-BAFF-65C943561915}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports.Model", "FlowReports.Model\FlowReports.Model.csproj", "{1D9AA1F3-6459-4E37-B355-7FBD8192EE97}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports.UnitTests", "FlowReports.UnitTests\FlowReports.UnitTests.csproj", "{9E8B311A-B12A-495C-978A-9A238F2BD902}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{40686216-16A5-4FF2-B5B9-5213B9199FFD}"
@@ -24,8 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports", "FlowReports\FlowReports.csproj", "{285A9841-E34D-4185-9022-A587D19C3259}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowReports.ViewModel", "FlowReports.ViewModel\FlowReports.ViewModel.csproj", "{28C928B0-4CC4-4042-B1AB-976650A9302E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{C987A4FC-7DC4-4942-88FC-9F33D55693FE}"
 EndProject
 Global
@@ -38,10 +34,6 @@ Global
 		{7D0F3D41-9DDA-49EB-BAFF-65C943561915}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D0F3D41-9DDA-49EB-BAFF-65C943561915}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D0F3D41-9DDA-49EB-BAFF-65C943561915}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D9AA1F3-6459-4E37-B355-7FBD8192EE97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D9AA1F3-6459-4E37-B355-7FBD8192EE97}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D9AA1F3-6459-4E37-B355-7FBD8192EE97}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D9AA1F3-6459-4E37-B355-7FBD8192EE97}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9E8B311A-B12A-495C-978A-9A238F2BD902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9E8B311A-B12A-495C-978A-9A238F2BD902}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E8B311A-B12A-495C-978A-9A238F2BD902}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -50,10 +42,6 @@ Global
 		{285A9841-E34D-4185-9022-A587D19C3259}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{285A9841-E34D-4185-9022-A587D19C3259}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{285A9841-E34D-4185-9022-A587D19C3259}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28C928B0-4CC4-4042-B1AB-976650A9302E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28C928B0-4CC4-4042-B1AB-976650A9302E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28C928B0-4CC4-4042-B1AB-976650A9302E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28C928B0-4CC4-4042-B1AB-976650A9302E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C987A4FC-7DC4-4942-88FC-9F33D55693FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C987A4FC-7DC4-4942-88FC-9F33D55693FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection

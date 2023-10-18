@@ -5,7 +5,7 @@
                     xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
                     xmlns:properties="clr-namespace:FlowReports.Properties"
                     xmlns:viewBehaviors="clr-namespace:FlowReports.View.Behaviors"
-                    xmlns:vm="clr-namespace:FlowReports.ViewModel;assembly=FlowReports.ViewModel">
+                    xmlns:vm="clr-namespace:FlowReports.ViewModel">
 
   <DataTemplate DataType="{x:Type vm:AboutViewModel}">
     <Grid HorizontalAlignment="Stretch">

@@ -165,8 +165,14 @@
   <data name="EditBandDetails" xml:space="preserve">
     <value>Banddetails bearbeiten</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
   <data name="File" xml:space="preserve">
     <value>Datei</value>
+  </data>
+  <data name="FlowReportFiles" xml:space="preserve">
+    <value>FlowReport-Dateien (*.nas)</value>
   </data>
   <data name="Format" xml:space="preserve">
     <value>Format</value>
@@ -179,6 +185,9 @@
   </data>
   <data name="Image" xml:space="preserve">
     <value>Bild</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
   </data>
   <data name="Items" xml:space="preserve">
     <value>Einträge</value>
@@ -219,6 +228,9 @@
   <data name="PrintSetup" xml:space="preserve">
     <value>Druck einrichten</value>
   </data>
+  <data name="Question" xml:space="preserve">
+    <value>Frage</value>
+  </data>
   <data name="RemoveBand" xml:space="preserve">
     <value>Band entfernen</value>
   </data>
@@ -234,6 +246,9 @@
   <data name="SaveAs" xml:space="preserve">
     <value>Speichern unter...</value>
   </data>
+  <data name="SaveFileQuestion" xml:space="preserve">
+    <value>Möchten Sie die aktuelle Datei speichern?</value>
+  </data>
   <data name="ShowPrintPreview" xml:space="preserve">
     <value>Druckvorschau anzeigen</value>
   </data>
@@ -248,6 +263,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>Ansicht</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warnung</value>
   </data>
   <data name="Website" xml:space="preserve">
     <value>Webseite</value>

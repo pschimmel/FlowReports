@@ -47,8 +47,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FlowReports.Model\FlowReports.Model.csproj" />
-    <ProjectReference Include="..\FlowReports.ViewModel\FlowReports.ViewModel.csproj" />
     <ProjectReference Include="..\FlowReports\FlowReports.csproj" />
   </ItemGroup>
 

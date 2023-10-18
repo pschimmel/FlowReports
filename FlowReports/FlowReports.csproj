@@ -81,12 +81,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fluent.Ribbon" Version="10.0.4" />
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>FlowReports.UnitTests</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FlowReports.Model\FlowReports.Model.csproj" />
-    <ProjectReference Include="..\FlowReports.ViewModel\FlowReports.ViewModel.csproj" />
+    <PackageReference Include="ES.Tools" Version="0.6.30.123" />
+    <PackageReference Include="ES.Tools.Core" Version="0.6.30.123" />
+    <PackageReference Include="Fluent.Ribbon" Version="10.0.4" />
+    <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
   </ItemGroup>
 
   <ItemGroup>

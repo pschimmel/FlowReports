@@ -4,7 +4,7 @@
                     xmlns:converters="clr-namespace:FlowReports.View.Converters"
                     xmlns:properties="clr-namespace:FlowReports.Properties"
                     xmlns:viewBehaviors="clr-namespace:FlowReports.View.Behaviors"
-                    xmlns:vm="clr-namespace:FlowReports.ViewModel.ReportItems;assembly=FlowReports.ViewModel">
+                    xmlns:vm="clr-namespace:FlowReports.ViewModel.ReportItems">
 
   <converters:ObjectToImageSourceConverter x:Key="ImageConverter" />
 

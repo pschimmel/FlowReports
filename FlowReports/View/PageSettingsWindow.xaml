@@ -4,7 +4,7 @@
         xmlns:converters="clr-namespace:FlowReports.View.Converters"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:printing="clr-namespace:FlowReports.ViewModel.Printing;assembly=FlowReports.ViewModel"
+        xmlns:printing="clr-namespace:FlowReports.ViewModel.Printing"
         xmlns:properties="clr-namespace:FlowReports.Properties"
         Title="{x:Static properties:Resources.PrintSetup}"
         Width="363"
