@@ -1,0 +1,204 @@
+﻿<fluent:RibbonWindow x:Class="FlowReports.View.ReportEditorWindow"
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                     xmlns:fluent="urn:fluent-ribbon"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:properties="clr-namespace:FlowReports.Properties"
+                     xmlns:toolsUI="clr-namespace:ES.Tools.UI;assembly=ES.Tools"
+                     xmlns:viewmodel="clr-namespace:FlowReports.ViewModel"
+                     Title="{Binding Title}"
+                     Width="800"
+                     Height="450"
+                     WindowStartupLocation="CenterScreen"
+                     WindowState="Maximized"
+                     mc:Ignorable="d">
+  <Window.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <toolsUI:SharedResourceDictionary Source="pack://application:,,,/FlowReports.View;Component/DataTemplates/GeneralDataTemplates.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Window.Resources>
+  <Window.DataContext>
+    <viewmodel:ReportEditorViewModel />
+  </Window.DataContext>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <fluent:Ribbon CanUseSimplified="True" UseLayoutRounding="True">
+      <fluent:Ribbon.Menu>
+        <fluent:Backstage x:Name="Backstage" Header="{x:Static properties:Resources.File}">
+          <fluent:BackstageTabControl>
+            <fluent:Button Command="{Binding NewCommand}" Header="{x:Static properties:Resources.New}" Icon="pack://application:,,,/FlowReports.View;component/Images/New_16x.png" />
+            <fluent:Button Command="{Binding LoadCommand}" Header="{x:Static properties:Resources.Open}" Icon="pack://application:,,,/FlowReports.View;component/Images/Open_16x.png" />
+            <fluent:Button Command="{Binding SaveCommand}" Header="{x:Static properties:Resources.Save}" Icon="pack://application:,,,/FlowReports.View;component/Images/Save_16x.png" />
+            <fluent:Button Command="{Binding SaveAsCommand}" Header="{x:Static properties:Resources.SaveAs}" Icon="pack://application:,,,/FlowReports.View;component/Images/SaveAs_16x.png" />
+            <fluent:BackstageTabItem Header="{x:Static properties:Resources.About}" Icon="pack://application:,,,/FlowReports.View;component/Images/Information_16x.png" IsSelected="True">
+              <fluent:BackstageTabItem.Content>
+                <viewmodel:AboutViewModel />
+              </fluent:BackstageTabItem.Content>
+            </fluent:BackstageTabItem>
+            <fluent:SeparatorTabItem />
+            <fluent:Button Command="{Binding CloseCommand}" Header="{x:Static properties:Resources.Close}" Icon="pack://application:,,,/FlowReports.View;component/Images/Close_16x.png" />
+          </fluent:BackstageTabControl>
+        </fluent:Backstage>
+      </fluent:Ribbon.Menu>
+      <fluent:RibbonTabItem Header="{x:Static properties:Resources.Home}" ReduceOrder="Report, Clipboard, Bands, ReportItems, Report, Clipboard, Bands, ReportItems, Report, Clipboard, Bands, ReportItems, Report, Clipboard, Bands, ReportItems">
+        <fluent:RibbonGroupBox x:Name="Report" Header="{x:Static properties:Resources.Report}" Icon="pack://application:,,,/FlowReports.View;component/Images/Document_16x.png">
+          <fluent:Button Command="{Binding ShowPrintPreviewCommand}"
+                         Header="{x:Static properties:Resources.ShowPrintPreview}"
+                         Icon="pack://application:,,,/FlowReports.View;component/Images/PrintPreview_16x.png"
+                         LargeIcon="pack://application:,,,/FlowReports.View;component/Images/PrintPreview_32x.png" />
+        </fluent:RibbonGroupBox>
+        <fluent:RibbonGroupBox x:Name="Clipboard" DataContext="{Binding ReportVM}" Header="{x:Static properties:Resources.Clipboard}">
+          <fluent:Button Command="{Binding CutCommand}"
+                         Header="{x:Static properties:Resources.Cut}"
+                         Icon="pack://application:,,,/FlowReports.View;component/Images/Cut_16x.png"
+                         SizeDefinition="Middle Middle Small" />
+          <fluent:Button Command="{Binding CopyCommand}"
+                         Header="{x:Static properties:Resources.Copy}"
+                         Icon="pack://application:,,,/FlowReports.View;component/Images/Copy_16x.png"
+                         SizeDefinition="Middle Middle Small" />
+          <fluent:Button Command="{Binding PasteCommand}"
+                         Header="{x:Static properties:Resources.Paste}"
+                         Icon="pack://application:,,,/FlowReports.View;component/Images/Paste_16x.png"
+                         SizeDefinition="Middle Middle Small" />
+        </fluent:RibbonGroupBox>
+        <fluent:RibbonGroupBox x:Name="Bands"
+                               DataContext="{Binding ReportVM}"
+                               Header="{x:Static properties:Resources.Bands}"
+                               Icon="pack://application:,,,/FlowReports.View;component/Images/Bands_16x.png">
+          <fluent:Button Command="{Binding AddBandCommand}"
+                         Header="{x:Static properties:Resources.AddBand}"
+                         Icon="pack://application:,,,/FlowReports.View;component/Images/AddBand_16x.png"
+                         LargeIcon="pack://application:,,,/FlowReports.View;component/Images/AddBand_32x.png" />
+          <fluent:Button Command="{Binding AddSubBandCommand}"
+                         Header="{x:Static properties:Resources.AddSubband}"
+                         Icon="pack://application:,,,/FlowReports.View;component/Images/AddSubBand_16x.png"
+                         LargeIcon="pack://application:,,,/FlowReports.View;component/Images/AddSubBand_32x.png" />
+          <fluent:Button Command="{Binding EditBandDetailsCommand}"
+                         Header="{x:Static properties:Resources.EditBandDetails}"
+                         Icon="pack://application:,,,/FlowReports.View;component/Images/EditBandDetails_16x.png"
+                         LargeIcon="pack://application:,,,/FlowReports.View;component/Images/EditBandDetails_32x.png" />
+          <fluent:Button Command="{Binding RemoveBandCommand}"
+                         Header="{x:Static properties:Resources.RemoveBand}"
+                         Icon="pack://application:,,,/FlowReports.View;component/Images/RemoveBand_16x.png"
+                         LargeIcon="pack://application:,,,/FlowReports.View;component/Images/RemoveBand_32x.png" />
+        </fluent:RibbonGroupBox>
+        <fluent:RibbonGroupBox x:Name="ReportItems"
+                               DataContext="{Binding ReportVM}"
+                               Header="{x:Static properties:Resources.Items}"
+                               Icon="pack://application:,,,/FlowReports.View;component/Images/ReportItem_16x.png">
+          <fluent:Button Command="{Binding AddTextItemCommand}"
+                         Header="{x:Static properties:Resources.AddTextItem}"
+                         Icon="pack://application:,,,/FlowReports.View;component/Images/AddTextItem_16x.png"
+                         LargeIcon="pack://application:,,,/FlowReports.View;component/Images/AddTextItem_32x.png" />
+          <fluent:Button Command="{Binding AddBooleanItemCommand}"
+                         Header="{x:Static properties:Resources.AddBooleanItem}"
+                         Icon="pack://application:,,,/FlowReports.View;component/Images/AddBooleanItem_16x.png"
+                         LargeIcon="pack://application:,,,/FlowReports.View;component/Images/AddBooleanItem_32x.png"
+                         SizeDefinition="Middle Middle Small" />
+          <fluent:Button Command="{Binding AddImageItemCommand}"
+                         Header="{x:Static properties:Resources.AddImageItem}"
+                         Icon="pack://application:,,,/FlowReports.View;component/Images/AddImageItem_16x.png"
+                         LargeIcon="pack://application:,,,/FlowReports.View;component/Images/AddImageItem_32x.png"
+                         SizeDefinition="Middle Middle Small" />
+          <fluent:Button Command="{Binding RemoveItemCommand}"
+                         Header="{x:Static properties:Resources.RemoveItem}"
+                         Icon="pack://application:,,,/FlowReports.View;component/Images/RemoveItem_16x.png"
+                         LargeIcon="pack://application:,,,/FlowReports.View;component/Images/RemoveItem_32x.png" />
+        </fluent:RibbonGroupBox>
+      </fluent:RibbonTabItem>
+      <fluent:RibbonTabItem Header="{x:Static properties:Resources.Tools}">
+        <fluent:RibbonGroupBox Header="Online" Icon="pack://application:,,,/FlowReports.View;component/Images/Information_16x.png">
+          <fluent:Button Command="{Binding AboutCommand}"
+                         Header="{x:Static properties:Resources.About}"
+                         Icon="pack://application:,,,/FlowReports.View;component/Images/Information_16x.png"
+                         LargeIcon="pack://application:,,,/FlowReports.View;component/Images/Information_32x.png" />
+          <fluent:Button Command="{Binding OpenWebsiteCommand}"
+                         Header="{x:Static properties:Resources.Website}"
+                         Icon="pack://application:,,,/FlowReports.View;component/Images/Web_16x.png"
+                         LargeIcon="pack://application:,,,/FlowReports.View;component/Images/Web_32x.png" />
+        </fluent:RibbonGroupBox>
+      </fluent:RibbonTabItem>
+    </fluent:Ribbon>
+    <Border Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            BorderBrush="Black"
+            BorderThickness="0,0,0,1"
+            UseLayoutRounding="True" />
+    <Grid Grid.Row="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="200" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="200" />
+      </Grid.ColumnDefinitions>
+      <Border x:Name="BandContainer"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch"
+              Background="{StaticResource Panel.Background}">
+        <Border.Resources>
+          <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+              <toolsUI:SharedResourceDictionary Source="pack://application:,,,/FlowReports.View;Component/DataTemplates/BandPaneDataTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+          </ResourceDictionary>
+        </Border.Resources>
+        <StackPanel HorizontalAlignment="Stretch">
+          <ItemsControl ItemsSource="{Binding ReportVM.Bands}" />
+        </StackPanel>
+      </Border>
+      <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+      <Border x:Name="EditorContainer" Grid.Column="2" Background="{StaticResource Editor.Background}">
+        <Border.InputBindings>
+          <KeyBinding Command="{Binding ReportVM.CutCommand}" Gesture="Ctrl+X" />
+          <KeyBinding Command="{Binding ReportVM.CopyCommand}" Gesture="Ctrl+C" />
+          <KeyBinding Command="{Binding ReportVM.PasteCommand}" Gesture="Ctrl+V" />
+        </Border.InputBindings>
+        <Border.Resources>
+          <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+              <toolsUI:SharedResourceDictionary Source="pack://application:,,,/FlowReports.View;Component/DataTemplates/EditorPaneDataTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+          </ResourceDictionary>
+        </Border.Resources>
+        <ItemsControl ItemsSource="{Binding ReportVM.Bands}" />
+      </Border>
+      <GridSplitter Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+      <Grid Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition Height="Auto" />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <Border Background="{StaticResource Panel.Background}">
+          <Border.Resources>
+            <ResourceDictionary>
+              <ResourceDictionary.MergedDictionaries>
+                <toolsUI:SharedResourceDictionary Source="pack://application:,,,/FlowReports.View;Component/DataTemplates/DataSourcePaneDataTemplates.xaml" />
+              </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+          </Border.Resources>
+          <TreeView ItemsSource="{Binding ReportVM.DataSourceVM}" />
+        </Border>
+        <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+        <Border Grid.Row="2" Background="{StaticResource Panel.Background}">
+          <Border.Resources>
+            <ResourceDictionary>
+              <ResourceDictionary.MergedDictionaries>
+                <toolsUI:SharedResourceDictionary Source="pack://application:,,,/FlowReports.View;Component/DataTemplates/PropertiesPaneDataTemplates.xaml" />
+              </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+          </Border.Resources>
+          <ContentControl Content="{Binding ReportVM.SelectedItem}" />
+        </Border>
+      </Grid>
+    </Grid>
+  </Grid>
+</fluent:RibbonWindow>

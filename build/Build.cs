@@ -5,6 +5,7 @@
 // https://anktsrkr.github.io/post/manage-your-package-release-using-nuke-in-github/
 
 using System;
+using System.IO.Compression;
 using System.Linq;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
@@ -15,15 +16,17 @@ using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.NUnit;
+using Serilog;
 
 [GitHubActions(
   "continuous",
   GitHubActionsImage.WindowsLatest,
-  AutoGenerate = false,
+  AutoGenerate = true,
   FetchDepth = 0,
+  WritePermissions = new[] { GitHubActionsPermissions.Packages },
   OnPushBranches = new[] { MasterBranch, DevelopmentBranch, ReleasesBranch },
   OnPullRequestBranches = new[] { ReleasesBranch },
-  InvokedTargets = new[] { nameof(Clean) },
+  InvokedTargets = new[] { nameof(Pack) },
   EnableGitHubToken = true,
   ImportSecrets = new[]
   {
@@ -45,23 +48,26 @@ class Build : NukeBuild
   const string DevelopmentBranch = "development";
   const string ReleasesBranch = "releases/**";
 
-  [Nuke.Common.Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
+  [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
   readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
   //[Nuke.Common.Parameter("Nuget Feed Url for Public Access of Pre Releases")]
   //readonly string NugetFeed;
 
-  [Nuke.Common.Parameter("Nuget Api Key"), Secret]
+  [Parameter("Nuget Api Key"), Secret]
   readonly string NuGetApiKey;
 
-  [Nuke.Common.Parameter("Copyright Details")]
+  [Parameter("Authors")]
+  readonly string Authors;
+
+  [Parameter("Copyright Details")]
   readonly string Copyright;
 
-  [Nuke.Common.Parameter("Artifacts Type")]
-  readonly string ArtifactsType;
+  [Nuke.Common.Parameter("NuGet Artifacts Type")]
+  readonly string NuGetArtifactsType;
 
-  [Nuke.Common.Parameter("Excluded Artifacts Type")]
-  readonly string ExcludedArtifactsType;
+  [Nuke.Common.Parameter("Zip Artifacts Type")]
+  readonly string ZipArtifactsType;
 
   [GitVersion]
   readonly GitVersion GitVersion;
@@ -71,6 +77,8 @@ class Build : NukeBuild
 
   [Solution(GenerateProjects = true)]
   readonly Solution Solution;
+
+  static readonly string ApplicationName = "FlowReports";
 
   static GitHubActions GitHubActions => GitHubActions.Instance;
 
@@ -139,7 +147,7 @@ class Build : NukeBuild
   Target Pack => _ => _
     .Description($"Packing project with the version.")
     .Requires(() => Configuration.Equals(Configuration.Release))
-    .Produces(ArtifactsDirectory / ArtifactsType)
+    .Produces(ArtifactsDirectory / NuGetArtifactsType, ArtifactsDirectory / ZipArtifactsType)
     .DependsOn(Test)
     .Triggers(PublishToGithub, PublishToNuGet)
     .Executes(() =>
@@ -150,30 +158,58 @@ class Build : NukeBuild
          .SetOutputDirectory(ArtifactsDirectory)
          .EnableNoBuild()
          .EnableNoRestore()
+         .SetAuthors(Authors)
          .SetCopyright(Copyright)
+         .SetRepositoryUrl(@"https://github.com/pschimmel/FlowReports")
+         .SetPackageProjectUrl(@"https://github.com/pschimmel/FlowReports")
+         // .SetPackageLicenseUrl(@"https://github.com/pschimmel/FlowReports/blob/master/LICENSE.txt")
          .SetVersion(GitVersion.NuGetVersionV2)
          .SetAssemblyVersion(GitVersion.AssemblySemVer)
          .SetInformationalVersion(GitVersion.InformationalVersion)
          .SetFileVersion(GitVersion.AssemblySemFileVer));
+
+      RootDirectory.ZipTo(ArtifactsDirectory / (ApplicationName + "_" + GitVersion.NuGetVersionV2 + "_src.zip"),
+                          x => !x.ToFileInfo().FullName.Contains(".artifacts") &&
+                               !x.ToFileInfo().FullName.Contains(@"\.vs") &&
+                               !x.ToFileInfo().FullName.Contains(@"\temp") &&
+                               !x.ToFileInfo().FullName.Contains(@"\Output") &&
+                               !x.ToFileInfo().FullName.Contains(@"\bin\") &&
+                               !x.ToFileInfo().FullName.Contains(@"\obj\"),
+                          CompressionLevel.SmallestSize,
+                          System.IO.FileMode.Create);
     });
 
   Target PublishToGithub => _ => _
     .Description($"Publishing to Github for development only.")
     //.Triggers(CreateRelease)
     .Requires(() => Configuration.Equals(Configuration.Release))
-    .OnlyWhenStatic(() => GitRepository.IsOnDevelopBranch() || GitHubActions.IsPullRequest)
+    .OnlyWhenStatic(() => GitRepository.IsOnDevelopBranch())
     .Executes(() =>
     {
-      ArtifactsDirectory.GlobFiles(ArtifactsDirectory, ArtifactsType)
-        .Where(x => string.IsNullOrWhiteSpace(ExcludedArtifactsType) || !x.Name.EndsWith(ExcludedArtifactsType))
+      Globbing.GlobFiles(ArtifactsDirectory, NuGetArtifactsType, ZipArtifactsType)
         .ToList()
         .ForEach(x =>
         {
+          if (GitHubActions == null)
+          {
+            Log.Information("GitHub Actions == null");
+            return;
+          }
+          else if (GitHubActions.Token == null)
+          {
+            Log.Information("GitHub Token == null");
+            return;
+          }
+          else
+          {
+            Log.Information("GitHub Token = {Token}", GitHubActions.Token);
+          }
+
           DotNetTasks.DotNetNuGetPush(s => s
-            .SetTargetPath(x)
-            .SetSource(GithubNugetFeed)
-            .SetApiKey(GitHubActions.Token)
-            .EnableSkipDuplicate()
+                     .SetTargetPath(x)
+                     .SetSource(GithubNugetFeed)
+                     .SetApiKey(GitHubActions.Token)
+                     .EnableSkipDuplicate()
           );
         });
       ;
@@ -186,14 +222,13 @@ class Build : NukeBuild
     .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch())
     .Executes(() =>
     {
-      ArtifactsDirectory.GlobFiles(ArtifactsDirectory, ArtifactsType)
-        .Where(x => string.IsNullOrWhiteSpace(ExcludedArtifactsType) || !x.Name.EndsWith(ExcludedArtifactsType))
+      Globbing.GlobFiles(ArtifactsDirectory, NuGetArtifactsType)
         .ToList()
         .ForEach(x =>
         {
           DotNetTasks.DotNetNuGetPush(s => s
             .SetTargetPath(x)
-          //.SetSource(NugetFeed)
+            //.SetSource(NugetFeed)
             .SetApiKey(NuGetApiKey)
             .EnableSkipDuplicate()
           );
@@ -228,7 +263,7 @@ class Build : NukeBuild
   //                                                 .Repository
   //                                      .Release.Create(owner, name, newRelease);
 
-  //     ArtifactsDirectory.GlobFiles(ArtifactsDirectory, ArtifactsType)
+  //     Globbing.GlobFiles(ArtifactsDirectory, ArtifactsType)
   //                       .Where(x => string.IsNullOrWhiteSpace(ExcludedArtifactsType) || !x.Name.EndsWith(ExcludedArtifactsType))
   //                       .ToList()
   //                       .ForEach(async x => await UploadReleaseAssetToGithub(createdRelease, x));

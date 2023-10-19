@@ -1,0 +1,67 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:FlowReports.View.Converters"
+                    xmlns:vm="clr-namespace:FlowReports.ViewModel.ReportItems">
+
+  <converters:ObjectToImageSourceConverter x:Key="ImageConverter" />
+
+  <Style x:Key="TextItemTextBlock" TargetType="{x:Type TextBlock}">
+    <Setter Property="Margin" Value="0" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+
+  <DataTemplate DataType="{x:Type vm:TextItemViewModel}">
+    <Border Canvas.Left="{Binding Left}"
+            Canvas.Top="{Binding Top}"
+            Width="{Binding Width}"
+            Height="{Binding Height}"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            BorderThickness="1"
+            Focusable="True">
+      <TextBlock Text="{Binding Text}">
+        <TextBlock.Style>
+          <Style BasedOn="{StaticResource TextItemTextBlock}" TargetType="{x:Type TextBlock}" />
+        </TextBlock.Style>
+      </TextBlock>
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate DataType="{x:Type vm:BooleanItemViewModel}">
+    <Border Canvas.Left="{Binding Left}"
+            Canvas.Top="{Binding Top}"
+            Width="{Binding Width}"
+            Height="{Binding Height}"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            BorderThickness="1"
+            Focusable="True">
+      <Path HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Data="M 0 0 L 8 8 M 0 8 L 8 0"
+            Stretch="Fill"
+            Stroke="{StaticResource General.Foreground}"
+            StrokeEndLineCap="Round"
+            StrokeStartLineCap="Round"
+            StrokeThickness="2" />
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate DataType="{x:Type vm:ImageItemViewModel}">
+    <Border Canvas.Left="{Binding Left}"
+            Canvas.Top="{Binding Top}"
+            Width="{Binding Width}"
+            Height="{Binding Height}"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            BorderThickness="1"
+            Focusable="True">
+      <Image HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch"
+             Source="{Binding ImageSource, Converter={StaticResource ImageConverter}}"
+             Stretch="Uniform" />
+    </Border>
+  </DataTemplate>
+
+</ResourceDictionary>
