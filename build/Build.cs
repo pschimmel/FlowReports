@@ -1,9 +1,3 @@
-// See examples on:
-// https://anktsrkr.github.io/post/getting-started-with-nuke/
-// https://anktsrkr.github.io/post/write-your-first-building-block-in-nuke/
-// https://anktsrkr.github.io/post/manage-your-package-version-using-nuke/
-// https://anktsrkr.github.io/post/manage-your-package-release-using-nuke-in-github/
-
 using System;
 using System.IO.Compression;
 using System.Linq;
@@ -34,6 +28,11 @@ using Serilog;
   }
 )]
 
+// See examples on:
+// https://anktsrkr.github.io/post/getting-started-with-nuke/
+// https://anktsrkr.github.io/post/write-your-first-building-block-in-nuke/
+// https://anktsrkr.github.io/post/manage-your-package-version-using-nuke/
+// https://anktsrkr.github.io/post/manage-your-package-release-using-nuke-in-github/
 class Build : NukeBuild
 {
   /// Support plugins are available for:
@@ -50,9 +49,6 @@ class Build : NukeBuild
 
   [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
   readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
-
-  //[Nuke.Common.Parameter("Nuget Feed Url for Public Access of Pre Releases")]
-  //readonly string NugetFeed;
 
   [Parameter("Nuget Api Key"), Secret]
   readonly string NuGetApiKey;
@@ -199,19 +195,10 @@ class Build : NukeBuild
         .ToList()
         .ForEach(x =>
         {
-          if (GitHubActions == null)
+          if (GitHubActions?.Token == null)
           {
-            Log.Information("GitHub Actions == null");
+            Log.Information("Not online. PublishToGithub skipped.");
             return;
-          }
-          else if (GitHubActions.Token == null)
-          {
-            Log.Information("GitHub Token == null");
-            return;
-          }
-          else
-          {
-            Log.Information("GitHub Token = {Token}", GitHubActions.Token);
           }
 
           DotNetTasks.DotNetNuGetPush(s => s
@@ -221,7 +208,6 @@ class Build : NukeBuild
                      .EnableSkipDuplicate()
           );
         });
-      ;
     });
 
   Target PublishToNuGet => _ => _
@@ -237,7 +223,6 @@ class Build : NukeBuild
         {
           DotNetTasks.DotNetNuGetPush(s => s
             .SetTargetPath(x)
-            //.SetSource(NugetFeed)
             .SetApiKey(NuGetApiKey)
             .EnableSkipDuplicate()
           );
