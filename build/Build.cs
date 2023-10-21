@@ -100,6 +100,7 @@ class Build : NukeBuild
     .Executes(() =>
     {
       DotNetTasks.DotNetClean(c => c.SetProject(Solution.FlowReports_TestApplication));
+      DotNetTasks.DotNetClean(c => c.SetProject(Solution.FlowReports_UnitTests));
       ArtifactsDirectory.CreateOrCleanDirectory();
     });
 
@@ -108,7 +109,6 @@ class Build : NukeBuild
     .DependsOn(Clean)
     .Executes(() =>
     {
-      //DotNetTasks.DotNetToolRestore();
       DotNetTasks.DotNetRestore(_ => _.SetProjectFile(Solution));
     });
 
@@ -119,6 +119,15 @@ class Build : NukeBuild
     {
       DotNetTasks.DotNetBuild(b => b
        .SetProjectFile(Solution.FlowReports_TestApplication)
+       .SetConfiguration(Configuration)
+       .SetVersion(GitVersion.NuGetVersionV2)
+       .SetAssemblyVersion(GitVersion.AssemblySemVer)
+       .SetInformationalVersion(GitVersion.InformationalVersion)
+       .SetFileVersion(GitVersion.AssemblySemFileVer)
+       .EnableNoRestore());
+
+      DotNetTasks.DotNetBuild(b => b
+       .SetProjectFile(Solution.FlowReports_UnitTests)
        .SetConfiguration(Configuration)
        .SetVersion(GitVersion.NuGetVersionV2)
        .SetAssemblyVersion(GitVersion.AssemblySemVer)
@@ -152,25 +161,25 @@ class Build : NukeBuild
     .Triggers(PublishToGithub, PublishToNuGet)
     .Executes(() =>
     {
+      // For more definitions see Directory.Build.props file in solution folder
       DotNetTasks.DotNetPack(p =>
-        p.SetProject(Solution.FlowReports_TestApplication)
+        p.SetProject(Solution.FlowReports)
          .SetConfiguration(Configuration)
          .SetOutputDirectory(ArtifactsDirectory)
          .EnableNoBuild()
          .EnableNoRestore()
          .SetAuthors(Authors)
          .SetCopyright(Copyright)
-         .SetRepositoryUrl(@"https://github.com/pschimmel/FlowReports")
-         .SetPackageProjectUrl(@"https://github.com/pschimmel/FlowReports")
-         // .SetPackageLicenseUrl(@"https://github.com/pschimmel/FlowReports/blob/master/LICENSE.txt")
          .SetVersion(GitVersion.NuGetVersionV2)
          .SetAssemblyVersion(GitVersion.AssemblySemVer)
          .SetInformationalVersion(GitVersion.InformationalVersion)
          .SetFileVersion(GitVersion.AssemblySemFileVer));
 
-      RootDirectory.ZipTo(ArtifactsDirectory / (ApplicationName + "_" + GitVersion.NuGetVersionV2 + "_src.zip"),
+      RootDirectory.ZipTo(ArtifactsDirectory / "Source Code " + (ApplicationName + "_" + GitVersion.NuGetVersionV2 + ".zip"),
                           x => !x.ToFileInfo().FullName.Contains(".artifacts") &&
                                !x.ToFileInfo().FullName.Contains(@"\.vs") &&
+                               !x.ToFileInfo().FullName.Contains(@"\.github") &&
+                               !x.ToFileInfo().FullName.Contains(@"\.git") &&
                                !x.ToFileInfo().FullName.Contains(@"\temp") &&
                                !x.ToFileInfo().FullName.Contains(@"\Output") &&
                                !x.ToFileInfo().FullName.Contains(@"\bin\") &&
