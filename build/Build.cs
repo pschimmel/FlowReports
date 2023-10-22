@@ -39,6 +39,7 @@ using Serilog;
 // https://anktsrkr.github.io/post/write-your-first-building-block-in-nuke/
 // https://anktsrkr.github.io/post/manage-your-package-version-using-nuke/
 // https://anktsrkr.github.io/post/manage-your-package-release-using-nuke-in-github/
+// https://cfrenzel.com/publishing-nuget-nuke-appveyor/
 class Build : NukeBuild
 {
   /// Support plugins are available for:
@@ -63,7 +64,7 @@ class Build : NukeBuild
   //readonly string NugetFeed;
 
   [Nuke.Common.Parameter("Public nuget repository")]
-  readonly string NugetApiUrl = "https://api.nuget.org/v3/index.json"; //default
+  readonly string NuGetApiUrl = "https://api.nuget.org/v3/index.json"; //default
 
   //[Nuke.Common.Parameter]
   //string NugetApiKey;
@@ -232,7 +233,7 @@ class Build : NukeBuild
           //);
           DotNetTasks.DotNetNuGetPush(s => s
             .SetTargetPath(x)
-            .SetSource(NugetApiUrl)
+            .SetSource(NuGetApiUrl)
             .SetApiKey(NuGetApiKey));
         });
     });

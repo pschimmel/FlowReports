@@ -5,5 +5,6 @@
   "NuGetArtifactsType": "*.nupkg",
   "ZipArtifactsType": "*.zip",
   "Authors": "Engineering Solutions",
-  "Copyright": "© Engineering Solutions 2023"
+  "Copyright": "© Engineering Solutions 2023",
+  "NuGetApiKey": "sZsrlkni9ipUjc/yAibzstYKxVshKXJXu4Ht8WDoQgJ6yRX5EK1kMMrPqVn3XLca"
 }
