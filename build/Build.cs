@@ -59,6 +59,15 @@ class Build : NukeBuild
   [Nuke.Common.Parameter("Nuget Api Key"), Secret]
   readonly string NuGetApiKey;
 
+  //[Nuke.Common.Parameter("Nuget Feed Url for Public Access of Pre Releases")]
+  //readonly string NugetFeed;
+
+  [Nuke.Common.Parameter("Public nuget repository")]
+  readonly string NugetApiUrl = "https://api.nuget.org/v3/index.json"; //default
+
+  //[Nuke.Common.Parameter]
+  //string NugetApiKey;
+
   [Nuke.Common.Parameter("Authors")]
   readonly string Authors;
 
@@ -215,11 +224,16 @@ class Build : NukeBuild
         .ToList()
         .ForEach(x =>
         {
+          //DotNetTasks.DotNetNuGetPush(s => s
+          //  .SetTargetPath(x)
+          //  .SetSource(NugetFeed)
+          //  .SetApiKey(NuGetApiKey)
+          //  .EnableSkipDuplicate()
+          //);
           DotNetTasks.DotNetNuGetPush(s => s
             .SetTargetPath(x)
-            .SetApiKey(NuGetApiKey)
-            .EnableSkipDuplicate()
-          );
+            .SetSource(NugetApiUrl)
+            .SetApiKey(NuGetApiKey));
         });
     });
 
