@@ -91,11 +91,13 @@
             "enum": [
               "Clean",
               "Compile",
+              "CreateRelease",
               "Pack",
               "PublishToGithub",
               "PublishToNuGet",
               "Restore",
-              "Test"
+              "Test",
+              "Zip"
             ]
           }
         },
@@ -111,11 +113,13 @@
             "enum": [
               "Clean",
               "Compile",
+              "CreateRelease",
               "Pack",
               "PublishToGithub",
               "PublishToNuGet",
               "Restore",
-              "Test"
+              "Test",
+              "Zip"
             ]
           }
         },
