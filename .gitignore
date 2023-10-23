@@ -7,7 +7,7 @@
 .artifacts/
 
 # Secret info file
-Secrets Password.txt
+NuGet.txt
 
 # User-specific files
 *.rsuser
