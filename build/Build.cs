@@ -40,6 +40,7 @@ using Serilog;
 // https://anktsrkr.github.io/post/manage-your-package-version-using-nuke/
 // https://anktsrkr.github.io/post/manage-your-package-release-using-nuke-in-github/
 // https://cfrenzel.com/publishing-nuget-nuke-appveyor/
+// https://www.ariank.dev/create-a-github-release-with-nuke-build-automation-tool/
 class Build : NukeBuild
 {
   /// Support plugins are available for:
@@ -57,14 +58,13 @@ class Build : NukeBuild
   [Nuke.Common.Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
   readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
+  // Gets the API key for the Nuget package. This is defined as GitHub secret on the Repository Level
   [Nuke.Common.Parameter("Nuget API key"), Secret()]
   readonly string NuGetApiKey;
 
-  //[Nuke.Common.Parameter("Nuget Feed Url for Public Access of Pre Releases")]
-  //readonly string NugetFeed;
-
+  // URL on which the Nuget package can be published
   [Nuke.Common.Parameter("Public nuget repository")]
-  readonly string NuGetApiUrl = "https://api.nuget.org/v3/index.json"; //default
+  readonly string NuGetApiUrl = "https://api.nuget.org/v3/index.json";
 
   [Nuke.Common.Parameter("Authors")]
   readonly string Authors;
@@ -243,6 +243,7 @@ class Build : NukeBuild
     .Triggers(CreateRelease)
     .Executes(() =>
     {
+      Log.Information("Zipping...");
       RootDirectory.ZipTo(ArtifactsDirectory / "Source Code " + (ApplicationName + "_" + GitVersion.NuGetVersionV2 + ".zip"),
                           x => !x.ToFileInfo().FullName.Contains(".artifacts") &&
                                !x.ToFileInfo().FullName.Contains(@"\.vs") &&
@@ -267,8 +268,12 @@ class Build : NukeBuild
 
       var owner = GitRepository.GetGitHubOwner();
       var name = GitRepository.GetGitHubName();
-
       var releaseTag = GitVersion.NuGetVersionV2;
+
+      Log.Information($"Owner: {owner}.");
+      Log.Information($"Name: {name}.");
+      Log.Information($"Release: {releaseTag}.");
+
       var changeLogSectionEntries = ChangelogTasks.ExtractChangelogSectionNotes(ChangeLogFile);
       var latestChangeLog = changeLogSectionEntries.Aggregate((c, n) => c + Environment.NewLine + n);
 
