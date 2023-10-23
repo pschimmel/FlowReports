@@ -57,8 +57,12 @@
         },
         "NuGetApiKey": {
           "type": "string",
-          "description": "Nuget Api Key",
+          "description": "Nuget API key",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+        },
+        "NuGetApiUrl": {
+          "type": "string",
+          "description": "Public nuget repository"
         },
         "NuGetArtifactsType": {
           "type": "string",
