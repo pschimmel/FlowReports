@@ -6,6 +6,9 @@
 # Github Artifacts  
 .artifacts/
 
+# Secret info file
+Secrets Password.txt
+
 # User-specific files
 *.rsuser
 *.suo

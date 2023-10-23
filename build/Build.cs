@@ -57,7 +57,8 @@ class Build : NukeBuild
   [Nuke.Common.Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
   readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-  readonly string NuGetApiKey = "sZsrlkni9ipUjc/yAibzstYKxVshKXJXu4Ht8WDoQgJ6yRX5EK1kMMrPqVn3XLca";
+  [Nuke.Common.Parameter("Nuget key"), Secret]
+  readonly string NuGetApiKey = "oy2jvb3z3okh5fgi53eaifkuz6wvibgetn43zj3vmvfibe";
 
   //[Nuke.Common.Parameter("Nuget Feed Url for Public Access of Pre Releases")]
   //readonly string NugetFeed;
