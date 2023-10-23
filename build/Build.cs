@@ -222,16 +222,11 @@ class Build : NukeBuild
         .ToList()
         .ForEach(x =>
         {
-          //DotNetTasks.DotNetNuGetPush(s => s
-          //  .SetTargetPath(x)
-          //  .SetSource(NugetFeed)
-          //  .SetApiKey(NuGetApiKey)
-          //  .EnableSkipDuplicate()
-          //);
           DotNetTasks.DotNetNuGetPush(s => s
             .SetTargetPath(x)
             .SetSource(NuGetApiUrl)
-            .SetApiKey(NuGetApiKey));
+            .SetApiKey(NuGetApiKey)
+            .EnableSkipDuplicate());
         });
     });
 
