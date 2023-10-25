@@ -1,8 +1,6 @@
 using System;
-using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Threading.Tasks;
 using Nuke.Common;
 using Nuke.Common.ChangeLog;
 using Nuke.Common.CI.GitHubActions;
@@ -11,11 +9,9 @@ using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
-using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.NUnit;
-using Octokit;
-using Octokit.Internal;
+using Nuke.GitHub;
 using Serilog;
 
 [GitHubActions(
@@ -41,6 +37,7 @@ using Serilog;
 // https://anktsrkr.github.io/post/manage-your-package-release-using-nuke-in-github/
 // https://cfrenzel.com/publishing-nuget-nuke-appveyor/
 // https://www.ariank.dev/create-a-github-release-with-nuke-build-automation-tool/
+// https://blog.dangl.me/archive/escalating-automation-the-nuclear-option/
 class Build : NukeBuild
 {
   /// Support plugins are available for:
@@ -258,60 +255,91 @@ class Build : NukeBuild
     .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch() || GitRepository.IsOnReleaseBranch())
     .Executes(async () =>
     {
-      var credentials = new Credentials(GitHubActions.Token);
-      GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)), new InMemoryCredentialStore(credentials));
-
-      var owner = GitRepository.GetGitHubOwner();
-      var name = GitRepository.GetGitHubName();
-      var releaseTag = GitVersion.NuGetVersionV2;
-
-      Log.Information($"Owner: {owner}.");
-      Log.Information($"Name: {name}.");
-      Log.Information($"Release: {releaseTag}.");
-
+      var releaseTag = $"v{GitVersion.MajorMinorPatch}";
       var changeLogSectionEntries = ChangelogTasks.ExtractChangelogSectionNotes(ChangeLogFile);
       var latestChangeLog = changeLogSectionEntries.Aggregate((c, n) => c + Environment.NewLine + n);
+      var completeChangeLog = $"## {releaseTag}" + Environment.NewLine + latestChangeLog;
+      var (gitHubOwner, repositoryName) = GitHubTasks.GetGitHubRepositoryInfo(GitRepository);
+      //var nuGetPackages = Globbing.GlobFiles(ArtifactsDirectory, NuGetArtifactsType)
+      //                            .Select(x => x.ToString())
+      //                            .ToArray();
 
-      var newRelease = new NewRelease(releaseTag)
+      Log.Information($"Github Owner: {gitHubOwner}.");
+      Log.Information($"Repository Name: {repositoryName}.");
+      Log.Information($"Release: {releaseTag}.");
+
+      foreach (var entry in changeLogSectionEntries)
       {
-        TargetCommitish = GitVersion.Sha,
-        Draft = true,
-        Name = $"v{releaseTag}",
-        Prerelease = !string.IsNullOrEmpty(GitVersion.PreReleaseTag),
-        Body = latestChangeLog
-      };
+        Log.Information(entry);
+      }
 
-      var createdRelease = await GitHubTasks.GitHubClient
-                                            .Repository
-                                            .Release
-                                            .Create(owner, name, newRelease);
+      var s = Globbing.GlobFiles(ArtifactsDirectory, NuGetArtifactsType, ZipArtifactsType)
+                      .Select(x => x.ToFileInfo().FullName)
+                      .ToArray();
 
-      Globbing.GlobFiles(ArtifactsDirectory, NuGetArtifactsType)
-              .ToList()
-              .ForEach(async x => await UploadReleaseFileToGithub(createdRelease, x));
+      await GitHubTasks.PublishRelease(x =>
+        x.SetArtifactPaths(s)
+         .SetCommitSha(GitVersion.Sha)
+         .SetReleaseNotes(completeChangeLog)
+         .SetRepositoryName(repositoryName)
+         .SetRepositoryOwner(gitHubOwner)
+         .SetTag(releaseTag)
+         .SetToken(GitHubActions.Token));
 
-      Globbing.GlobFiles(ArtifactsDirectory, ZipArtifactsType)
-              .ToList()
-              .ForEach(async x => await UploadReleaseFileToGithub(createdRelease, x));
+      //var credentials = new Credentials(GitHubActions.Token);
+      //GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)), new InMemoryCredentialStore(credentials));
 
-      await GitHubTasks.GitHubClient
-                       .Repository
-                       .Release
-                       .Edit(owner, name, createdRelease.Id, new ReleaseUpdate { Draft = false });
+      //var owner = GitRepository.GetGitHubOwner();
+      //var name = GitRepository.GetGitHubName();
+      //var releaseTag = GitVersion.NuGetVersionV2;
+
+      //Log.Information($"Owner: {owner}.");
+      //Log.Information($"Name: {name}.");
+      //Log.Information($"Release: {releaseTag}.");
+
+      //var changeLogSectionEntries = ChangelogTasks.ExtractChangelogSectionNotes(ChangeLogFile);
+      //var latestChangeLog = changeLogSectionEntries.Aggregate((c, n) => c + Environment.NewLine + n);
+
+      //var newRelease = new NewRelease(releaseTag)
+      //{
+      //  TargetCommitish = GitVersion.Sha,
+      //  Draft = true,
+      //  Name = $"v{releaseTag}",
+      //  Prerelease = !string.IsNullOrEmpty(GitVersion.PreReleaseTag),
+      //  Body = latestChangeLog
+      //};
+
+      //var createdRelease = await GitHubTasks.GitHubClient
+      //                                      .Repository
+      //                                      .Release
+      //                                      .Create(owner, name, newRelease);
+
+      //Globbing.GlobFiles(ArtifactsDirectory, NuGetArtifactsType)
+      //        .ToList()
+      //        .ForEach(async x => await UploadReleaseFileToGithub(createdRelease, x));
+
+      //Globbing.GlobFiles(ArtifactsDirectory, ZipArtifactsType)
+      //        .ToList()
+      //        .ForEach(async x => await UploadReleaseFileToGithub(createdRelease, x));
+
+      //await GitHubTasks.GitHubClient
+      //                 .Repository
+      //                 .Release
+      //                 .Edit(owner, name, createdRelease.Id, new ReleaseUpdate { Draft = false });
     });
 
-  private static async Task UploadReleaseFileToGithub(Release release, string asset)
-  {
-    await using var artifactStream = File.OpenRead(asset);
-    var fileName = Path.GetFileName(asset);
+  //private static async Task UploadReleaseFileToGithub(Release release, string asset)
+  //{
+  //  await using var artifactStream = File.OpenRead(asset);
+  //  var fileName = Path.GetFileName(asset);
 
-    var assetUpload = new ReleaseAssetUpload
-    {
-      FileName = fileName,
-      ContentType = "application/octet-stream",
-      RawData = artifactStream,
-    };
+  //  var assetUpload = new ReleaseAssetUpload
+  //  {
+  //    FileName = fileName,
+  //    ContentType = "application/octet-stream",
+  //    RawData = artifactStream,
+  //  };
 
-    await GitHubTasks.GitHubClient.Repository.Release.UploadAsset(release, assetUpload);
-  }
+  //  await Nuke.Common.Tools.GitHub.GitHubTasks.GitHubClient.Repository.Release.UploadAsset(release, assetUpload);
+  //}
 }
