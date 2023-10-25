@@ -273,7 +273,7 @@ class Build : NukeBuild
         Log.Information(entry);
       }
 
-      var s = Globbing.GlobFiles(ArtifactsDirectory, NuGetArtifactsType, ZipArtifactsType)
+      var s = Globbing.GlobFiles(ArtifactsDirectory, NuGetArtifactsType)
                       .Select(x => x.ToFileInfo().FullName)
                       .ToArray();
 
