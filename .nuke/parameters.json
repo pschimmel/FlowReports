@@ -2,8 +2,6 @@
   "$schema": "./build.schema.json",
   "Configuration": "Release",
   "Solution": "FlowReports.sln",
-  "NuGetArtifactsType": "*.nupkg",
-  "ZipArtifactsType": "*.zip",
   "Authors": "Engineering Solutions",
   "Copyright": "© Engineering Solutions 2023"
 }
