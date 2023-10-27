@@ -19,7 +19,7 @@ using Serilog;
   GitHubActionsImage.WindowsLatest,
   AutoGenerate = true,
   FetchDepth = 0,
-  WritePermissions = new[] { GitHubActionsPermissions.Packages },
+  WritePermissions = new[] { GitHubActionsPermissions.Packages, GitHubActionsPermissions.Contents },
   OnPushBranches = new[] { MasterBranch, DevelopmentBranch, ReleasesBranch },
   OnPullRequestBranches = new[] { ReleasesBranch },
   InvokedTargets = new[] { nameof(Pack) },
@@ -273,7 +273,7 @@ class Build : NukeBuild
         Log.Information(entry);
       }
 
-      var s = Globbing.GlobFiles(ArtifactsDirectory, NuGetArtifactsType)
+      var s = Globbing.GlobFiles(ArtifactsDirectory, NuGetArtifactsType, ZipArtifactsType)
                       .Select(x => x.ToFileInfo().FullName)
                       .ToArray();
 
