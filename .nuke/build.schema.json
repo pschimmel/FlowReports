@@ -64,10 +64,6 @@
           "type": "string",
           "description": "Public nuget repository"
         },
-        "NuGetArtifactsType": {
-          "type": "string",
-          "description": "NuGet Artifacts Type"
-        },
         "Partition": {
           "type": "string",
           "description": "Partition to use on CI"
@@ -96,12 +92,12 @@
               "Clean",
               "Compile",
               "CreateRelease",
+              "CreateZip",
               "Pack",
               "PublishToGithub",
               "PublishToNuGet",
               "Restore",
-              "Test",
-              "Zip"
+              "Test"
             ]
           }
         },
@@ -118,12 +114,12 @@
               "Clean",
               "Compile",
               "CreateRelease",
+              "CreateZip",
               "Pack",
               "PublishToGithub",
               "PublishToNuGet",
               "Restore",
-              "Test",
-              "Zip"
+              "Test"
             ]
           }
         },
@@ -136,10 +132,6 @@
             "Quiet",
             "Verbose"
           ]
-        },
-        "ZipArtifactsType": {
-          "type": "string",
-          "description": "Zip Artifacts Type"
         }
       }
     }

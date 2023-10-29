@@ -1,4 +1,5 @@
 using System;
+using System.IO.Compression;
 using System.Linq;
 using Nuke.Common;
 using Nuke.Common.ChangeLog;
@@ -10,6 +11,7 @@ using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.NUnit;
+using Nuke.Common.Utilities;
 using Nuke.GitHub;
 using Serilog;
 
@@ -69,6 +71,7 @@ class Build : NukeBuild
   readonly string Copyright;
 
   readonly string NuGetArtifactsType = "*.nupkg";
+  readonly string ZipArtifactsType = "*.zip";
 
   [GitVersion]
   readonly GitVersion GitVersion;
@@ -139,8 +142,8 @@ class Build : NukeBuild
     .DependsOn(Compile)
     .Executes(() =>
     {
-      AbsolutePath unitTestPath1 = OutputDirectory / "bin" / Configuration / "net7.0-windows" / "FlowReports.UnitTests.dll";
-      AbsolutePath unitTestPath2 = OutputDirectory / "bin" / Configuration / "net48" / "FlowReports.UnitTests.dll";
+      AbsolutePath unitTestPath1 = OutputDirectory / "bin" / Configuration / "net7.0-windows" / System.IO.Path.ChangeExtension(Solution.FlowReports_UnitTests.Name, ".dll");
+      AbsolutePath unitTestPath2 = OutputDirectory / "bin" / Configuration / "net48" / System.IO.Path.ChangeExtension(Solution.FlowReports_UnitTests.Name, ".dll");
 
       NUnitTasks.NUnit3(_ => _
         .SetInputFiles(unitTestPath1, unitTestPath2)
@@ -157,7 +160,7 @@ class Build : NukeBuild
     .Requires(() => Configuration.Equals(Configuration.Release))
     .Produces(ArtifactsDirectory / NuGetArtifactsType)
     .DependsOn(Test)
-    .Triggers(PublishToGithub, PublishToNuGet)
+    .Triggers(PublishToGithub, PublishToNuGet, CreateZip)
     .Executes(() =>
     {
       // For more definitions see Directory.Build.props file in solution folder
@@ -220,6 +223,26 @@ class Build : NukeBuild
         });
     });
 
+  Target CreateZip => _ => _
+   .Description($"Packing test application.")
+   .Requires(() => Configuration.Equals(Configuration.Release))
+   .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch() || GitRepository.IsOnReleaseBranch())
+   .Produces(ArtifactsDirectory / NuGetArtifactsType)
+   .Triggers(CreateRelease)
+   .Executes(() =>
+   {
+     // Create a zip file with the test application and sample data
+     Log.Information("Zipping...");
+
+     (OutputDirectory / "bin" / Configuration / "net48").ZipTo(ArtifactsDirectory / (Solution.FlowReports_TestApplication.Name + "_" + GitVersion.NuGetVersionV2 + ".zip"),
+                           x => (System.IO.Path.GetExtension(x.ToFileInfo().FullName) == ".exe" ||
+                                 System.IO.Path.GetExtension(x.ToFileInfo().FullName) == ".dll" ||
+                                 System.IO.Path.GetExtension(x.ToFileInfo().FullName) == ".flow") &&
+                                 !x.ToFileInfo().FullName.ContainsAnyOrdinalIgnoreCase("nunit", "VisualStudio", "testcentric", "UnitTests"),
+                           CompressionLevel.SmallestSize,
+                           System.IO.FileMode.Create);
+   });
+
   Target CreateRelease => _ => _
   .Description($"Creating release for the publishable version.")
   .Requires(() => Configuration.Equals(Configuration.Release))
@@ -230,7 +253,7 @@ class Build : NukeBuild
     var changeLogSectionEntries = ChangelogTasks.ExtractChangelogSectionNotes(ChangeLogFile);
     var latestChangeLog = changeLogSectionEntries.Aggregate((c, n) => c + Environment.NewLine + n);
     var completeChangeLog = $"## {releaseTag}" + Environment.NewLine + latestChangeLog;
-    var (gitHubOwner, repositoryName) = Nuke.GitHub.GitHubTasks.GetGitHubRepositoryInfo(GitRepository);
+    var (gitHubOwner, repositoryName) = GitHubTasks.GetGitHubRepositoryInfo(GitRepository);
 
     Log.Information($"Github Owner: {gitHubOwner}.");
     Log.Information($"Repository Name: {repositoryName}.");
@@ -241,11 +264,11 @@ class Build : NukeBuild
       Log.Information(entry);
     }
 
-    var s = Globbing.GlobFiles(ArtifactsDirectory, NuGetArtifactsType)
-                      .Select(x => x.ToFileInfo().FullName)
-                      .ToArray();
+    var s = Globbing.GlobFiles(ArtifactsDirectory, NuGetArtifactsType, ZipArtifactsType)
+                    .Select(x => x.ToFileInfo().FullName)
+                    .ToArray();
 
-    await Nuke.GitHub.GitHubTasks.PublishRelease(x =>
+    await GitHubTasks.PublishRelease(x =>
       x.SetArtifactPaths(s)
        .SetCommitSha(GitVersion.Sha)
        .SetReleaseNotes(completeChangeLog)
