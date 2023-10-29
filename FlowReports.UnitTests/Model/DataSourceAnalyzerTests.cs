@@ -32,7 +32,7 @@ namespace FlowReports.UnitTests.Model
       DataSourceAnalyzer.Analyze(list);
     }
 
-    [Test, Ignore("Infinite loop")]
+    [Test/*, Ignore("Infinite loop")*/]
     public void DataSourceAnalyzerTest_Recursion()
     {
       var hans = new Person("Hans", "Müller");

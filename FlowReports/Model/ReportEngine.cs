@@ -11,6 +11,6 @@ namespace FlowReports.Model
       report.DataSource = DataSourceAnalyzer.Analyze(items);
     }
 
-    public static Settings Settings { get; } = Settings.Default;
+    public static Settings Settings { get; set; } = Settings.Default;
   }
 }

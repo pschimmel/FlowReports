@@ -2,8 +2,8 @@
 {
   public class Settings
   {
-    public const int RECURSION_MAX_DEPTH = 10;
-    public const int RECURSION_DEFAULT = 5;
+    public const int RECURSION_MAX_DEPTH = 100;
+    public const int RECURSION_DEFAULT = 10;
     private int _recursionDepth = RECURSION_DEFAULT;
     public const char DATASOURCE_OPENING_BRACKET = '[';
     public const char DATASOURCE_CLOSING_BRACKET = ']';

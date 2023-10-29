@@ -17,6 +17,7 @@ namespace FlowReports.Model.DataSources
         new ImageAnalyzer()
       };
     });
+    private static readonly Dictionary<string, int> _recursionCounter = new();
 
     public static DataSource Analyze<T>(IEnumerable<T> source) where T : class
     {
@@ -38,6 +39,21 @@ namespace FlowReports.Model.DataSources
 
     private static bool AnalyzeItemByType(Type type, IDataSourceItemContainer container)
     {
+      if (!_recursionCounter.TryGetValue(type.FullName, out int count))
+      {
+        count = 1;
+        _recursionCounter.Add(type.FullName, count);
+      }
+      else
+      {
+        _recursionCounter[type.FullName] = count + 1;
+      }
+
+      if (count > ReportEngine.Settings.RecursionDepth)
+      {
+        return false;
+      }
+
       var propertyInfos = type.GetProperties();
       bool result = true;
 
