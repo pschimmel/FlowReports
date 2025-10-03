@@ -3,6 +3,12 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Github Artifacts  
+.artifacts/
+
+# Secret info file
+NuGet.txt
+
 # User-specific files
 *.rsuser
 *.suo
@@ -361,3 +367,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Ionide (cross platform F# VS Code tools) working folder
+.artifacts/

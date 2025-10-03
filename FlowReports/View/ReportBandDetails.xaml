@@ -1,0 +1,39 @@
+﻿<Window x:Class="FlowReports.View.ReportBandDetails"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:properties="clr-namespace:FlowReports.Properties"
+        xmlns:viewmodel="clr-namespace:FlowReports.ViewModel"
+        Title="{x:Static properties:Resources.Details}"
+        Width="600"
+        Height="150"
+        d:DataContext="{d:DesignInstance Type=viewmodel:ReportBandViewModel}"
+        mc:Ignorable="d">
+  <Grid Margin="5">
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition Height="Auto" />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Row="1" Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.DataSource}" />
+      <TextBox Grid.Row="1"
+               Grid.Column="1"
+               Style="{StaticResource EditTextBoxStyle}"
+               Text="{Binding DataSource}" />
+    </Grid>
+    <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
+      <Button Click="OKButton_Click" Style="{StaticResource OKButton}" />
+      <Button Click="CancelButton_Click" Style="{StaticResource CancelButton}" />
+    </StackPanel>
+  </Grid>
+</Window>

@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "FlowReports.UI": {
-      "commandName": "Project",
-      "commandLineArgs": "..\\\\..\\\\..\\\\..\\\\FlowReports.UI\\\\Examples\\\\Example.nas"
-    }
-  }
-}
