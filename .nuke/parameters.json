@@ -1,7 +1,0 @@
-{
-  "$schema": "./build.schema.json",
-  "Configuration": "Release",
-  "Solution": "FlowReports.sln",
-  "Authors": "Engineering Solutions",
-  "Copyright": "© Engineering Solutions 2023"
-}

@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-  	<TargetFrameworks>net7.0-windows;net48</TargetFrameworks>
-    <LangVersion>10.0</LangVersion>
+    <TargetFramework>net9.0-windows7.0</TargetFramework>
     <UseWPF>true</UseWPF>    
-    <BaseOutputPath>..\Output\bin</BaseOutputPath>
+    <BaseOutputPath>..\Output\bin</BaseOutputPath>    
+    <Version>0.8.6.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -86,10 +86,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ES.Tools" Version="0.6.30.123" />
-    <PackageReference Include="ES.Tools.Core" Version="0.6.30.123" />
-    <PackageReference Include="Fluent.Ribbon" Version="10.0.4" />
-    <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
+    <PackageReference Include="ES.Tools" Version="0.6.40.125" />
+    <PackageReference Include="ES.Tools.Core" Version="0.6.40.125" />
+    <PackageReference Include="Fluent.Ribbon" Version="11.0.1" />
+    <PackageReference Include="gong-wpf-dragdrop" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>
