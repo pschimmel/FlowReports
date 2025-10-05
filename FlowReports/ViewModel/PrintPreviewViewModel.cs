@@ -1,11 +1,11 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Xps.Packaging;
 using ES.Tools.Core.Infrastructure;
 using ES.Tools.Core.MVVM;
 using FlowReports.Model;
-using FlowReports.ViewModel.Infrastructure;
 using FlowReports.ViewModel.Printing;
 
 namespace FlowReports.ViewModel
@@ -94,16 +94,20 @@ namespace FlowReports.ViewModel
     {
       base.Dispose(disposing);
 
+      if (!disposing)
+      {
+        return;
+      }
+
       foreach (var path in _tempFileNames)
       {
         try
         {
           File.Delete(path);
         }
-        catch
+        catch (Exception ex)
         {
-          var service = Services.Instance.GetService<ExecuteOnApplicationClosing>();
-          service.Add(() => { try { File.Delete(path); } catch { } });
+          Debug.Fail(ex.Message);
         }
       }
     }

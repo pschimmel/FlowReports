@@ -18,7 +18,7 @@ namespace FlowReports.View.Converters
       {
         if (!_iconCache.TryGetValue(valueAsString, out ImageSource imageSource))
         {
-          imageSource = new BitmapImage(new Uri("pack://application:,,,/FlowReports.View;component/Images/" + valueAsString, UriKind.Absolute));
+          imageSource = new BitmapImage(new Uri("pack://application:,,,/FlowReports;component/View/Images/" + valueAsString, UriKind.Absolute));
           _iconCache[valueAsString] = imageSource;
         }
 

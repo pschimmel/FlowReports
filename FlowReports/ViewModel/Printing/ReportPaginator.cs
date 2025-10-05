@@ -210,7 +210,7 @@ namespace FlowReports.ViewModel.Printing
         Width = ActualWidth
       };
 
-      _currentCanvas.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/FlowReports.View;Component/DataTemplates/ReportDataTemplates.xaml", UriKind.RelativeOrAbsolute) });
+      _currentCanvas.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/FlowReports;component/View/DataTemplates/ReportDataTemplates.xaml", UriKind.RelativeOrAbsolute) });
       _currentY = 0;
     }
 

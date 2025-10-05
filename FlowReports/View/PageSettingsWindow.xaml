@@ -10,7 +10,7 @@
         Width="363"
         Height="213"
         d:DataContext="{d:DesignInstance Type=printing:PageSettingsViewModel}"
-        Icon="pack://application:,,,/FlowReports.View;component/Images/PrintSetup_16x.png"
+        Icon="pack://application:,,,/FlowReports;component/View/Images/PrintSetup_16x.png"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
@@ -63,10 +63,10 @@
                      VerticalContentAlignment="Center"
                      GroupName="Orientation"
                      IsChecked="{Binding Orientation, Converter={StaticResource PageOrientationConverter}}">
-          <Image Source="pack://application:,,,/FlowReports.View;component/Images/Portrait_32x.png" />
+          <Image Source="pack://application:,,,/FlowReports;component/View/Images/Portrait_32x.png" />
         </RadioButton>
         <RadioButton Margin="2" VerticalContentAlignment="Center" GroupName="Orientation">
-          <Image Source="pack://application:,,,/FlowReports.View;component/Images/Landscape_32x.png" />
+          <Image Source="pack://application:,,,/FlowReports;component/View/Images/Landscape_32x.png" />
         </RadioButton>
       </StackPanel>
       <StackPanel Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">

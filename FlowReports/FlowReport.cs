@@ -64,6 +64,7 @@ namespace FlowReports
 
     public static void Show<T>(Report report, IEnumerable<T> data) where T : class
     {
+      report.Data = data;
       using var vm = new PrintPreviewViewModel(report);
       var view = ViewFactory.Instance.CreateView(vm);
       view.ShowDialog();

@@ -11,14 +11,14 @@
         Width="400"
         Height="250"
         d:DataContext="{d:DesignInstance Type=printing:PageSettingsViewModel}"
-        Icon="pack://application:,,,/FlowReports.View;component/Images/Information_16x.png"
+        Icon="pack://application:,,,/FlowReports;component/View/Images/Information_16x.png"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
   <Window.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <toolsUI:SharedResourceDictionary Source="pack://application:,,,/FlowReports.View;Component/DataTemplates/GeneralDataTemplates.xaml" />
+        <toolsUI:SharedResourceDictionary Source="pack://application:,,,/FlowReports;component/View/DataTemplates/GeneralDataTemplates.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Window.Resources>

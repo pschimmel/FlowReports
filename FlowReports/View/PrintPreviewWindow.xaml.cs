@@ -14,7 +14,7 @@ namespace FlowReports.View
     public PrintPreviewWindow()
     {
       InitializeComponent();
-      EventService.Instance.Subscribe<bool>("CloseEditor", CloseWindow);
+      EventService.Instance.Subscribe<bool>("ClosePrintPreview", CloseWindow);
     }
 
     public IViewModel ViewModel
@@ -29,7 +29,7 @@ namespace FlowReports.View
 
       if (!e.Cancel)
       {
-        EventService.Instance.Unsubscribe("CloseEditor");
+        EventService.Instance.Unsubscribe("ClosePrintPreview");
       }
     }
 

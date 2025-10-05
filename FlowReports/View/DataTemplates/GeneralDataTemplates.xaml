@@ -22,7 +22,7 @@
                Height="64"
                Margin="5"
                DockPanel.Dock="Right"
-               Source="pack://application:,,,/FlowReports.View;component/Images/FlowReports_64x.png" />
+               Source="pack://application:,,,/FlowReports;component/View/Images/FlowReports_64x.png" />
         <TextBlock Margin="5"
                    VerticalAlignment="Center"
                    FontSize="16"

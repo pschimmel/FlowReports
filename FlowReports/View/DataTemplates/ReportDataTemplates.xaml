@@ -1,7 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:FlowReports.View.Converters"
+                    xmlns:toolsUI="clr-namespace:ES.Tools.UI;assembly=ES.Tools"
                     xmlns:vm="clr-namespace:FlowReports.ViewModel.ReportItems">
+  <ResourceDictionary.MergedDictionaries>
+    <toolsUI:SharedResourceDictionary Source="pack://application:,,,/FlowReports;component/View/Brushes.xaml" />
+  </ResourceDictionary.MergedDictionaries>
 
   <converters:ObjectToImageSourceConverter x:Key="ImageConverter" />
 
