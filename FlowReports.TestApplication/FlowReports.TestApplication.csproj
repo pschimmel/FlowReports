@@ -34,6 +34,7 @@
     <Resource Include="Images\Bunny.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\NewReport.png" />
     <Resource Include="Images\Fox.jpg">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

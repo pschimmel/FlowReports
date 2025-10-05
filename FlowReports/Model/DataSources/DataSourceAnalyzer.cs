@@ -21,10 +21,7 @@ namespace FlowReports.Model.DataSources
 
     public static DataSource Analyze<T>(IEnumerable<T> source) where T : class
     {
-      if (source == null)
-      {
-        throw new ArgumentNullException(nameof(source));
-      }
+      ArgumentNullException.ThrowIfNull(source);
 
       var dataSource = new DataSource() { Name = GenerateTypeName(typeof(T)) };
       AnalyzeList(source, dataSource);

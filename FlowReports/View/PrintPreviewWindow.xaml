@@ -29,7 +29,7 @@
       <RowDefinition Height="Auto" />
       <RowDefinition />
     </Grid.RowDefinitions>
-    <fluent:Ribbon CanUseSimplified="True" UseLayoutRounding="True" IsSimplified="True">
+    <fluent:Ribbon CanUseSimplified="True" IsSimplified="True" UseLayoutRounding="True">
       <fluent:Ribbon.Menu>
         <fluent:Backstage Header="{x:Static properties:Resources.File}">
           <fluent:BackstageTabControl>
@@ -100,7 +100,7 @@
                     BorderBrush="{StaticResource PrintPreview.Border}"
                     Document="{Binding Document}">
       <DocumentViewer.Resources>
-        <!-- Hides the toolbar -->
+        <!--  Hides the toolbar  -->
         <Style TargetType="ToolBar">
           <Setter Property="Visibility" Value="Collapsed" />
         </Style>

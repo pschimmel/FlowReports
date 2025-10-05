@@ -17,5 +17,6 @@ namespace FlowReports.ViewModel.EditorItems
     bool IsSelected { get; set; }
     Point Location { get; }
     Size Size { get; }
+    string DataSource { get; set; }
   }
 }

@@ -79,7 +79,21 @@
                 Grid.ColumnSpan="3"
                 HorizontalAlignment="Center"
                 Orientation="Horizontal">
-      <Button Command="{Binding EditReportCommand}" ToolTip="Opens FlowReports editor with the current file and data.">
+      <Button Command="{Binding NewReportCommand}" ToolTip="Opens the FlowReports editor with a new file and data.">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <controls:AutoGrayableImage Source="pack://application:,,,/FlowReports.TestApplication;component/Images/NewReport.png" />
+          <TextBlock Grid.Column="1"
+                     Margin="2"
+                     VerticalAlignment="Center"
+                     FontWeight="Bold"
+                     Text="Create Report..." />
+        </Grid>
+      </Button>
+      <Button Command="{Binding EditReportCommand}" ToolTip="Opens the FlowReports editor with the current file and data.">
         <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -93,7 +107,7 @@
                      Text="Edit Report..." />
         </Grid>
       </Button>
-      <Button Command="{Binding ShowReportCommand}" ToolTip="Opens FlowReports print preview with the current file and data.">
+      <Button Command="{Binding ShowReportCommand}" ToolTip="Opens the FlowReports print preview with the current file and data.">
         <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition />

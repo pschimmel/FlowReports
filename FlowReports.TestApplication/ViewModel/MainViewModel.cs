@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ES.Tools.Core.MVVM;
+using FlowReports.Model;
 using FlowReports.TestApplication.Model;
 using Microsoft.Win32;
 
@@ -19,6 +20,7 @@ namespace FlowReports.TestApplication.ViewModel
     private ActionCommand _selectReportFileCommand;
     private ActionCommand _showReportCommand;
     private ActionCommand _editReportCommand;
+    private ActionCommand _newReportCommand;
     private ActionCommand _addCompanyCommand;
     private ActionCommand _removeCompanyCommand;
     private ActionCommand _addEmployeeCommand;
@@ -147,8 +149,8 @@ namespace FlowReports.TestApplication.ViewModel
     {
       if (File.Exists(ReportFilePath))
       {
-        var report =  FlowReport.Load(ReportFilePath);
-        FlowReport.Edit(report);
+        var report = FlowReport.Load(ReportFilePath);
+        FlowReport.Edit(report, Companies);
       }
       else
       {
@@ -159,6 +161,17 @@ namespace FlowReports.TestApplication.ViewModel
     private bool CanEditReport()
     {
       return !string.IsNullOrWhiteSpace(ReportFilePath) && Companies.Any();
+    }
+
+    #endregion
+
+    #region New Report
+
+    public ICommand NewReportCommand => _newReportCommand ??= new ActionCommand(NewReport);
+
+    private void NewReport()
+    {
+      FlowReport.Edit(new Report(), Companies);
     }
 
     #endregion

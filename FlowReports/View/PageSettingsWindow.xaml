@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:printing="clr-namespace:FlowReports.ViewModel.Printing"
         xmlns:properties="clr-namespace:FlowReports.Properties"
+        xmlns:toolsUI="clr-namespace:ES.Tools.UI;assembly=ES.Tools"
         Title="{x:Static properties:Resources.PrintSetup}"
         Width="363"
         Height="213"
@@ -15,14 +16,17 @@
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
   <Window.Resources>
-    <converters:PageOrientationConverter x:Key="PageOrientationConverter" />
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <toolsUI:SharedResourceDictionary Source="/FlowReports;component/View/Styles.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <converters:PageOrientationConverter x:Key="PageOrientationConverter" />
+    </ResourceDictionary>
   </Window.Resources>
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition />
       <RowDefinition Height="Auto" />
       <RowDefinition />
       <RowDefinition Height="Auto" />
@@ -86,23 +90,13 @@
                    Text="{Binding PageWidth, StringFormat={}{0:F1} cm}" />
       </StackPanel>
     </Grid>
-    <Button Name="buttonOK"
-            Grid.Row="8"
-            Grid.Column="1"
-            Width="75"
-            Margin="5"
-            HorizontalAlignment="Right"
-            Click="buttonOK_Click"
-            Content="{x:Static properties:Resources.OK}"
-            IsDefault="True" />
-    <Button Name="buttonCancel"
-            Grid.Row="7"
-            Grid.Column="1"
-            Width="75"
-            Margin="5,5,85,5"
-            HorizontalAlignment="Right"
-            Click="buttonCancel_Click"
-            Content="{x:Static properties:Resources.Cancel}"
-            IsCancel="True" />
+
+    <StackPanel Grid.Row="4"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+      <Button Click="buttonOK_Click" Style="{StaticResource OKButton}" />
+      <Button Click="buttonCancel_Click" Style="{StaticResource CancelButton}" />
+    </StackPanel>
   </Grid>
 </Window>
