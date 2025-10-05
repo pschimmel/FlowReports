@@ -23,7 +23,7 @@ namespace FlowReports.ViewModel
 
     #region Properties
 
-    public string Name => _item.Name;
+    public string Name => _item?.Name;
 
     public bool CanHaveChildren => true;
 
@@ -38,6 +38,11 @@ namespace FlowReports.ViewModel
     private static List<IDataSourceItemViewModel> GetChildren(IDataSourceItemContainer dataSource)
     {
       var list = new List<IDataSourceItemViewModel>();
+
+      if (dataSource == null)
+      {
+        return list;
+      }
 
       foreach (var item in dataSource)
       {

@@ -17,7 +17,6 @@ namespace FlowReports.ViewModel
 
     private ReportBandViewModel _selectedBand;
     private IEditorItemViewModel _selectedItem;
-    private readonly Lazy<IEnumerable<DataSourceViewModel>> _lazyDataSource;
     private bool _isDirty;
     private readonly ActionCommand _addNewBandCommand;
     private readonly ActionCommand _addSubBandCommand;
@@ -52,7 +51,7 @@ namespace FlowReports.ViewModel
       _cutCommand = new ActionCommand(Cut, CanCut);
       _copyCommand = new ActionCommand(Copy, CanCopy);
       _pasteCommand = new ActionCommand(Paste, CanPaste);
-      _lazyDataSource = new Lazy<IEnumerable<DataSourceViewModel>>(() => new DataSourceViewModel[] { new DataSourceViewModel(report.DataSource) });
+      DataSourceVM = new DataSourceViewModel[] { new DataSourceViewModel(report.DataSource) };
       IsDirty = false;
     }
 
@@ -136,7 +135,7 @@ namespace FlowReports.ViewModel
       set => Report.FilePath = value;
     }
 
-    public IEnumerable<DataSourceViewModel> DataSourceVM => _lazyDataSource.Value;
+    public IEnumerable<DataSourceViewModel> DataSourceVM { get; }
 
     internal Report Report { get; private set; }
 
