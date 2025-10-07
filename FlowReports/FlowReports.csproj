@@ -4,7 +4,7 @@
     <TargetFramework>net9.0-windows7.0</TargetFramework>
     <UseWPF>true</UseWPF>    
     <BaseOutputPath>..\Output\bin</BaseOutputPath>    
-    <Version>0.8.6.0</Version>
+    <Version>0.8.7.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
