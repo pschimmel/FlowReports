@@ -11,13 +11,16 @@ namespace FlowReports.Model
     public DataSource DataSource { get; internal set; }
 
     public DateTime LastChanged { get; internal set; }
+
     public IEnumerable Data { get; internal set; }
+
     public Type TypeOfData { get; internal set; }
+
     public string FilePath { get; set; }
 
-    public void Analyze<T>(IEnumerable<T> items) where T : class
+    public void Analyze<T>(IEnumerable<T> items, string dataSourceName) where T : class
     {
-      ReportEngine.Analyze(this, items);
+      ReportEngine.Analyze(this, items, dataSourceName);
     }
   }
 }

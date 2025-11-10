@@ -8,8 +8,8 @@
                      xmlns:toolsUI="clr-namespace:ES.Tools.UI;assembly=ES.Tools"
                      xmlns:viewmodel="clr-namespace:FlowReports.ViewModel"
                      Title="{Binding Title}"
-                     Width="800"
-                     Height="450"
+                     Width="1024"
+                     Height="720"
                      WindowStartupLocation="CenterScreen"
                      WindowState="Maximized"
                      mc:Ignorable="d">
@@ -79,13 +79,23 @@
                          Icon="pack://application:,,,/FlowReports;component/View/Images/AddBand_16x.png"
                          LargeIcon="pack://application:,,,/FlowReports;component/View/Images/AddBand_32x.png" />
           <fluent:Button Command="{Binding AddSubBandCommand}"
-                         Header="{x:Static properties:Resources.AddSubband}"
+                         Header="{x:Static properties:Resources.AddSubBand}"
                          Icon="pack://application:,,,/FlowReports;component/View/Images/AddSubBand_16x.png"
                          LargeIcon="pack://application:,,,/FlowReports;component/View/Images/AddSubBand_32x.png" />
           <fluent:Button Command="{Binding EditBandDetailsCommand}"
                          Header="{x:Static properties:Resources.EditBandDetails}"
                          Icon="pack://application:,,,/FlowReports;component/View/Images/EditBandDetails_16x.png"
                          LargeIcon="pack://application:,,,/FlowReports;component/View/Images/EditBandDetails_32x.png" />
+          <fluent:Button Command="{Binding MoveBandUpCommand}"
+                         Header="{x:Static properties:Resources.MoveBandUp}"
+                         Icon="pack://application:,,,/FlowReports;component/View/Images/MoveBandUp_16x.png"
+                         LargeIcon="pack://application:,,,/FlowReports;component/View/Images/MoveBandUp_32x.png"
+                         SizeDefinition="Middle Middle Small" />
+          <fluent:Button Command="{Binding MoveBandDownCommand}"
+                         Header="{x:Static properties:Resources.MoveBandDown}"
+                         Icon="pack://application:,,,/FlowReports;component/View/Images/MoveBandDown_16x.png"
+                         LargeIcon="pack://application:,,,/FlowReports;component/View/Images/MoveBandDown_32x.png"
+                         SizeDefinition="Middle Middle Small" />
           <fluent:Button Command="{Binding RemoveBandCommand}"
                          Header="{x:Static properties:Resources.RemoveBand}"
                          Icon="pack://application:,,,/FlowReports;component/View/Images/RemoveBand_16x.png"

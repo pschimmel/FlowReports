@@ -65,6 +65,42 @@ namespace FlowReports.Model.ReportItems
       return index;
     }
 
+    public void MoveBandUp(ReportBand band)
+    {
+      int index = _bands.IndexOf(band);
+      if (index > 0)
+      {
+        _bands.RemoveAt(index);
+        _bands.Insert(index - 1, band);
+        OnSubBandRemoved(index, band);
+        OnSubBandAdded(index - 1, band);
+      }
+    }
+
+    public bool CanMoveBandUp(ReportBand band)
+    {
+      int index = _bands.IndexOf(band);
+      return index > 0;
+    }
+
+    public void MoveBandDown(ReportBand band)
+    {
+      int index = _bands.IndexOf(band);
+      if (index >= 0 && index < _bands.Count - 1)
+      {
+        _bands.RemoveAt(index);
+        _bands.Insert(index + 1, band);
+        OnSubBandRemoved(index, band);
+        OnSubBandAdded(index + 1, band);
+      }
+    }
+
+    public bool CanMoveBandDown(ReportBand band)
+    {
+      int index = _bands.IndexOf(band);
+      return index >= 0 && index < _bands.Count - 1;
+    }
+
     public void Clear()
     {
       foreach (var band in _bands)

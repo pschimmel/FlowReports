@@ -129,7 +129,7 @@
   <data name="AddImageItem" xml:space="preserve">
     <value>Bildeintrag hinzufügen</value>
   </data>
-  <data name="AddSubband" xml:space="preserve">
+  <data name="AddSubBand" xml:space="preserve">
     <value>Unterband hinzufügen</value>
   </data>
   <data name="AddTextItem" xml:space="preserve">
@@ -194,6 +194,12 @@
   </data>
   <data name="Left" xml:space="preserve">
     <value>Links</value>
+  </data>
+  <data name="MoveBandDown" xml:space="preserve">
+    <value>Nach unten verschieben</value>
+  </data>
+  <data name="MoveBandUp" xml:space="preserve">
+    <value>Nach oben verschieben</value>
   </data>
   <data name="NASFiles" xml:space="preserve">
     <value>NAS-Dateien (*.nas)</value>

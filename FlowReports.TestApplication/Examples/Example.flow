@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Report LastChanged="2023-03-07T23:57:14.7066115+01:00">
   <Bands>
-    <Band ID="10831ead643a41e4a14a80208fa41ed5" DataSource="Company">
+    <Band ID="10831ead643a41e4a14a80208fa41ed5" DataSource="Companies">
       <Items>
         <Item Type="TextItem" ID="4d9dcda3826741fe98f959988d19919f" X="0" Y="0" Width="100" Height="20" DataSource="[Name]" />
       </Items>

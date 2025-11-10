@@ -150,7 +150,7 @@ namespace FlowReports.TestApplication.ViewModel
       if (File.Exists(ReportFilePath))
       {
         var report = FlowReport.Load(ReportFilePath);
-        FlowReport.Edit(report, Companies);
+        FlowReport.Edit(report, Companies, "Companies");
       }
       else
       {
@@ -171,7 +171,7 @@ namespace FlowReports.TestApplication.ViewModel
 
     private void NewReport()
     {
-      FlowReport.Edit(new Report(), Companies);
+      FlowReport.Edit(new Report(), Companies, "Companies");
     }
 
     #endregion

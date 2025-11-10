@@ -65,6 +65,26 @@ namespace FlowReports.ViewModel.EditorItems
       SelectionChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    public void MoveBandUp(ReportBandViewModel band)
+    {
+      _subBands.MoveBandUp(band.Band);
+    }
+
+    public void MoveBandDown(ReportBandViewModel band)
+    {
+      _subBands.MoveBandDown(band.Band);
+    }
+
+    public bool CanMoveBandUp(ReportBandViewModel band)
+    {
+      return _subBands.CanMoveBandUp(band.Band);
+    }
+
+    public bool CanMoveBandDown(ReportBandViewModel band)
+    {
+      return _subBands.CanMoveBandDown(band.Band);
+    }
+
     #endregion
 
     #region Event Handlers

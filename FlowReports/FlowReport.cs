@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using ES.Tools.Core.MVVM;
 using FlowReports.Model;
 using FlowReports.Model.ImportExport;
@@ -21,10 +20,13 @@ namespace FlowReports
       ViewFactory.Instance.Register<AboutViewModel, AboutWindow>();
     }
 
-    public static Report New<T>(IEnumerable<T> data) where T : class
+    /// <summary>
+    /// Creates a new empty FlowReport instance and analyzes the given data.
+    /// </summary>
+    public static Report New<T>(IEnumerable<T> data, string dataSourceName) where T : class
     {
       var report = new Report();
-      report.Analyze(data);
+      report.Analyze(data, dataSourceName);
       return report;
     }
 
@@ -32,22 +34,20 @@ namespace FlowReports
     /// Loads a FlowReport from disk.
     /// </summary>
     /// <param name="filePath">Path to the file.</param>
-    /// <exception cref="Exce"
+    /// <exception cref="FileNotFoundException">The file does not exist.</exception>
+    /// <exception cref="FileFormatException">The file is not a FlowReport file.</exception>
     public static Report Load(string filePath)
     {
-      if (!File.Exists(filePath))
-      {
-        throw new FileNotFoundException("File not found.");
-      }
-
-      if (Path.GetExtension(filePath).ToLower() != Globals.ReportExtension)
-      {
-        throw new FileFormatException("Wrong file type.");
-      }
-
-      return ReportReader.Read(filePath);
+      return !File.Exists(filePath)
+        ? throw new FileNotFoundException("File not found.")
+        : !Path.GetExtension(filePath).Equals(Globals.ReportExtension, StringComparison.CurrentCultureIgnoreCase)
+        ? throw new FileFormatException("Wrong file type.")
+        : ReportReader.Read(filePath);
     }
 
+    /// <summary>
+    /// Starts the Report Editor for the given report.
+    /// </summary>
     public static void Edit(Report report)
     {
       using var viewModel = new ReportEditorViewModel(report);
@@ -56,12 +56,23 @@ namespace FlowReports
       view.ShowDialog();
     }
 
-    public static void Edit<T>(Report report, IEnumerable<T> data) where T : class
+    /// <summary>
+    /// Starts the Report Editor for the given report and analyzes the data. 
+    /// </summary>
+    /// <param name="report">Report instance to edit.</param>
+    /// <param name="data">Data used as data source.</param>
+    /// <param name="dataSourceName">Name of the top level of the data source.</param>
+    public static void Edit<T>(Report report, IEnumerable<T> data, string dataSourceName) where T : class
     {
-      report.Analyze(data);
+      report.Analyze(data, dataSourceName);
       Edit(report);
     }
 
+    /// <summary>
+    /// Shows a print preview of the given report with the given data. 
+    /// </summary>
+    /// <param name="report">Report instance to show.</param>
+    /// <param name="data">Data used as data source.</param>
     public static void Show<T>(Report report, IEnumerable<T> data) where T : class
     {
       report.Data = data;

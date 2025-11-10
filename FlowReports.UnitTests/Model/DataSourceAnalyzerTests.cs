@@ -15,21 +15,21 @@ namespace FlowReports.UnitTests.Model
     public void DataSourceAnalyzerTest_ItemIsObject_KnownListType()
     {
       var item = new TestItemWithKnownListType();
-      DataSourceAnalyzer.Analyze(new List<TestItemWithKnownListType> { item });
+      DataSourceAnalyzer.Analyze(new List<TestItemWithKnownListType> { item }, "List");
     }
 
     [Test]
     public void DataSourceAnalyzerTest_ItemIsObject_UnknownListType()
     {
       var item = new TestItemWithUnknownListType();
-      DataSourceAnalyzer.Analyze(new List<TestItemWithUnknownListType> { item });
+      DataSourceAnalyzer.Analyze(new List<TestItemWithUnknownListType> { item }, "List");
     }
 
     [Test]
     public void DataSourceAnalyzerTest_ItemIsIEnumerable()
     {
       var list = new TestItemWithKnownListType[] { new TestItemWithKnownListType(), new TestItemWithKnownListType() };
-      DataSourceAnalyzer.Analyze(list);
+      DataSourceAnalyzer.Analyze(list, "List");
     }
 
     [Test/*, Ignore("Infinite loop")*/]
@@ -46,8 +46,9 @@ namespace FlowReports.UnitTests.Model
       gerda.Children.Add(hans);
 
       var list = new Person[] { hans, helmut };
-      DataSource dataSource = DataSourceAnalyzer.Analyze(list);
+      DataSource dataSource = DataSourceAnalyzer.Analyze(list, "Persons");
       Assert.That(dataSource, Is.Not.Null);
+
     }
   }
 }

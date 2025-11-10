@@ -17,13 +17,14 @@ namespace FlowReports.Model.DataSources
         new ImageAnalyzer()
       };
     });
+
     private static readonly Dictionary<string, int> _recursionCounter = new();
 
-    public static DataSource Analyze<T>(IEnumerable<T> source) where T : class
+    public static DataSource Analyze<T>(IEnumerable<T> source, string dataSourceName) where T : class
     {
       ArgumentNullException.ThrowIfNull(source);
 
-      var dataSource = new DataSource() { Name = GenerateTypeName(typeof(T)) };
+      var dataSource = new DataSource() { Name = dataSourceName };
       AnalyzeList(source, dataSource);
       return dataSource;
     }

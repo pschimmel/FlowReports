@@ -18,17 +18,19 @@ namespace FlowReports.ViewModel
     private ReportBandViewModel _selectedBand;
     private IEditorItemViewModel _selectedItem;
     private bool _isDirty;
-    private readonly ActionCommand _addNewBandCommand;
-    private readonly ActionCommand _addSubBandCommand;
-    private readonly ActionCommand _editBandDetailsCommand;
-    private readonly ActionCommand _removeBandCommand;
-    private readonly ActionCommand _addTextItemCommand;
-    private readonly ActionCommand _addBooleanItemCommand;
-    private readonly ActionCommand _addImageItemCommand;
-    private readonly ActionCommand _removeItemCommand;
-    private readonly ActionCommand _cutCommand;
-    private readonly ActionCommand _copyCommand;
-    private readonly ActionCommand _pasteCommand;
+    private ActionCommand _addNewBandCommand;
+    private ActionCommand _addSubBandCommand;
+    private ActionCommand _editBandDetailsCommand;
+    private ActionCommand _removeBandCommand;
+    private ActionCommand _moveBandUp;
+    private ActionCommand _moveBandDown;
+    private ActionCommand _addTextItemCommand;
+    private ActionCommand _addBooleanItemCommand;
+    private ActionCommand _addImageItemCommand;
+    private ActionCommand _removeItemCommand;
+    private ActionCommand _cutCommand;
+    private ActionCommand _copyCommand;
+    private ActionCommand _pasteCommand;
 
     #endregion
 
@@ -39,18 +41,6 @@ namespace FlowReports.ViewModel
     {
       Report = report;
       SelectionChanged += ReportVM_SelectionChanged;
-
-      _addNewBandCommand = new ActionCommand(AddNewBand, CanAddNewBand);
-      _addSubBandCommand = new ActionCommand(AddSubBand, CanAddSubBand);
-      _editBandDetailsCommand = new ActionCommand(EditBandDetails, CanEditBandDetails);
-      _removeBandCommand = new ActionCommand(RemoveBand, CanRemoveBand);
-      _addTextItemCommand = new ActionCommand(AddTextItem, CanAddTextItem);
-      _addBooleanItemCommand = new ActionCommand(AddBooleanItem, CanAddBooleanItem);
-      _addImageItemCommand = new ActionCommand(AddImageItem, CanAddImageItem);
-      _removeItemCommand = new ActionCommand(RemoveItem, CanRemoveItem);
-      _cutCommand = new ActionCommand(Cut, CanCut);
-      _copyCommand = new ActionCommand(Copy, CanCopy);
-      _pasteCommand = new ActionCommand(Paste, CanPaste);
       DataSourceVM = new DataSourceViewModel[] { new DataSourceViewModel(report.DataSource) };
       IsDirty = false;
     }
@@ -181,9 +171,9 @@ namespace FlowReports.ViewModel
       SaveReport();
     }
 
-    public void Attach<T>(IEnumerable<T> items) where T : class
+    public void Attach<T>(IEnumerable<T> items, string dataSourceName) where T : class
     {
-      Report.Analyze(items);
+      Report.Analyze(items, dataSourceName);
     }
 
     #endregion
@@ -192,7 +182,7 @@ namespace FlowReports.ViewModel
 
     #region Add Band
 
-    public ICommand AddBandCommand => _addNewBandCommand;
+    public ICommand AddBandCommand => _addNewBandCommand ??= new ActionCommand(AddNewBand, CanAddNewBand);
 
     private void AddNewBand()
     {
@@ -217,7 +207,7 @@ namespace FlowReports.ViewModel
 
     #region Add Sub Band
 
-    public ICommand AddSubBandCommand => _addSubBandCommand;
+    public ICommand AddSubBandCommand => _addSubBandCommand ??= new ActionCommand(AddSubBand, CanAddSubBand);
 
     private void AddSubBand()
     {
@@ -233,7 +223,7 @@ namespace FlowReports.ViewModel
 
     #region Edit Band Details
 
-    public ICommand EditBandDetailsCommand => _editBandDetailsCommand;
+    public ICommand EditBandDetailsCommand => _editBandDetailsCommand ??= new ActionCommand(EditBandDetails, CanEditBandDetails);
 
     private void EditBandDetails()
     {
@@ -249,7 +239,7 @@ namespace FlowReports.ViewModel
 
     #region Remove Band
 
-    public ICommand RemoveBandCommand => _removeBandCommand;
+    public ICommand RemoveBandCommand => _removeBandCommand ??= new ActionCommand(RemoveBand, CanRemoveBand);
 
     private void RemoveBand()
     {
@@ -264,9 +254,41 @@ namespace FlowReports.ViewModel
 
     #endregion
 
+    #region Move Band Up
+
+    public ICommand MoveBandUpCommand => _moveBandUp ??= new ActionCommand(MoveBandUp, CanMoveBandUp);
+
+    private void MoveBandUp()
+    {
+      SelectedBandParent?.MoveBandUp(SelectedBand);
+    }
+
+    private bool CanMoveBandUp()
+    {
+      return SelectedBand != null && SelectedBandParent != null && SelectedBandParent.CanMoveBandUp(SelectedBand);
+    }
+
+    #endregion
+
+    #region Move Band Down
+
+    public ICommand MoveBandDownCommand => _moveBandDown ??= new ActionCommand(MoveBandDown, CanMoveBandDown);
+
+    private void MoveBandDown()
+    {
+      SelectedBandParent?.MoveBandDown(SelectedBand);
+    }
+
+    private bool CanMoveBandDown()
+    {
+      return SelectedBand != null && SelectedBandParent != null && SelectedBandParent.CanMoveBandDown(SelectedBand);
+    }
+
+    #endregion
+
     #region Add Text Item
 
-    public ICommand AddTextItemCommand => _addTextItemCommand;
+    public ICommand AddTextItemCommand => _addTextItemCommand ??= new ActionCommand(AddTextItem, CanAddTextItem);
 
     private void AddTextItem()
     {
@@ -283,7 +305,7 @@ namespace FlowReports.ViewModel
 
     #region Add Boolean Item
 
-    public ICommand AddBooleanItemCommand => _addBooleanItemCommand;
+    public ICommand AddBooleanItemCommand => _addBooleanItemCommand ??= new ActionCommand(AddBooleanItem, CanAddBooleanItem);
 
     private void AddBooleanItem()
     {
@@ -300,7 +322,7 @@ namespace FlowReports.ViewModel
 
     #region Add Image Item
 
-    public ICommand AddImageItemCommand => _addImageItemCommand;
+    public ICommand AddImageItemCommand => _addImageItemCommand ??= new ActionCommand(AddImageItem, CanAddImageItem);
 
     private void AddImageItem()
     {
@@ -317,7 +339,7 @@ namespace FlowReports.ViewModel
 
     #region Remove Item
 
-    public ICommand RemoveItemCommand => _removeItemCommand;
+    public ICommand RemoveItemCommand => _removeItemCommand ??= new ActionCommand(RemoveItem, CanRemoveItem);
 
     private void RemoveItem()
     {
@@ -334,7 +356,7 @@ namespace FlowReports.ViewModel
 
     #region Cut
 
-    public ICommand CutCommand => _cutCommand;
+    public ICommand CutCommand => _cutCommand ??= new ActionCommand(Cut, CanCut);
 
     private void Cut()
     {
@@ -356,7 +378,7 @@ namespace FlowReports.ViewModel
 
     #region Copy
 
-    public ICommand CopyCommand => _copyCommand;
+    public ICommand CopyCommand => _copyCommand ??= new ActionCommand(Copy, CanCopy);
 
     private void Copy()
     {
@@ -377,7 +399,7 @@ namespace FlowReports.ViewModel
 
     #region Paste
 
-    public ICommand PasteCommand => _pasteCommand;
+    public ICommand PasteCommand => _pasteCommand ??= new ActionCommand(Paste, CanPaste);
 
     private void Paste()
     {

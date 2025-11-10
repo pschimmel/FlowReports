@@ -103,7 +103,10 @@ namespace FlowReports.ViewModel
       {
         try
         {
-          File.Delete(path);
+          if (File.Exists(path))
+          {
+            File.Delete(path);
+          }
         }
         catch (Exception ex)
         {

@@ -151,6 +151,8 @@ namespace FlowReports.ViewModel.Printing
         CreateNewCanvas();
       }
 
+      int bandCount = 0;
+
       foreach (var itemData in data)
       {
         // Draw all report items once for each item in the data source
@@ -173,6 +175,14 @@ namespace FlowReports.ViewModel.Printing
         {
           var subData = GetSubData(itemData, subBand.DataSource);
           DrawBand(subBand, subData);
+        }
+
+        bandCount++;
+
+        // If there is no data source defined, we only want to draw the band once
+        if (string.IsNullOrWhiteSpace(band.DataSource) && bandCount == 1)
+        {
+          return;
         }
       }
     }
@@ -212,11 +222,6 @@ namespace FlowReports.ViewModel.Printing
 
       _currentCanvas.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/FlowReports;component/View/DataTemplates/ReportDataTemplates.xaml", UriKind.RelativeOrAbsolute) });
       _currentY = 0;
-    }
-
-    private void OnProgress(double value)
-    {
-      EventService.Instance.Publish("Progress", value);
     }
 
     private double ActualWidth

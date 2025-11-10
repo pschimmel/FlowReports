@@ -4,7 +4,7 @@
     <TargetFramework>net9.0-windows7.0</TargetFramework>
     <UseWPF>true</UseWPF>    
     <BaseOutputPath>..\Output\bin</BaseOutputPath>    
-    <Version>0.8.7.0</Version>
+    <Version>0.8.8.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -114,7 +114,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="View\Images\MoveBandUp_16x.png" />
+    <Resource Include="View\Images\MoveBandDown_16x.png" />
     <Resource Include="View\Images\AddBand_16x.png" />
+    <Resource Include="View\Images\MoveBandUp_32x.png" />
+    <Resource Include="View\Images\MoveBandDown_32x.png" />
     <Resource Include="View\Images\AddBand_32x.png" />
     <Resource Include="View\Images\AddBooleanItem_16x.png" />
     <Resource Include="View\Images\AddBooleanItem_32x.png" />

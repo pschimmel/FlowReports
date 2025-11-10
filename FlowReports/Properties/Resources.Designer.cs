@@ -70,7 +70,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add band.
+        ///   Looks up a localized string similar to Add Band.
         /// </summary>
         public static string AddBand {
             get {
@@ -79,7 +79,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add boolean item.
+        ///   Looks up a localized string similar to Add Boolean Item.
         /// </summary>
         public static string AddBooleanItem {
             get {
@@ -88,7 +88,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add image item.
+        ///   Looks up a localized string similar to Add Image Item.
         /// </summary>
         public static string AddImageItem {
             get {
@@ -97,16 +97,16 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add subband.
+        ///   Looks up a localized string similar to Add Sub Band.
         /// </summary>
-        public static string AddSubband {
+        public static string AddSubBand {
             get {
-                return ResourceManager.GetString("AddSubband", resourceCulture);
+                return ResourceManager.GetString("AddSubBand", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add text item.
+        ///   Looks up a localized string similar to Add Text Item.
         /// </summary>
         public static string AddTextItem {
             get {
@@ -178,7 +178,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data source.
+        ///   Looks up a localized string similar to Data Source.
         /// </summary>
         public static string DataSource {
             get {
@@ -196,7 +196,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit band details.
+        ///   Looks up a localized string similar to Edit Band Details.
         /// </summary>
         public static string EditBandDetails {
             get {
@@ -295,6 +295,24 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Move Down.
+        /// </summary>
+        public static string MoveBandDown {
+            get {
+                return ResourceManager.GetString("MoveBandDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move Up.
+        /// </summary>
+        public static string MoveBandUp {
+            get {
+                return ResourceManager.GetString("MoveBandUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NAS files (*.nas).
         /// </summary>
         public static string NASFiles {
@@ -331,7 +349,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Page orientation.
+        ///   Looks up a localized string similar to Page Orientation.
         /// </summary>
         public static string PageOrientation {
             get {
@@ -340,7 +358,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Page settings.
+        ///   Looks up a localized string similar to Page Settings.
         /// </summary>
         public static string PageSettings {
             get {
@@ -349,7 +367,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Page size.
+        ///   Looks up a localized string similar to Page Size.
         /// </summary>
         public static string PageSize {
             get {
@@ -385,7 +403,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Print setup.
+        ///   Looks up a localized string similar to Print Setup.
         /// </summary>
         public static string PrintSetup {
             get {
@@ -403,7 +421,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove band.
+        ///   Looks up a localized string similar to Remove Band.
         /// </summary>
         public static string RemoveBand {
             get {
@@ -412,7 +430,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove item.
+        ///   Looks up a localized string similar to Remove Item.
         /// </summary>
         public static string RemoveItem {
             get {
@@ -439,7 +457,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save as....
+        ///   Looks up a localized string similar to Save As....
         /// </summary>
         public static string SaveAs {
             get {
@@ -457,7 +475,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show print preview.
+        ///   Looks up a localized string similar to Show Print Preview.
         /// </summary>
         public static string ShowPrintPreview {
             get {
@@ -529,7 +547,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zoom in.
+        ///   Looks up a localized string similar to Zoom In.
         /// </summary>
         public static string ZoomIn {
             get {
@@ -538,7 +556,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zoom out.
+        ///   Looks up a localized string similar to Zoom Out.
         /// </summary>
         public static string ZoomOut {
             get {
@@ -547,7 +565,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Actual size.
+        ///   Looks up a localized string similar to Actual Size.
         /// </summary>
         public static string ZoomToActualSize {
             get {
@@ -556,7 +574,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fit to page.
+        ///   Looks up a localized string similar to Fit to Page.
         /// </summary>
         public static string ZoomToPage {
             get {
@@ -565,7 +583,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fit to width.
+        ///   Looks up a localized string similar to Fit to Wdth.
         /// </summary>
         public static string ZoomToPageWidth {
             get {
@@ -574,7 +592,7 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Two pages.
+        ///   Looks up a localized string similar to Two Pages.
         /// </summary>
         public static string ZoomTwoPages {
             get {
