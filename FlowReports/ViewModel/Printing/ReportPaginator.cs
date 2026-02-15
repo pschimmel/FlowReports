@@ -145,19 +145,20 @@ namespace FlowReports.ViewModel.Printing
         return;
       }
 
-      if (_currentY + band.Height >= ActualHeight)
-      {
-        // Current band does not fit onto page -> create next page
-        CreatePageFromCurrentCanvas();
-
-        // Create canvas for next page and reset y valze
-        CreateNewCanvas();
-      }
-
       int bandCount = 0;
 
       foreach (var itemData in data)
       {
+        // Check if current band fits onto page, if not create new page
+        if (_currentY + band.ActualHeight >= ActualHeight)
+        {
+          // Current band does not fit onto page -> create next page
+          CreatePageFromCurrentCanvas();
+
+          // Create canvas for next page and reset y valze
+          CreateNewCanvas();
+        }
+
         // Draw all report items once for each item in the data source
         foreach (var item in band.Items)
         {
@@ -171,7 +172,7 @@ namespace FlowReports.ViewModel.Printing
         }
 
         // Increase current y position
-        _currentY += band.Height;
+        _currentY += band.ActualHeight;
 
         // Draw sub bands
         foreach (var subBand in band.SubBands)

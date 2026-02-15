@@ -135,6 +135,9 @@
   <data name="AddTextItem" xml:space="preserve">
     <value>Add Text Item</value>
   </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
   <data name="Bands" xml:space="preserve">
     <value>Bands</value>
   </data>

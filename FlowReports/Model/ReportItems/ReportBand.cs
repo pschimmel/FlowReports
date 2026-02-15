@@ -3,6 +3,9 @@ using FlowReports.Model.Tools;
 
 namespace FlowReports.Model.ReportItems
 {
+  /// <summary>
+  /// Represents a band in a report, which can contain multiple report items and sub-bands.
+  /// </summary>
   public class ReportBand : ReportElement
   {
     #region Fields
@@ -41,12 +44,30 @@ namespace FlowReports.Model.ReportItems
 
     #region Properties
 
+    /// <summary>
+    /// Gets the collection of report items contained in this instance.
+    /// </summary>
     public List<ReportItem> Items { get; } = new List<ReportItem>();
 
-    public double Height { get; set; }
+    /// <summary>
+    /// Gets or sets the height value. If set to null, the height will be determined by the maximum extent of contained items.
+    /// </summary>
+    public double? Height { get; set; }
 
+    /// <summary>
+    /// Gets the actual height of the layout, using the explicit height if set, or the maximum extent of contained items
+    /// otherwise.
+    /// </summary>
+    public double ActualHeight => Height ?? Items.Max(i => i.Top + i.Height);
+
+    /// <summary>
+    /// Gets or sets the name or network address of the data source.
+    /// </summary>
     public string DataSource { get; set; }
 
+    /// <summary>
+    /// Gets the collection of sub-bands contained within this band. 
+    /// </summary>
     public ReportBandCollection SubBands { get; }
 
     #endregion

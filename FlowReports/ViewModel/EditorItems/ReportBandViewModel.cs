@@ -60,8 +60,35 @@ namespace FlowReports.ViewModel.EditorItems
 
     public double Height
     {
-      get => Band.Height;
-      set => Band.Height = value;
+      get => Band.Height ?? ReportBand.DefaultHeight;
+      set
+      {
+        if (Band.Height != value)
+        {
+          Band.Height = value;
+          HeightAuto = false;
+        }
+      }
+    }
+
+    public bool HeightAuto
+    {
+      get => Band.Height == null;
+      set
+      {
+        if (value && Band.Height != null)
+        {
+          Band.Height = null;
+          OnPropertyChanged(nameof(Height));
+          OnPropertyChanged();
+        }
+        else if (!value && Band.Height == null)
+        {
+          Band.Height = ReportBand.DefaultHeight;
+          OnPropertyChanged(nameof(Height));
+          OnPropertyChanged();
+        }
+      }
     }
 
     public string DataSource
