@@ -8,6 +8,9 @@ using FlowReports.TestApplication.Model;
 
 namespace FlowReports.TestApplication
 {
+  /// <summary>
+  /// Provides helper methods for reading and writing application data and settings to XML files.
+  /// </summary>
   internal static class DataHelper
   {
     private static readonly string ApplicationDataDirectory = Globals.GetStorageDir();

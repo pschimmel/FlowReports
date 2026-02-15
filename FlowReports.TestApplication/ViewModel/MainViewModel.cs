@@ -10,8 +10,12 @@ using Microsoft.Win32;
 
 namespace FlowReports.TestApplication.ViewModel
 {
+  /// <summary>
+  /// Provides view model functionality for the test application main window.
+  /// </summary>
   public class MainViewModel : ES.Tools.Core.MVVM.ViewModel
   {
+
     #region Fields
 
     private string _reportFilePath;
@@ -32,6 +36,9 @@ namespace FlowReports.TestApplication.ViewModel
 
     #region Constructor
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MainViewModel"/> class.
+    /// </summary>
     public MainViewModel()
     {
       ReadSettings();
@@ -42,6 +49,9 @@ namespace FlowReports.TestApplication.ViewModel
 
     #region Public Properties
 
+    /// <summary>
+    /// Gets or sets the file path of the selected report.
+    /// </summary>
     public string ReportFilePath
     {
       get => _reportFilePath;
@@ -57,8 +67,14 @@ namespace FlowReports.TestApplication.ViewModel
       }
     }
 
+    /// <summary>
+    /// Gets the collection of companies in the test application.
+    /// </summary>
     public ObservableCollection<Company> Companies { get; private set; }
 
+    /// <summary>
+    /// Gets or sets the currently selected company.
+    /// </summary>
     public Company SelectedCompany
     {
       get => _selectedCompany;
@@ -75,8 +91,14 @@ namespace FlowReports.TestApplication.ViewModel
       }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether a company is currently selected.
+    /// </summary>
     public bool CompanySelected => _selectedCompany != null;
 
+    /// <summary>
+    /// Gets or sets the currently selected employee.
+    /// </summary>
     public Employee SelectedEmployee
     {
       get => _selectedEmployee;
@@ -94,6 +116,9 @@ namespace FlowReports.TestApplication.ViewModel
       }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether an employee is currently selected.
+    /// </summary>
     public bool EmployeeSelected => _selectedEmployee != null;
 
     #endregion
@@ -102,6 +127,9 @@ namespace FlowReports.TestApplication.ViewModel
 
     #region Select Report File
 
+    /// <summary>
+    /// Gets the command to select a report file.
+    /// </summary>
     public ICommand SelectReportFileCommand => _selectReportFileCommand ??= new ActionCommand(SelectReportFile);
 
     private void SelectReportFile()
@@ -119,8 +147,14 @@ namespace FlowReports.TestApplication.ViewModel
 
     #region Show Report
 
+    /// <summary>
+    /// Gets the command to show the selected report with the current data.
+    /// </summary>
     public ICommand ShowReportCommand => _showReportCommand ??= new ActionCommand(ShowReport, CanShowReport);
 
+    /// <summary>
+    /// Shows the print preview of the selected report with the current companies.
+    /// </summary>
     public void ShowReport()
     {
       if (File.Exists(ReportFilePath))
@@ -143,8 +177,14 @@ namespace FlowReports.TestApplication.ViewModel
 
     #region Edit Report
 
+    /// <summary>
+    /// Gets the command to edit the selected report.
+    /// </summary>
     public ICommand EditReportCommand => _editReportCommand ??= new ActionCommand(EditReport, CanEditReport);
 
+    /// <summary>
+    /// Opens the report editor for the selected report with the current companies.
+    /// </summary>
     public void EditReport()
     {
       if (File.Exists(ReportFilePath))
@@ -167,6 +207,9 @@ namespace FlowReports.TestApplication.ViewModel
 
     #region New Report
 
+    /// <summary>
+    /// Gets the command to create a new report.
+    /// </summary>
     public ICommand NewReportCommand => _newReportCommand ??= new ActionCommand(NewReport);
 
     private void NewReport()
@@ -178,6 +221,9 @@ namespace FlowReports.TestApplication.ViewModel
 
     #region Add Company
 
+    /// <summary>
+    /// Gets the command to add a new company.
+    /// </summary>
     public ICommand AddCompanyCommand => _addCompanyCommand ??= new ActionCommand(AddCompany);
 
     private void AddCompany()
@@ -191,6 +237,9 @@ namespace FlowReports.TestApplication.ViewModel
 
     #region Remove Company
 
+    /// <summary>
+    /// Gets the command to remove the selected company.
+    /// </summary>
     public ICommand RemoveCompanyCommand => _removeCompanyCommand ??= new ActionCommand(RemoveCompany, CanRemoveCompany);
 
     private void RemoveCompany()
@@ -210,6 +259,9 @@ namespace FlowReports.TestApplication.ViewModel
 
     #region Add Employee
 
+    /// <summary>
+    /// Gets the command to add a new employee to the selected company.
+    /// </summary>
     public ICommand AddEmployeeCommand => _addEmployeeCommand ??= new ActionCommand(AddEmployee, CanAddEmployee);
 
     private void AddEmployee()
@@ -228,6 +280,9 @@ namespace FlowReports.TestApplication.ViewModel
 
     #region Remove Employee
 
+    /// <summary>
+    /// Gets the command to remove the selected employee.
+    /// </summary>
     public ICommand RemoveEmployeeCommand => _removeEmployeeCommand ??= new ActionCommand(RemoveEmployee, CanRemoveEmployee);
 
     private void RemoveEmployee()
@@ -245,6 +300,9 @@ namespace FlowReports.TestApplication.ViewModel
 
     #region Set Image
 
+    /// <summary>
+    /// Gets the command to set the image for the selected employee.
+    /// </summary>
     public ICommand SetImageCommand => _setImageCommand ??= new ActionCommand(SetImage, CanSetImage);
 
     private void SetImage(object commandParameter)
@@ -261,6 +319,9 @@ namespace FlowReports.TestApplication.ViewModel
 
     #region Import Image
 
+    /// <summary>
+    /// Gets the command to import and set an image for the selected employee.
+    /// </summary>
     public ICommand ImportImageCommand => _importImageCommand ??= new ActionCommand(ImportImage, () => CanSetImage(null));
 
     private void ImportImage()
@@ -326,5 +387,6 @@ namespace FlowReports.TestApplication.ViewModel
     }
 
     #endregion
+
   }
 }

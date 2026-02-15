@@ -4,6 +4,9 @@ using FlowReports.Model.DataSources.DataSourceItems;
 
 namespace FlowReports.Model.DataSources
 {
+  /// <summary>
+  /// Provides static methods for analyzing data structures and creating data source representations.
+  /// </summary>
   internal static class DataSourceAnalyzer
   {
     private static readonly Lazy<IEnumerable<IPropertyAnalyzer>> _analyzers = new(() =>
@@ -20,6 +23,14 @@ namespace FlowReports.Model.DataSources
 
     private static readonly Dictionary<string, int> _recursionCounter = new();
 
+    /// <summary>
+    /// Analyzes a collection of items and creates a data source representation of their structure.
+    /// </summary>
+    /// <typeparam name="T">The type of items to analyze.</typeparam>
+    /// <param name="source">The collection of items to analyze.</param>
+    /// <param name="dataSourceName">The name of the data source.</param>
+    /// <returns>A DataSource representing the structure of the items.</returns>
+    /// <exception cref="ArgumentNullException">The source is null.</exception>
     public static DataSource Analyze<T>(IEnumerable<T> source, string dataSourceName) where T : class
     {
       ArgumentNullException.ThrowIfNull(source);
@@ -148,6 +159,8 @@ namespace FlowReports.Model.DataSources
     /// <summary>
     /// Generates a name from a type. 
     /// </summary>
+    /// <param name="type">The type to generate a name from.</param>
+    /// <returns>The generated name.</returns>
     internal static string GenerateTypeName(Type type)
     {
       Type underlyingType = Nullable.GetUnderlyingType(type);

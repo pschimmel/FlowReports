@@ -4,14 +4,17 @@ using System.Printing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using ES.Tools.Core.Infrastructure;
 using FlowReports.Model;
 using FlowReports.Model.ReportItems;
 
 namespace FlowReports.ViewModel.Printing
 {
+  /// <summary>
+  /// Provides pagination services for rendering reports as document pages.
+  /// </summary>
   internal class ReportPaginator : DocumentPaginator
   {
+
     #region Fields
 
     private readonly Report _report;
@@ -27,8 +30,10 @@ namespace FlowReports.ViewModel.Printing
     #region Constructor
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="NASDocumentPaginator"/> class.
+    /// Initializes a new instance of the <see cref="ReportPaginator"/> class.
     /// </summary>
+    /// <param name="report">The report to paginate.</param>
+    /// <param name="pageInfo">The page information for rendering. Defaults to the default page information if not provided.</param>
     public ReportPaginator(Report report, PageInformation pageInfo = null)
     {
       _report = report ?? throw new ArgumentNullException(nameof(report));
@@ -54,7 +59,7 @@ namespace FlowReports.ViewModel.Printing
     #region Properties
 
     /// <summary>
-    /// Gets or sets the orientation.
+    /// Gets or sets the page orientation.
     /// </summary>
     public PageOrientation Orientation { get; set; }
 
@@ -63,15 +68,13 @@ namespace FlowReports.ViewModel.Printing
     #region Overwritten Members
 
     /// <summary>
-    /// Gets a count of the number of pages currently formatted
+    /// Gets the count of the number of pages currently formatted.
     /// </summary>
-    /// <returns>A count of the number of pages that have been formatted.</returns>
     public override int PageCount => _pages.Count;
 
     /// <summary>
     /// Gets or sets the suggested width and height of each page.
     /// </summary>
-    /// <returns>A <see cref="T:System.Windows.Size"/> representing the width and height of each page.</returns>
     public override Size PageSize
     {
       get => _pageSize;
@@ -91,26 +94,20 @@ namespace FlowReports.ViewModel.Printing
     }
 
     /// <summary>
-    /// Gets a value indicating whether <see cref="P:System.Windows.Documents.DocumentPaginator.PageCount"/> is the total number of pages.
+    /// Gets a value indicating whether the page count is the total number of pages.
     /// </summary>
-    /// <returns>true if pagination is complete and <see cref="P:System.Windows.Documents.DocumentPaginator.PageCount"/> is the total number of pages; otherwise, false, if pagination is in process and <see cref="P:System.Windows.Documents.DocumentPaginator.PageCount"/> is the number of pages currently formatted (not the total).This value may revert to false, after being true, if <see cref="P:System.Windows.Documents.DocumentPaginator.PageSize"/> or content changes; because those events would force a repagination.</returns>
     public override bool IsPageCountValid => true;
 
     /// <summary>
-    /// Returns the element being paginated.
+    /// Gets the element being paginated.
     /// </summary>
-    /// <returns>null</returns>
     public override IDocumentPaginatorSource Source => null;
 
     /// <summary>
-    /// Gets the <see cref="T:System.Windows.Documents.DocumentPage"/> for the specified page number.
+    /// Gets the document page for the specified page number.
     /// </summary>
-    /// <param number="pageNumber">The zero-based page number of the document page that is needed.</param>
-    /// <returns>
-    /// The <see cref="T:System.Windows.Documents.DocumentPage"/> for the specified <paramref number="pageNumber"/>, or <see cref="F:System.Windows.Documents.DocumentPage.Missing"/> if the page does not exist.
-    /// </returns>
-    /// <exception cref="T:System.ArgumentOutOfRangeException">
-    ///   <paramref number="pageNumber"/> is negative.</exception>
+    /// <param name="pageNumber">The zero-based page number of the document page to retrieve.</param>
+    /// <returns>The document page for the specified page number, or throws an exception if the page number is out of range.</returns>
     public override DocumentPage GetPage(int pageNumber)
     {
       return pageNumber < 0 || pageNumber > _pages.Count - 1
@@ -142,6 +139,12 @@ namespace FlowReports.ViewModel.Printing
 
     private void DrawBand(ReportBand band, IEnumerable data)
     {
+      if (data == null)
+      {
+        // Prevents crashes if there is no data
+        return;
+      }
+
       if (_currentY + band.Height >= ActualHeight)
       {
         // Current band does not fit onto page -> create next page
@@ -265,5 +268,6 @@ namespace FlowReports.ViewModel.Printing
     }
 
     #endregion
+
   }
 }

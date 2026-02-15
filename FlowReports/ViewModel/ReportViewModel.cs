@@ -11,8 +11,12 @@ using FlowReports.ViewModel.EditorItems;
 
 namespace FlowReports.ViewModel
 {
+  /// <summary>
+  /// Provides view model functionality for managing a report and its bands and items.
+  /// </summary>
   public class ReportViewModel : BandContainerViewModel
   {
+
     #region Fields
 
     private ReportBandViewModel _selectedBand;
@@ -36,6 +40,10 @@ namespace FlowReports.ViewModel
 
     #region Constructor
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ReportViewModel"/> class.
+    /// </summary>
+    /// <param name="report">The report model to manage.</param>
     public ReportViewModel(Report report)
       : base(report.Bands)
     {
@@ -49,6 +57,9 @@ namespace FlowReports.ViewModel
 
     #region Properties
 
+    /// <summary>
+    /// Gets or sets the selected band in the report.
+    /// </summary>
     public ReportBandViewModel SelectedBand
     {
       get => _selectedBand;
@@ -77,6 +88,9 @@ namespace FlowReports.ViewModel
       }
     }
 
+    /// <summary>
+    /// Gets or sets the selected item in the report.
+    /// </summary>
     public IEditorItemViewModel SelectedItem
     {
       get => _selectedItem;
@@ -106,6 +120,9 @@ namespace FlowReports.ViewModel
 
     private IBandParentViewModel SelectedBandParent => SelectedBand?.Parent ?? this;
 
+    /// <summary>
+    /// Gets a value indicating whether the report has unsaved changes.
+    /// </summary>
     public bool IsDirty
     {
       get => _isDirty;
@@ -119,12 +136,18 @@ namespace FlowReports.ViewModel
       }
     }
 
+    /// <summary>
+    /// Gets or sets the file path of the report.
+    /// </summary>
     public string FilePath
     {
       get => Report.FilePath;
       set => Report.FilePath = value;
     }
 
+    /// <summary>
+    /// Gets the data source view models associated with the report.
+    /// </summary>
     public IEnumerable<DataSourceViewModel> DataSourceVM { get; }
 
     internal Report Report { get; private set; }
@@ -133,6 +156,10 @@ namespace FlowReports.ViewModel
 
     #region Public Methods
 
+    /// <summary>
+    /// Creates a new empty report view model.
+    /// </summary>
+    /// <returns>A new ReportViewModel for an empty report.</returns>
     internal static ReportViewModel NewReport()
     {
       var report = new Report();
@@ -144,6 +171,11 @@ namespace FlowReports.ViewModel
       return vm;
     }
 
+    /// <summary>
+    /// Loads a report from the specified file path.
+    /// </summary>
+    /// <param name="filePath">The path to the report file to load.</param>
+    /// <returns>A ReportViewModel for the loaded report.</returns>
     public static ReportViewModel LoadReport(string filePath)
     {
       var report = ReportReader.Read(filePath);
@@ -154,6 +186,9 @@ namespace FlowReports.ViewModel
       return vm;
     }
 
+    /// <summary>
+    /// Saves the report to its current file path.
+    /// </summary>
     public void SaveReport()
     {
       if (FilePath == null)
@@ -165,12 +200,22 @@ namespace FlowReports.ViewModel
       IsDirty = false;
     }
 
+    /// <summary>
+    /// Saves the report to the specified file path.
+    /// </summary>
+    /// <param name="filePath">The file path where the report should be saved.</param>
     public void SaveReport(string filePath)
     {
       FilePath = filePath;
       SaveReport();
     }
 
+    /// <summary>
+    /// Attaches data to the report and analyzes the data structure.
+    /// </summary>
+    /// <typeparam name="T">The type of items in the data collection.</typeparam>
+    /// <param name="items">The data items to attach.</param>
+    /// <param name="dataSourceName">The name of the data source.</param>
     public void Attach<T>(IEnumerable<T> items, string dataSourceName) where T : class
     {
       Report.Analyze(items, dataSourceName);
@@ -182,6 +227,9 @@ namespace FlowReports.ViewModel
 
     #region Add Band
 
+    /// <summary>
+    /// Gets the command to add a new band to the report.
+    /// </summary>
     public ICommand AddBandCommand => _addNewBandCommand ??= new ActionCommand(AddNewBand, CanAddNewBand);
 
     private void AddNewBand()
@@ -207,6 +255,9 @@ namespace FlowReports.ViewModel
 
     #region Add Sub Band
 
+    /// <summary>
+    /// Gets the command to add a sub-band to the selected band.
+    /// </summary>
     public ICommand AddSubBandCommand => _addSubBandCommand ??= new ActionCommand(AddSubBand, CanAddSubBand);
 
     private void AddSubBand()
@@ -223,6 +274,9 @@ namespace FlowReports.ViewModel
 
     #region Edit Band Details
 
+    /// <summary>
+    /// Gets the command to edit the details of the selected band.
+    /// </summary>
     public ICommand EditBandDetailsCommand => _editBandDetailsCommand ??= new ActionCommand(EditBandDetails, CanEditBandDetails);
 
     private void EditBandDetails()
@@ -239,6 +293,9 @@ namespace FlowReports.ViewModel
 
     #region Remove Band
 
+    /// <summary>
+    /// Gets the command to remove the selected band.
+    /// </summary>
     public ICommand RemoveBandCommand => _removeBandCommand ??= new ActionCommand(RemoveBand, CanRemoveBand);
 
     private void RemoveBand()
@@ -256,6 +313,9 @@ namespace FlowReports.ViewModel
 
     #region Move Band Up
 
+    /// <summary>
+    /// Gets the command to move the selected band up.
+    /// </summary>
     public ICommand MoveBandUpCommand => _moveBandUp ??= new ActionCommand(MoveBandUp, CanMoveBandUp);
 
     private void MoveBandUp()
@@ -272,6 +332,9 @@ namespace FlowReports.ViewModel
 
     #region Move Band Down
 
+    /// <summary>
+    /// Gets the command to move the selected band down.
+    /// </summary>
     public ICommand MoveBandDownCommand => _moveBandDown ??= new ActionCommand(MoveBandDown, CanMoveBandDown);
 
     private void MoveBandDown()
@@ -288,6 +351,9 @@ namespace FlowReports.ViewModel
 
     #region Add Text Item
 
+    /// <summary>
+    /// Gets the command to add a text item to the selected band.
+    /// </summary>
     public ICommand AddTextItemCommand => _addTextItemCommand ??= new ActionCommand(AddTextItem, CanAddTextItem);
 
     private void AddTextItem()
@@ -305,6 +371,9 @@ namespace FlowReports.ViewModel
 
     #region Add Boolean Item
 
+    /// <summary>
+    /// Gets the command to add a boolean item to the selected band.
+    /// </summary>
     public ICommand AddBooleanItemCommand => _addBooleanItemCommand ??= new ActionCommand(AddBooleanItem, CanAddBooleanItem);
 
     private void AddBooleanItem()
@@ -322,6 +391,9 @@ namespace FlowReports.ViewModel
 
     #region Add Image Item
 
+    /// <summary>
+    /// Gets the command to add an image item to the selected band.
+    /// </summary>
     public ICommand AddImageItemCommand => _addImageItemCommand ??= new ActionCommand(AddImageItem, CanAddImageItem);
 
     private void AddImageItem()
@@ -339,6 +411,9 @@ namespace FlowReports.ViewModel
 
     #region Remove Item
 
+    /// <summary>
+    /// Gets the command to remove the selected item.
+    /// </summary>
     public ICommand RemoveItemCommand => _removeItemCommand ??= new ActionCommand(RemoveItem, CanRemoveItem);
 
     private void RemoveItem()
@@ -356,6 +431,9 @@ namespace FlowReports.ViewModel
 
     #region Cut
 
+    /// <summary>
+    /// Gets the command to cut the selected item.
+    /// </summary>
     public ICommand CutCommand => _cutCommand ??= new ActionCommand(Cut, CanCut);
 
     private void Cut()
@@ -378,6 +456,9 @@ namespace FlowReports.ViewModel
 
     #region Copy
 
+    /// <summary>
+    /// Gets the command to copy the selected item.
+    /// </summary>
     public ICommand CopyCommand => _copyCommand ??= new ActionCommand(Copy, CanCopy);
 
     private void Copy()
@@ -399,6 +480,9 @@ namespace FlowReports.ViewModel
 
     #region Paste
 
+    /// <summary>
+    /// Gets the command to paste an item from the clipboard.
+    /// </summary>
     public ICommand PasteCommand => _pasteCommand ??= new ActionCommand(Paste, CanPaste);
 
     private void Paste()
@@ -495,5 +579,6 @@ namespace FlowReports.ViewModel
     }
 
     #endregion
+
   }
 }

@@ -10,8 +10,12 @@ using FlowReports.ViewModel.Printing;
 
 namespace FlowReports.ViewModel
 {
+  /// <summary>
+  /// Provides view model functionality for print preview of reports.
+  /// </summary>
   public class PrintPreviewViewModel : ViewModelBase
   {
+
     #region Fields
 
     private readonly List<string> _tempFileNames = new();
@@ -23,6 +27,10 @@ namespace FlowReports.ViewModel
 
     #region Constructor
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PrintPreviewViewModel"/> class.
+    /// </summary>
+    /// <param name="report">The report to preview.</param>
     public PrintPreviewViewModel(Report report)
     {
       if (_pageInformation == null)
@@ -50,12 +58,18 @@ namespace FlowReports.ViewModel
 
     #region Properties
 
+    /// <summary>
+    /// Gets the document to display in the print preview.
+    /// </summary>
     public IDocumentPaginatorSource Document { get; }
 
     #endregion
 
     #region Print setup
 
+    /// <summary>
+    /// Gets the command to open the print setup dialog.
+    /// </summary>
     public ICommand PrintSetupCommand => _printSetupCommand;
 
     private void PrintSetup()
@@ -74,6 +88,9 @@ namespace FlowReports.ViewModel
 
     #region Close
 
+    /// <summary>
+    /// Gets the command to close the print preview.
+    /// </summary>
     public ICommand CloseCommand => _closeCommand;
 
     private void Close()
@@ -116,5 +133,6 @@ namespace FlowReports.ViewModel
     }
 
     #endregion
+
   }
 }
