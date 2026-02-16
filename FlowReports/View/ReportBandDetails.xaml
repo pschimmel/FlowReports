@@ -1,12 +1,13 @@
 ﻿<Window x:Class="FlowReports.View.ReportBandDetails"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:ES.Tools.Converters;assembly=ES.Tools"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:editoritems="clr-namespace:FlowReports.ViewModel.EditorItems"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:properties="clr-namespace:FlowReports.Properties"
         xmlns:toolsUI="clr-namespace:ES.Tools.UI;assembly=ES.Tools"
-        xmlns:viewmodel="clr-namespace:FlowReports.ViewModel" xmlns:converters="clr-namespace:ES.Tools.Converters;assembly=ES.Tools"
+        xmlns:viewmodel="clr-namespace:FlowReports.ViewModel"
         Title="{x:Static properties:Resources.Details}"
         Width="600"
         Height="150"
@@ -18,7 +19,7 @@
         <toolsUI:SharedResourceDictionary Source="/FlowReports;component/View/Styles.xaml" />
       </ResourceDictionary.MergedDictionaries>
 
-      <converters:NegationConverter x:Key="NegationConverter" /> 
+      <converters:NegationConverter x:Key="NegationConverter" />
     </ResourceDictionary>
   </Window.Resources>
 
@@ -45,7 +46,10 @@
                Text="{Binding DataSource}" />
       <TextBlock Grid.Row="2" Style="{StaticResource LabelTextBlockStyle}" Text="{x:Static properties:Resources.Height}" />
       <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-        <TextBox Width="150" Style="{StaticResource DoubleTextBoxStyle}" Text="{Binding Height}" IsEnabled="{Binding HeightAuto, Converter={StaticResource NegationConverter} }" />
+        <TextBox Width="150"
+                 IsEnabled="{Binding HeightAuto, Converter={StaticResource NegationConverter}}"
+                 Style="{StaticResource DoubleTextBoxStyle}"
+                 Text="{Binding Height}" />
         <CheckBox Content="{x:Static properties:Resources.Auto}" IsChecked="{Binding HeightAuto}" Style="{StaticResource EditCheckBoxStyle}" />
       </StackPanel>
     </Grid>

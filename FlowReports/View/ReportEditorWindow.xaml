@@ -86,6 +86,8 @@
                          Header="{x:Static properties:Resources.EditBandDetails}"
                          Icon="pack://application:,,,/FlowReports;component/View/Images/EditBandDetails_16x.png"
                          LargeIcon="pack://application:,,,/FlowReports;component/View/Images/EditBandDetails_32x.png" />
+          <fluent:CheckBox Header="{x:Static properties:Resources.Header}" IsChecked="{Binding IsHeaderBandActive}" IsEnabled="{Binding IsBandSelected}" />
+          <fluent:CheckBox Header="{x:Static properties:Resources.Footer}" IsChecked="{Binding IsFooterBandActive}" IsEnabled="{Binding IsBandSelected}" />
           <fluent:Button Command="{Binding MoveBandUpCommand}"
                          Header="{x:Static properties:Resources.MoveBandUp}"
                          Icon="pack://application:,,,/FlowReports;component/View/Images/MoveBandUp_16x.png"
@@ -166,7 +168,7 @@
           <ItemsControl ItemsSource="{Binding ReportVM.Bands}" />
         </StackPanel>
       </Border>
-      <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+      <GridSplitter Width="2" Background="Black" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
       <Border x:Name="EditorContainer" Grid.Column="2" Background="{StaticResource Editor.Background}">
         <Border.InputBindings>
           <KeyBinding Command="{Binding ReportVM.CutCommand}" Gesture="Ctrl+X" />

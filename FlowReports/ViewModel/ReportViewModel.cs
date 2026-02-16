@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
@@ -14,14 +15,22 @@ namespace FlowReports.ViewModel
   /// <summary>
   /// Provides view model functionality for managing a report and its bands and items.
   /// </summary>
-  public class ReportViewModel : BandContainerViewModel
+  public class ReportViewModel : ViewModelBase, IBandParentViewModel
   {
+    #region Events
+
+    internal event EventHandler SelectionChanged;
+
+    #endregion
 
     #region Fields
 
     private ReportBandViewModel _selectedBand;
     private IEditorItemViewModel _selectedItem;
     private bool _isDirty;
+    private readonly ReportBandCollection _subBands;
+    private HeaderBand _oldHeaderBand;
+    private FooterBand _oldFooterBand;
     private ActionCommand _addNewBandCommand;
     private ActionCommand _addSubBandCommand;
     private ActionCommand _editBandDetailsCommand;
@@ -45,8 +54,18 @@ namespace FlowReports.ViewModel
     /// </summary>
     /// <param name="report">The report model to manage.</param>
     public ReportViewModel(Report report)
-      : base(report.Bands)
     {
+      _subBands = report.Bands;
+      _subBands.SubBandAdded += SubBands_SubBandAdded;
+      _subBands.SubBandRemoved += SubBands_SubBandRemoved;
+
+      foreach (var subBand in _subBands)
+      {
+        var newReportBandVM = new ReportBandViewModel(subBand) { Parent = this };
+        newReportBandVM.SelectionChanged += ReportBandVM_SelectionChanged;
+        Bands.Add(newReportBandVM);
+      }
+
       Report = report;
       SelectionChanged += ReportVM_SelectionChanged;
       DataSourceVM = new DataSourceViewModel[] { new DataSourceViewModel(report.DataSource) };
@@ -56,6 +75,9 @@ namespace FlowReports.ViewModel
     #endregion
 
     #region Properties
+
+    public ObservableCollection<ReportBandViewModel> Bands { get; } = new ObservableCollection<ReportBandViewModel>();
+
 
     /// <summary>
     /// Gets or sets the selected band in the report.
@@ -80,6 +102,7 @@ namespace FlowReports.ViewModel
           }
 
           OnPropertyChanged();
+          OnPropertyChanged(nameof(IsBandSelected));
           _addSubBandCommand.RaiseCanExecuteChanged();
           _removeBandCommand.RaiseCanExecuteChanged();
           _addTextItemCommand.RaiseCanExecuteChanged();
@@ -152,6 +175,50 @@ namespace FlowReports.ViewModel
 
     internal Report Report { get; private set; }
 
+    public bool IsBandSelected => SelectedBand != null;
+
+    public bool IsHeaderBandActive
+    {
+      get => SelectedBand?.HeaderBand != null;
+      set
+      {
+        if (SelectedBand is ReportBandViewModel vm)
+        {
+          if (value)
+          {
+            vm.Band.HeaderBand = _oldHeaderBand ?? new HeaderBand();
+          }
+          else
+          {
+            _oldHeaderBand = vm.Band.HeaderBand;
+            vm.Band.HeaderBand = null;
+          }
+          OnPropertyChanged();
+        }
+      }
+    }
+
+    public bool IsFooterBandActive
+    {
+      get => SelectedBand?.FooterBand != null;
+      set
+      {
+        if (SelectedBand is ReportBandViewModel vm)
+        {
+          if (value)
+          {
+            vm.Band.FooterBand = _oldFooterBand ?? new FooterBand();
+          }
+          else
+          {
+            _oldFooterBand = vm.Band.FooterBand;
+            vm.Band.FooterBand = null;
+          }
+          OnPropertyChanged();
+        }
+      }
+    }
+
     #endregion
 
     #region Public Methods
@@ -219,6 +286,46 @@ namespace FlowReports.ViewModel
     public void Attach<T>(IEnumerable<T> items, string dataSourceName) where T : class
     {
       Report.Analyze(items, dataSourceName);
+    }
+
+    public void AddBand()
+    {
+      _subBands.AddBand();
+    }
+
+    public void AddBand(ReportBandViewModel otherBand, InsertLocation location)
+    {
+      _subBands.AddBand(otherBand.Band, location);
+    }
+
+    public void RemoveBand(ReportBandViewModel subBand)
+    {
+      _subBands.RemoveBand(subBand.Band);
+    }
+
+    protected void OnSelectionChanged()
+    {
+      SelectionChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void MoveBandUp(ReportBandViewModel band)
+    {
+      _subBands.MoveBandUp(band.Band);
+    }
+
+    public void MoveBandDown(ReportBandViewModel band)
+    {
+      _subBands.MoveBandDown(band.Band);
+    }
+
+    public bool CanMoveBandUp(ReportBandViewModel band)
+    {
+      return _subBands.CanMoveBandUp(band.Band);
+    }
+
+    public bool CanMoveBandDown(ReportBandViewModel band)
+    {
+      return _subBands.CanMoveBandDown(band.Band);
     }
 
     #endregion
@@ -516,6 +623,11 @@ namespace FlowReports.ViewModel
 
     #region Event Handlers
 
+    private void ReportBandVM_SelectionChanged(object sender, EventArgs e)
+    {
+      SelectionChanged?.Invoke(sender, EventArgs.Empty);
+    }
+
     private void SelectedItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
       IsDirty = true;
@@ -537,15 +649,28 @@ namespace FlowReports.ViewModel
       }
     }
 
-    protected override void SubBands_SubBandAdded(object sender, BandsEventArgs e)
+    private void SubBands_SubBandAdded(object sender, BandsEventArgs e)
     {
-      base.SubBands_SubBandAdded(sender, e);
+      var newReportBandVM = new ReportBandViewModel(e.Item.Band) { Parent = this };
+      newReportBandVM.SelectionChanged += ReportBandVM_SelectionChanged;
+      Bands.Insert(e.Item.Index, newReportBandVM);
+
+      if (!ReportEditorViewModel.IsInitializing)
+      {
+        newReportBandVM.IsSelected = true;
+      }
       IsDirty = true;
     }
 
-    protected override void SubBands_SubBandRemoved(object sender, BandsEventArgs e)
+    private void SubBands_SubBandRemoved(object sender, BandsEventArgs e)
     {
-      base.SubBands_SubBandRemoved(sender, e);
+      var bandVM = Bands.FirstOrDefault(x => x.Band == e.Item.Band);
+      if (bandVM != null)
+      {
+        bandVM.SelectionChanged -= ReportBandVM_SelectionChanged;
+        Bands.Remove(bandVM);
+        bandVM.Dispose();
+      }
       IsDirty = true;
     }
 
@@ -555,6 +680,8 @@ namespace FlowReports.ViewModel
 
     protected override void Dispose(bool disposing)
     {
+      base.Dispose(disposing);
+
       if (disposing)
       {
         SelectionChanged -= ReportVM_SelectionChanged;
@@ -573,12 +700,19 @@ namespace FlowReports.ViewModel
         {
           dataSourceVM.Dispose();
         }
-      }
 
-      base.Dispose(disposing);
+        foreach (var subBand in Bands)
+        {
+          subBand.SelectionChanged -= ReportBandVM_SelectionChanged;
+          subBand.Dispose();
+        }
+
+        _subBands.SubBandAdded -= SubBands_SubBandAdded;
+        _subBands.SubBandRemoved -= SubBands_SubBandRemoved;
+      }
     }
 
-    #endregion
+#endregion
 
   }
 }

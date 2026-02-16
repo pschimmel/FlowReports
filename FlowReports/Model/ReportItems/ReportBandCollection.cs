@@ -4,6 +4,9 @@ using FlowReports.Model.Tools;
 
 namespace FlowReports.Model.ReportItems
 {
+  /// <summary>
+  /// Represents a collection of report bands, allowing for adding, removing, and reordering bands within a report.
+  /// </summary>
   public class ReportBandCollection : IEnumerable<ReportBand>
   {
     public event EventHandler<BandsEventArgs> SubBandAdded;
@@ -25,10 +28,7 @@ namespace FlowReports.Model.ReportItems
 
     public ReportBand AddBand(ReportBand otherBand, InsertLocation location, string dataSource = null)
     {
-      if (otherBand is null)
-      {
-        throw new ArgumentNullException(nameof(otherBand));
-      }
+      ArgumentNullException.ThrowIfNull(otherBand);
 
       int otherIndex = _bands.IndexOf(otherBand);
       var band = new ReportBand { DataSource = dataSource };

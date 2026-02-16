@@ -4,7 +4,7 @@ namespace FlowReports.ViewModel.EditorItems
 {
   public class EditorTextItemViewModel : EditorItemViewModel<TextItem>
   {
-    public EditorTextItemViewModel(TextItem item, ReportBandViewModel bandVM)
+    public EditorTextItemViewModel(TextItem item, IItemContainerViewModel bandVM)
       : base(item, bandVM)
     { }
 

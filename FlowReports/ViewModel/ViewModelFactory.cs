@@ -6,7 +6,7 @@ namespace FlowReports.ViewModel
 {
   internal static class ViewModelFactory
   {
-    internal static IEditorItemViewModel CreateItemViewModel(ReportElement item, ReportBandViewModel bandVM)
+    internal static IEditorItemViewModel CreateItemViewModel(ReportElement item, IItemContainerViewModel bandVM)
     {
       return item switch
       {

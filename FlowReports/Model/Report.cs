@@ -7,7 +7,7 @@ namespace FlowReports.Model
   /// <summary>
   /// Represents a report that contains bands and display items.
   /// </summary>
-  public class Report
+  public class Report : IHasBands
   {
     /// <summary>
     /// Gets the collection of bands in the report.

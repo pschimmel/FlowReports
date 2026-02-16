@@ -38,11 +38,14 @@
       </Border.Style>
       <Grid>
         <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
           <RowDefinition Height="{Binding Height}" />
-          <RowDefinition />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock Margin="4,0" Text="{Binding DataSource}" />
-        <Border Grid.Row="1"
+        <ContentControl Content="{Binding HeaderBand}" />
+        <TextBlock Grid.Row="1" Margin="4,0" Text="{Binding DataSource}" />
+        <Border Grid.Row="2"
                 Margin="10,0,0,0"
                 HorizontalAlignment="Stretch"
                 BorderBrush="{StaticResource ReportBand.BorderBrush}"
@@ -56,8 +59,72 @@
               </Style.Triggers>
             </Style>
           </Border.Style>
-          <ItemsControl Grid.Row="1" ItemsSource="{Binding Bands}" />
+          <ItemsControl ItemsSource="{Binding Bands}" />
         </Border>
+        <ContentControl Grid.Row="3" Content="{Binding FooterBand}" />
+      </Grid>
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate DataType="{x:Type vm:HeaderBandViewModel}">
+    <Border Height="{Binding Height}" BorderThickness="0,0,0,1">
+      <Border.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+              <Setter Property="FontWeight" Value="Bold" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </Border.Resources>
+      <Border.InputBindings>
+        <MouseBinding Command="{Binding SelectCommand}" MouseAction="LeftClick" />
+      </Border.InputBindings>
+      <Border.Style>
+        <Style TargetType="Border">
+          <Setter Property="Background" Value="{StaticResource HeaderBand.Background}" />
+          <Setter Property="BorderBrush" Value="{StaticResource ReportBand.BorderBrush}" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+              <Setter Property="Background" Value="{StaticResource HeaderBand.SelectedBackground}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </Border.Style>
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate DataType="{x:Type vm:FooterBandViewModel}">
+    <Border BorderThickness="0,0,0,1">
+      <Border.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+              <Setter Property="FontWeight" Value="Bold" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </Border.Resources>
+      <Border.InputBindings>
+        <MouseBinding Command="{Binding SelectCommand}" MouseAction="LeftClick" />
+      </Border.InputBindings>
+      <Border.Style>
+        <Style TargetType="Border">
+          <Setter Property="Background" Value="{StaticResource HeaderBand.Background}" />
+          <Setter Property="BorderBrush" Value="{StaticResource ReportBand.BorderBrush}" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+              <Setter Property="Background" Value="{StaticResource HeaderBand.SelectedBackground}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </Border.Style>
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition Height="{Binding Height}" />
+        </Grid.RowDefinitions>
+        <Border HorizontalAlignment="Stretch" BorderBrush="{StaticResource ReportBand.BorderBrush}" BorderThickness="0,1,0,0" />
       </Grid>
     </Border>
   </DataTemplate>

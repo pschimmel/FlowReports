@@ -35,8 +35,12 @@
   <!--#region Editor brushes-->
 
   <SolidColorBrush x:Key="ReportBand.BorderBrush" o:Freeze="True" Color="Gray" />
-  <SolidColorBrush x:Key="ReportBand.Background" o:Freeze="True" Color="Orange" />
-  <SolidColorBrush x:Key="ReportBand.SelectedBackground" o:Freeze="True" Color="DarkOrange" />
+  <SolidColorBrush x:Key="ReportBand.Background" o:Freeze="True" Color="#FFFFAA" />
+  <SolidColorBrush x:Key="ReportBand.SelectedBackground" o:Freeze="True" Color="#FFFF00" />
+  <SolidColorBrush x:Key="HeaderBand.Background" o:Freeze="True" Color="#AAFFAA" />
+  <SolidColorBrush x:Key="HeaderBand.SelectedBackground" o:Freeze="True" Color="#00FF00" />
+  <SolidColorBrush x:Key="FooterBand.Background" o:Freeze="True" Color="#AAFFAA" />
+  <SolidColorBrush x:Key="FooterBand.SelectedBackground" o:Freeze="True" Color="#00FF00" />
 
   <DrawingBrush x:Key="ReportItem.Border"
                 o:Freeze="True"

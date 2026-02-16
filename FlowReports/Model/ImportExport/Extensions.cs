@@ -47,33 +47,30 @@ namespace FlowReports.Model.ImportExport
       }
     }
 
+    /// <summary>
+    /// Reads an XML attribute and returns its value as the specified type, or the default value if the attribute doesn't exist or cannot be parsed.
+    /// </summary>
     public static T ReadAttributeOrDefault<T>(this XmlElement parent, string name, T defaultValue)
     {
-      switch (Type.GetTypeCode(typeof(T)))
+      return typeof(T) switch
       {
-        case TypeCode.String:
-          return TryGetStringAttribute(parent, name, out string stringResult)
-            ? (T)(object)stringResult
-            : defaultValue;
-        case TypeCode.DateTime:
-          return TryGetDateTimeAttribute(parent, name, out DateTime dateTimeResult)
-            ? (T)(object)dateTimeResult
-            : defaultValue;
-        case TypeCode.Double:
-          return TryGetDoubleAttribute(parent, name, out double doubleResult)
-            ? (T)(object)doubleResult
-            : defaultValue;
-        case TypeCode.Object:
-          if (typeof(T) == typeof(Guid))
-          {
-            return TryGetGuidAttribute(parent, name, out Guid guidResult)
-             ? (T)(object)guidResult
-             : defaultValue;
-          }
-          break;
-      }
-
-      throw new NotImplementedException("Unknown type.");
+        var t when t == typeof(string) => TryGetStringAttribute(parent, name, out string stringResult)
+          ? (T)(object)stringResult
+          : defaultValue,
+        var t when t == typeof(DateTime) || t == typeof(DateTime?) => TryGetDateTimeAttribute(parent, name, out DateTime dateTimeResult)
+          ? (T)(object)dateTimeResult
+          : defaultValue,
+        var t when t == typeof(double) || t == typeof(double?) => TryGetDoubleAttribute(parent, name, out double doubleResult)
+          ? (T)(object)doubleResult
+          : defaultValue,
+        var t when t == typeof(int) || t == typeof(int?) => TryGetIntAttribute(parent, name, out int intResult)
+          ? (T)(object)intResult
+          : defaultValue,
+        var t when t == typeof(Guid) => TryGetGuidAttribute(parent, name, out Guid guidResult)
+          ? (T)(object)guidResult
+          : defaultValue,
+        _ => throw new NotImplementedException($"Unsupported type: {typeof(T).Name}")
+      };
     }
 
     public static bool TryGetStringAttribute(this XmlElement parent, string name, out string result)
@@ -103,6 +100,21 @@ namespace FlowReports.Model.ImportExport
         }
       }
 
+      return false;
+    }
+
+    public static bool TryGetIntAttribute(this XmlElement parent, string name, out int result)
+    {
+      result = default;
+      var attribute = parent.Attributes[name];
+      if (attribute != null)
+      {
+        if (int.TryParse(attribute.InnerText, NumberStyles.Any, CultureInfo.InvariantCulture, out int r))
+        {
+          result = r;
+          return true;
+        }
+      }
       return false;
     }
 

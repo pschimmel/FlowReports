@@ -177,8 +177,14 @@
   <data name="FlowReportFiles" xml:space="preserve">
     <value>FlowReport-Dateien (*.nas)</value>
   </data>
+  <data name="Footer" xml:space="preserve">
+    <value>Fußzeiile</value>
+  </data>
   <data name="Format" xml:space="preserve">
     <value>Format</value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value>Kopfzeile</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Höhe</value>

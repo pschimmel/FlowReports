@@ -20,5 +20,7 @@
     public const string Y = nameof(Y);
     public const string Width = nameof(Width);
     public const string Height = nameof(Height);
+    public const string Header = nameof(Header);
+    public const string Footer = nameof(Footer);
   }
 }

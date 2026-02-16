@@ -4,7 +4,12 @@
     <TargetFramework>net9.0-windows7.0</TargetFramework>
     <UseWPF>true</UseWPF>    
     <BaseOutputPath>..\Output\bin</BaseOutputPath>    
-    <Version>0.8.10.0</Version>
+    <Company>Engineering Solutions</Company>    
+    <Description>A simple library for printing reports from any .NET obejct.</Description>    
+    <Copyright>© Engineering Solutions 2023-2026</Copyright>    
+    <PackageIcon>FlowReports_256x.png</PackageIcon>    
+    <PackageReadmeFile>README.md</PackageReadmeFile>    
+    <RepositoryUrl>https://github.com/pschimmel/FlowReports</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -86,9 +91,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\Icons\FlowReports_256x.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ES.Tools" Version="0.6.40.125" />
     <PackageReference Include="ES.Tools.Core" Version="0.6.40.125" />
-    <PackageReference Include="Fluent.Ribbon" Version="11.0.1" />
+    <PackageReference Include="Fluent.Ribbon" Version="11.0.2" />
     <PackageReference Include="gong-wpf-dragdrop" Version="4.0.0" />
   </ItemGroup>
 

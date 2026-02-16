@@ -175,7 +175,7 @@ namespace FlowReports.ViewModel.Printing
         _currentY += band.ActualHeight;
 
         // Draw sub bands
-        foreach (var subBand in band.SubBands)
+        foreach (var subBand in band.Bands)
         {
           var subData = GetSubData(itemData, subBand.DataSource);
           DrawBand(subBand, subData);

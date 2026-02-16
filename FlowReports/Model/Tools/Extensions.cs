@@ -4,15 +4,9 @@
   {
     public static bool Equals<T>(IEnumerable<T> first, IEnumerable<T> second)
     {
-      if (first == null)
-      {
-        throw new ArgumentNullException(nameof(first));
-      }
+      ArgumentNullException.ThrowIfNull(first);
 
-      if (second == null)
-      {
-        throw new ArgumentNullException(nameof(second));
-      }
+      ArgumentNullException.ThrowIfNull(second);
 
       int firstCount = first.Count();
       int secondCount = second.Count();

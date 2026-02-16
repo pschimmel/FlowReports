@@ -6,7 +6,7 @@ namespace FlowReports.ViewModel.EditorItems
 
     : EditorItemViewModel<ImageItem>
   {
-    public EditorImageItemViewModel(ImageItem item, ReportBandViewModel bandVM)
+    public EditorImageItemViewModel(ImageItem item, IItemContainerViewModel bandVM)
       : base(item, bandVM)
     { }
   }
