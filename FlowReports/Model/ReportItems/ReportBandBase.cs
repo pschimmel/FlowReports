@@ -49,7 +49,7 @@ namespace FlowReports.Model.ReportItems
     /// Gets the actual height of the layout, using the explicit height if set, or the maximum extent of contained items
     /// otherwise.
     /// </summary>
-    public double ActualHeight => Height ?? Items.Max(i => i.Top + i.Height);
+    public double ActualHeight => Height ?? (Items.Count != 0 ? Items.Max(i => i.Top + i.Height) : 0.0);
 
     #endregion
 

@@ -19,6 +19,7 @@ namespace FlowReports.ViewModel
     #region Fields
 
     private readonly List<string> _tempFileNames = new();
+    private readonly XpsDocument _xpsDocument;
     private static PageInformation _pageInformation;
     private readonly ActionCommand _printSetupCommand;
     private readonly ActionCommand _closeCommand;
@@ -46,10 +47,10 @@ namespace FlowReports.ViewModel
       string tempFileName = Path.ChangeExtension(Path.GetTempFileName(), "xps");
       _tempFileNames.Add(tempFileName);
 
-      using var xpsDocument = new XpsDocument(tempFileName, FileAccess.ReadWrite);
-      var writer = XpsDocument.CreateXpsDocumentWriter(xpsDocument);
+      _xpsDocument = new XpsDocument(tempFileName, FileAccess.ReadWrite);
+      var writer = XpsDocument.CreateXpsDocumentWriter(_xpsDocument);
       writer.Write(new ReportPaginator(report));
-      Document = xpsDocument.GetFixedDocumentSequence();
+      Document = _xpsDocument.GetFixedDocumentSequence();
       _closeCommand = new ActionCommand(Close, CanClose);
       _printSetupCommand = new ActionCommand(PrintSetup, CanPrintSetup);
     }
@@ -115,6 +116,8 @@ namespace FlowReports.ViewModel
       {
         return;
       }
+
+      _xpsDocument?.Close();
 
       foreach (var path in _tempFileNames)
       {

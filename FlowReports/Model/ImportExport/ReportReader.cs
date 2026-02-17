@@ -88,32 +88,28 @@ namespace FlowReports.Model.ImportExport
     }
 
     /// <summary>
-    /// Reads the footer band from the given XML node and adds it to the specified band, including its items.
-    /// </summary>
-    private static void ReadFooterNode(XmlElement bandNode, ReportBand band)
-    {
-      var footerNode = bandNode.SelectSingleNode(Tags.Footer);
-
-      if (footerNode != null)
-      {
-        band.FooterBand = new FooterBand();
-        band.FooterBand.Height = bandNode.ReadAttributeOrDefault<double?>(Tags.Height, null);
-        ReadItems(footerNode as XmlElement, band.FooterBand);
-      }
-    }
-
-    /// <summary>
     /// Reads the header band from the given XML node and adds it to the specified band, including its items.
     /// </summary>
     private static void ReadHeaderNode(XmlElement bandNode, ReportBand band)
     {
-      var headerNode = bandNode.SelectSingleNode(Tags.Header);
-
-      if (headerNode != null)
+      if (bandNode.SelectSingleNode(Tags.Header) is XmlElement headerNode)
       {
         band.HeaderBand = new HeaderBand();
-        band.HeaderBand.Height = bandNode.ReadAttributeOrDefault<double?>(Tags.Height, null);
-        ReadItems(headerNode as XmlElement, band.HeaderBand);
+        band.HeaderBand.Height = headerNode.ReadAttributeOrDefault<double?>(Tags.Height, null);
+        ReadItems(headerNode, band.HeaderBand);
+      }
+    }
+
+    /// <summary>
+    /// Reads the footer band from the given XML node and adds it to the specified band, including its items.
+    /// </summary>
+    private static void ReadFooterNode(XmlElement bandNode, ReportBand band)
+    {
+      if (bandNode.SelectSingleNode(Tags.Footer) is XmlElement footerNode)
+      {
+        band.FooterBand = new FooterBand();
+        band.FooterBand.Height = footerNode.ReadAttributeOrDefault<double?>(Tags.Height, null);
+        ReadItems(footerNode, band.FooterBand);
       }
     }
 

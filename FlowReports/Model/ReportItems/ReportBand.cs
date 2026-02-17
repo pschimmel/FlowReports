@@ -1,5 +1,4 @@
-﻿using FlowReports.Model.Events;
-using FlowReports.Model.Tools;
+﻿using FlowReports.Model.Tools;
 
 namespace FlowReports.Model.ReportItems
 {
@@ -42,17 +41,17 @@ namespace FlowReports.Model.ReportItems
     public HeaderBand HeaderBand
     {
       get => _headerBand;
-      set 
+      set
       {
         if (_headerBand != null && value == null)
         {
           _headerBand = null;
-          HeaderChanged.Invoke(this, EventArgs.Empty);
+          HeaderChanged?.Invoke(this, EventArgs.Empty);
         }
         else if (value != null)
         {
           _headerBand = value;
-          HeaderChanged.Invoke(this, EventArgs.Empty);
+          HeaderChanged?.Invoke(this, EventArgs.Empty);
         }
       }
     }
@@ -63,17 +62,17 @@ namespace FlowReports.Model.ReportItems
     public FooterBand FooterBand
     {
       get => _footerBand;
-      set 
+      set
       {
         if (_footerBand != null && value == null)
         {
           _footerBand = null;
-          FooterChanged.Invoke(this, EventArgs.Empty);
+          FooterChanged?.Invoke(this, EventArgs.Empty);
         }
         else if (value != null)
         {
           _footerBand = value;
-          FooterChanged.Invoke(this, EventArgs.Empty);
+          FooterChanged?.Invoke(this, EventArgs.Empty);
         }
       }
     }
@@ -104,7 +103,7 @@ namespace FlowReports.Model.ReportItems
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(Height, DataSource, Bands, Items);  
+      return HashCode.Combine(Height, DataSource, Bands, Items);
     }
 
     #endregion

@@ -147,32 +147,16 @@ namespace FlowReports.ViewModel.Printing
 
       int bandCount = 0;
 
+      // Draw header band if it exists
+      if (band.HeaderBand != null)
+      {
+        DrawBandContent(band.HeaderBand, GetFirstItem(data));
+      }
+
+      // Draw content for each item in the data source
       foreach (var itemData in data)
       {
-        // Check if current band fits onto page, if not create new page
-        if (_currentY + band.ActualHeight >= ActualHeight)
-        {
-          // Current band does not fit onto page -> create next page
-          CreatePageFromCurrentCanvas();
-
-          // Create canvas for next page and reset y valze
-          CreateNewCanvas();
-        }
-
-        // Draw all report items once for each item in the data source
-        foreach (var item in band.Items)
-        {
-          var vm = ViewModelFactory.CreatePreviewItemViewModel(item, itemData, _currentY);
-          var control = new ContentControl();
-          control.Content = vm;
-
-          _currentCanvas.Children.Add(control);
-          control.SetValue(Canvas.TopProperty, vm.Top);
-          control.SetValue(Canvas.LeftProperty, vm.Left);
-        }
-
-        // Increase current y position
-        _currentY += band.ActualHeight;
+        DrawBandContent(band, itemData);
 
         // Draw sub bands
         foreach (var subBand in band.Bands)
@@ -189,6 +173,40 @@ namespace FlowReports.ViewModel.Printing
           return;
         }
       }
+
+      // Draw footer band if it exists
+      if (band.FooterBand != null)
+      {
+        DrawBandContent(band.FooterBand, GetFirstItem(data));
+      }
+    }
+
+    private void DrawBandContent(ReportBandBase band, object itemData)
+    {
+      // Check if current band fits onto page, if not create new page
+      if (_currentY + band.ActualHeight >= ActualHeight)
+      {
+        // Current band does not fit onto page -> create next page
+        CreatePageFromCurrentCanvas();
+
+        // Create canvas for next page and reset y valze
+        CreateNewCanvas();
+      }
+
+      // Draw all report items once for each item in the data source
+      foreach (var item in band.Items)
+      {
+        var vm = ViewModelFactory.CreatePreviewItemViewModel(item, itemData, _currentY);
+        var control = new ContentControl();
+        control.Content = vm;
+
+        _currentCanvas.Children.Add(control);
+        control.SetValue(Canvas.TopProperty, vm.Top);
+        control.SetValue(Canvas.LeftProperty, vm.Left);
+      }
+
+      // Increase current y position
+      _currentY += band.ActualHeight;
     }
 
     private void CreatePageFromCurrentCanvas()
@@ -268,7 +286,17 @@ namespace FlowReports.ViewModel.Printing
       }
     }
 
-    #endregion
+    private static object GetFirstItem(IEnumerable data)
+    {
+      if (data == null)
+      {
+        return null;
+      }
 
+      var enumerator = data.GetEnumerator();
+      return enumerator.MoveNext() ? enumerator.Current : null;
+    }
+
+    #endregion
   }
 }
