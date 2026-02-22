@@ -6,7 +6,7 @@ using FlowReports.Model;
 using FlowReports.Model.ReportItems;
 using GongSolutions.Wpf.DragDrop;
 
-namespace FlowReports.ViewModel.EditorItems
+namespace FlowReports.ViewModel.Editor
 {
   public abstract class EditorItemViewModel<T> : ViewModelBase, IEditorItemViewModel, IDropTarget where T : ReportItem
   {

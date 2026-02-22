@@ -8,29 +8,22 @@ using FlowReports.Model;
 using FlowReports.Model.Events;
 using FlowReports.Model.ImportExport;
 using FlowReports.Model.ReportItems;
-using FlowReports.ViewModel.EditorItems;
 
-namespace FlowReports.ViewModel
+namespace FlowReports.ViewModel.Editor
 {
   /// <summary>
   /// Provides view model functionality for managing a report and its bands and items.
   /// </summary>
   public class ReportViewModel : ViewModelBase, IBandParentViewModel
   {
-    #region Events
-
-    internal event EventHandler SelectionChanged;
-
-    #endregion
-
     #region Fields
 
-    private ReportBandViewModel _selectedBand;
+    private object _selectedBandVM;
     private IEditorItemViewModel _selectedItem;
     private bool _isDirty;
     private readonly ReportBandCollection _subBands;
-    private HeaderBand _oldHeaderBand;
-    private FooterBand _oldFooterBand;
+    private readonly Dictionary<ReportBand, HeaderBand> _oldHeaderBands;
+    private readonly Dictionary<ReportBand, FooterBand> _oldFooterBands;
     private ActionCommand _addNewBandCommand;
     private ActionCommand _addSubBandCommand;
     private ActionCommand _editBandDetailsCommand;
@@ -63,11 +56,21 @@ namespace FlowReports.ViewModel
       {
         var newReportBandVM = new ReportBandViewModel(subBand) { Parent = this };
         newReportBandVM.SelectionChanged += ReportBandVM_SelectionChanged;
+        if (newReportBandVM.HeaderBand != null)
+        {
+          newReportBandVM.HeaderBand.SelectionChanged += ReportBandVM_SelectionChanged;
+        }
+        if (newReportBandVM.FooterBand != null)
+        {
+          newReportBandVM.FooterBand.SelectionChanged += ReportBandVM_SelectionChanged;
+        }
+
         Bands.Add(newReportBandVM);
       }
 
       Report = report;
-      SelectionChanged += ReportVM_SelectionChanged;
+      _oldHeaderBands = new Dictionary<ReportBand, HeaderBand>();
+      _oldFooterBands = new Dictionary<ReportBand, FooterBand>();
       DataSourceVM = new DataSourceViewModel[] { new DataSourceViewModel(report.DataSource) };
       IsDirty = false;
     }
@@ -80,36 +83,19 @@ namespace FlowReports.ViewModel
 
 
     /// <summary>
-    /// Gets or sets the selected band in the report.
+    /// Gets the selected band in the report.
     /// </summary>
-    public ReportBandViewModel SelectedBand
-    {
-      get => _selectedBand;
-      set
-      {
-        if (_selectedBand != value)
-        {
-          if (_selectedBand != null)
-          {
-            _selectedBand.ItemSelected -= SelectedBand_ItemSelected;
-          }
+    public ReportBandViewModel SelectedBand => _selectedBandVM as ReportBandViewModel;
 
-          _selectedBand = value;
+    /// <summary>
+    ///´ Gets the selected header band in the report.
+    /// </summary>
+    public HeaderBandViewModel SelectedHeader => _selectedBandVM as HeaderBandViewModel;
 
-          if (_selectedBand != null)
-          {
-            _selectedBand.ItemSelected += SelectedBand_ItemSelected;
-          }
-
-          OnPropertyChanged();
-          OnPropertyChanged(nameof(IsBandSelected));
-          _addSubBandCommand.RaiseCanExecuteChanged();
-          _removeBandCommand.RaiseCanExecuteChanged();
-          _addTextItemCommand.RaiseCanExecuteChanged();
-          _pasteCommand.RaiseCanExecuteChanged();
-        }
-      }
-    }
+    /// <summary>
+    /// Gets the selected footer band in the report.
+    /// </summary>
+    public FooterBandViewModel SelectedFooter => _selectedBandVM as FooterBandViewModel;
 
     /// <summary>
     /// Gets or sets the selected item in the report.
@@ -182,19 +168,18 @@ namespace FlowReports.ViewModel
       get => SelectedBand?.HeaderBand != null;
       set
       {
-        if (SelectedBand is ReportBandViewModel vm)
+        var vm = SelectedBand;
+        if (value)
         {
-          if (value)
-          {
-            vm.Band.HeaderBand = _oldHeaderBand ?? new HeaderBand();
-          }
-          else
-          {
-            _oldHeaderBand = vm.Band.HeaderBand;
-            vm.Band.HeaderBand = null;
-          }
-          OnPropertyChanged();
+          vm.Band.HeaderBand = _oldHeaderBands.TryGetValue(vm.Band, out var oldHeaderBand) ? oldHeaderBand : new HeaderBand();
+
         }
+        else
+        {
+          _oldHeaderBands[vm.Band] = vm.Band.HeaderBand;
+          vm.Band.HeaderBand = null;
+        }
+        OnPropertyChanged();
       }
     }
 
@@ -203,19 +188,17 @@ namespace FlowReports.ViewModel
       get => SelectedBand?.FooterBand != null;
       set
       {
-        if (SelectedBand is ReportBandViewModel vm)
+        var vm = SelectedBand;
+        if (value)
         {
-          if (value)
-          {
-            vm.Band.FooterBand = _oldFooterBand ?? new FooterBand();
-          }
-          else
-          {
-            _oldFooterBand = vm.Band.FooterBand;
-            vm.Band.FooterBand = null;
-          }
-          OnPropertyChanged();
+          vm.Band.FooterBand = _oldFooterBands.TryGetValue(vm.Band, out var oldFooterBand) ? oldFooterBand : new FooterBand();
         }
+        else
+        {
+          _oldFooterBands[vm.Band] = vm.Band.FooterBand;
+          vm.Band.FooterBand = null;
+        }
+        OnPropertyChanged();
       }
     }
 
@@ -303,11 +286,6 @@ namespace FlowReports.ViewModel
       _subBands.RemoveBand(subBand.Band);
     }
 
-    protected void OnSelectionChanged()
-    {
-      SelectionChanged?.Invoke(this, EventArgs.Empty);
-    }
-
     public void MoveBandUp(ReportBandViewModel band)
     {
       _subBands.MoveBandUp(band.Band);
@@ -374,7 +352,7 @@ namespace FlowReports.ViewModel
 
     private bool CanAddSubBand()
     {
-      return SelectedBand != null;
+      return IsBandSelected;
     }
 
     #endregion
@@ -388,12 +366,15 @@ namespace FlowReports.ViewModel
 
     private void EditBandDetails()
     {
-      SelectedBand?.EditDetailsCommand.Execute(null);
+      // Only one of them will execute, because if SelectedBand is not null, then SelectedHeader will be null and vice versa.
+      SelectedBand?.EditBandDetailsCommand.Execute(null);
+      SelectedHeader?.EditBandDetailsCommand.Execute(null);
     }
 
     private bool CanEditBandDetails()
     {
-      return SelectedBand != null && SelectedBand.EditDetailsCommand.CanExecute(null);
+      return IsBandSelected && SelectedBand.EditBandDetailsCommand.CanExecute(null) ||
+             SelectedHeader != null && SelectedHeader.EditBandDetailsCommand.CanExecute(null);
     }
 
     #endregion
@@ -407,13 +388,13 @@ namespace FlowReports.ViewModel
 
     private void RemoveBand()
     {
+      SelectedBand.IsSelected = false;
       SelectedBand?.Parent?.RemoveBand(SelectedBand);
-      SelectedBand = null;
     }
 
     private bool CanRemoveBand()
     {
-      return SelectedBand != null;
+      return IsBandSelected;
     }
 
     #endregion
@@ -432,7 +413,7 @@ namespace FlowReports.ViewModel
 
     private bool CanMoveBandUp()
     {
-      return SelectedBand != null && SelectedBandParent != null && SelectedBandParent.CanMoveBandUp(SelectedBand);
+      return IsBandSelected && SelectedBandParent != null && SelectedBandParent.CanMoveBandUp(SelectedBand);
     }
 
     #endregion
@@ -451,7 +432,7 @@ namespace FlowReports.ViewModel
 
     private bool CanMoveBandDown()
     {
-      return SelectedBand != null && SelectedBandParent != null && SelectedBandParent.CanMoveBandDown(SelectedBand);
+      return IsBandSelected && SelectedBandParent != null && SelectedBandParent.CanMoveBandDown(SelectedBand);
     }
 
     #endregion
@@ -471,7 +452,7 @@ namespace FlowReports.ViewModel
 
     private bool CanAddTextItem()
     {
-      return SelectedBand != null;
+      return IsBandSelected || SelectedHeader != null || SelectedFooter != null;
     }
 
     #endregion
@@ -491,7 +472,7 @@ namespace FlowReports.ViewModel
 
     private bool CanAddBooleanItem()
     {
-      return SelectedBand != null;
+      return IsBandSelected || SelectedHeader != null || SelectedFooter != null;
     }
 
     #endregion
@@ -511,7 +492,7 @@ namespace FlowReports.ViewModel
 
     private bool CanAddImageItem()
     {
-      return SelectedBand != null;
+      return IsBandSelected || SelectedHeader != null || SelectedFooter != null;
     }
 
     #endregion
@@ -608,13 +589,16 @@ namespace FlowReports.ViewModel
 
       foreach (var item in items)
       {
-        SelectedBand.Band.AddReportItem(item);
+        // Only one of them will be executed, because if SelectedBand is not null, then SelectedHeader will be null and vice versa.
+        SelectedBand?.Band.AddReportItem(item);
+        SelectedHeader?.Band.AddReportItem(item);
+        SelectedFooter?.Band.AddReportItem(item);
       }
     }
 
     private bool CanPaste()
     {
-      return Clipboard.ContainsText() && SelectedBand != null;
+      return Clipboard.ContainsText() && (IsBandSelected || SelectedHeader != null || SelectedFooter != null);
     }
 
     #endregion
@@ -625,7 +609,63 @@ namespace FlowReports.ViewModel
 
     private void ReportBandVM_SelectionChanged(object sender, EventArgs e)
     {
-      SelectionChanged?.Invoke(sender, EventArgs.Empty);
+      UnsubscribeFromCurrentSelection();
+      _selectedBandVM = null;
+
+      // sender is one of: ReportBandViewModel, HeaderBandViewModel, or FooterBandViewModel
+      switch (sender)
+      {
+        case ReportBandViewModel rbvm when rbvm.IsSelected:
+          _selectedBandVM = rbvm;
+          rbvm.ItemSelected += SelectedBand_ItemSelected;
+          break;
+        case HeaderBandViewModel hbvm when hbvm.IsSelected:
+          _selectedBandVM = hbvm;
+          hbvm.ItemSelected += SelectedBand_ItemSelected;
+          break;
+        case FooterBandViewModel fbvm when fbvm.IsSelected:
+          _selectedBandVM = fbvm;
+          fbvm.ItemSelected += SelectedBand_ItemSelected;
+          break;
+      }
+
+      if (_selectedBandVM != null)
+      {
+        SelectedItem = null;
+      }
+
+      _addSubBandCommand.RaiseCanExecuteChanged();
+      _editBandDetailsCommand.RaiseCanExecuteChanged();
+      _removeBandCommand.RaiseCanExecuteChanged();
+      _moveBandUp.RaiseCanExecuteChanged();
+      _moveBandDown.RaiseCanExecuteChanged();
+      _addTextItemCommand.RaiseCanExecuteChanged();
+      _addBooleanItemCommand.RaiseCanExecuteChanged();
+      _addImageItemCommand.RaiseCanExecuteChanged();
+      _pasteCommand.RaiseCanExecuteChanged();
+
+      OnPropertyChanged(nameof(SelectedBand));
+      OnPropertyChanged(nameof(SelectedHeader));
+      OnPropertyChanged(nameof(SelectedFooter));
+      OnPropertyChanged(nameof(IsBandSelected));
+      OnPropertyChanged(nameof(IsHeaderBandActive));
+      OnPropertyChanged(nameof(IsFooterBandActive));
+    }
+
+    private void UnsubscribeFromCurrentSelection()
+    {
+      if (_selectedBandVM is ReportBandViewModel rbvm)
+      {
+        rbvm.ItemSelected -= SelectedBand_ItemSelected;
+      }
+      else if (_selectedBandVM is HeaderBandViewModel hbvm)
+      {
+        hbvm.ItemSelected -= SelectedBand_ItemSelected;
+      }
+      else if (_selectedBandVM is FooterBandViewModel fbvm)
+      {
+        fbvm.ItemSelected -= SelectedBand_ItemSelected;
+      }
     }
 
     private void SelectedItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -638,14 +678,6 @@ namespace FlowReports.ViewModel
       if (sender is IEditorItemViewModel itemViewModel)
       {
         SelectedItem = itemViewModel;
-      }
-    }
-
-    private void ReportVM_SelectionChanged(object sender, EventArgs e)
-    {
-      if (sender is ReportBandViewModel reportBandViewModel)
-      {
-        SelectedBand = reportBandViewModel.IsSelected ? reportBandViewModel : null;
       }
     }
 
@@ -684,17 +716,12 @@ namespace FlowReports.ViewModel
 
       if (disposing)
       {
-        SelectionChanged -= ReportVM_SelectionChanged;
-
         if (_selectedItem != null)
         {
           _selectedItem.PropertyChanged -= SelectedItem_PropertyChanged;
         }
 
-        if (_selectedBand != null)
-        {
-          _selectedBand.ItemSelected -= SelectedBand_ItemSelected;
-        }
+        UnsubscribeFromCurrentSelection();
 
         foreach (var dataSourceVM in DataSourceVM)
         {
@@ -712,7 +739,7 @@ namespace FlowReports.ViewModel
       }
     }
 
-#endregion
+    #endregion
 
   }
 }

@@ -7,8 +7,6 @@
     <Company>Engineering Solutions</Company>    
     <Description>A simple library for printing reports from any .NET obejct.</Description>    
     <Copyright>© Engineering Solutions 2023-2026</Copyright>    
-    <PackageIcon>FlowReports_256x.png</PackageIcon>    
-    <PackageReadmeFile>README.md</PackageReadmeFile>    
     <RepositoryUrl>https://github.com/pschimmel/FlowReports</RepositoryUrl>
   </PropertyGroup>
 
@@ -57,6 +55,7 @@
     <None Remove="View\Images\RemoveBand_32x.png" />
     <None Remove="View\Images\RemoveItem_16x.png" />
     <None Remove="View\Images\RemoveItem_32x.png" />
+    <None Remove="View\Images\Repeat_16x.png" />
     <None Remove="View\Images\ReportItem_16x.png" />
     <None Remove="View\Images\ReportItem_32x.png" />
     <None Remove="View\Images\SaveAs_16x.png" />
@@ -91,17 +90,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\Icons\FlowReports_256x.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="ES.Tools" Version="0.6.40.125" />
     <PackageReference Include="ES.Tools.Core" Version="0.6.40.125" />
     <PackageReference Include="Fluent.Ribbon" Version="11.0.2" />
@@ -115,6 +103,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Update="View\PrintPreviewWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\HeadertBandDetails.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\ReportBandDetails.xaml.cs">
@@ -178,6 +169,7 @@
     <Resource Include="View\Images\RemoveBand_32x.png" />
     <Resource Include="View\Images\RemoveItem_16x.png" />
     <Resource Include="View\Images\RemoveItem_32x.png" />
+    <Resource Include="View\Images\Repeat_16x.png" />
     <Resource Include="View\Images\ReportItem_16x.png" />
     <Resource Include="View\Images\ReportItem_32x.png" />
     <Resource Include="View\Images\SaveAs_16x.png" />

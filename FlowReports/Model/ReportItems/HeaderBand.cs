@@ -7,14 +7,23 @@ namespace FlowReports.Model.ReportItems
   /// </summary>
   public class HeaderBand : ReportBandBase
   {
+    #region Constructor
+
     public HeaderBand(Guid id)
       : base(id)
     { }
 
     public HeaderBand()
       : base(Guid.NewGuid())
-    {
-    }
+    { }
+
+    #endregion
+
+    #region Properties
+
+    public bool RepeatOnEachPage { get; set; }
+
+    #endregion
 
     #region Overwritten Members
 
@@ -22,12 +31,13 @@ namespace FlowReports.Model.ReportItems
     {
       return obj is HeaderBand other &&
         Equals(Height, other.Height) &&
+        Equals(RepeatOnEachPage, other.RepeatOnEachPage) &&
         List.Equals(Items, other.Items);
     }
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(Height, Items);
+      return HashCode.Combine(Height, RepeatOnEachPage, Items);
     }
 
     #endregion

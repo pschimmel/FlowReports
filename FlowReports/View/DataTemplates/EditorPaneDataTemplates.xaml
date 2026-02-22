@@ -5,7 +5,7 @@
                     xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
                     xmlns:toolsUI="clr-namespace:ES.Tools.UI;assembly=ES.Tools"
                     xmlns:viewBehaviors="clr-namespace:FlowReports.View.Behaviors"
-                    xmlns:vm="clr-namespace:FlowReports.ViewModel.EditorItems">
+                    xmlns:vm="clr-namespace:FlowReports.ViewModel.Editor">
   <ResourceDictionary.MergedDictionaries>
     <toolsUI:SharedResourceDictionary Source="pack://application:,,,/FlowReports;component/View/Brushes.xaml" />
   </ResourceDictionary.MergedDictionaries>

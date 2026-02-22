@@ -184,13 +184,16 @@ namespace FlowReports.ViewModel.Printing
     private void DrawBandContent(ReportBandBase band, object itemData)
     {
       // Check if current band fits onto page, if not create new page
-      if (_currentY + band.ActualHeight >= ActualHeight)
+      if (CreateNewPage(band))
       {
         // Current band does not fit onto page -> create next page
         CreatePageFromCurrentCanvas();
 
         // Create canvas for next page and reset y valze
         CreateNewCanvas();
+
+        // Draw header band on new page if it exists
+        DrawHeader(band);
       }
 
       // Draw all report items once for each item in the data source
@@ -207,6 +210,33 @@ namespace FlowReports.ViewModel.Printing
 
       // Increase current y position
       _currentY += band.ActualHeight;
+    }
+
+    /// <summary>
+    /// Draws the header band of the given band if it exists.
+    /// This is used to draw the header band on new pages when a band does not fit onto one page. 
+    /// </summary>
+    private void DrawHeader(ReportBandBase band)
+    {
+      if (band is not ReportBand reportBand)
+      {
+        return;
+      }
+
+      // Draw header band if it exists
+      if (reportBand.HeaderBand != null && reportBand.HeaderBand.RepeatOnEachPage)
+      {
+        DrawBandContent(reportBand.HeaderBand, GetFirstItem(_data));
+      }
+    }
+
+    /// <summary>
+    /// Creates a new page if the current band does not fit onto the current page.
+    /// A new page is only created if the current band does not fit onto the current page and if the band itself is smaller than a page (to prevent infinite loops).
+    /// </summary>
+    private bool CreateNewPage(ReportBandBase band)
+    {
+      return _currentY + band.ActualHeight >= ActualHeight && band.ActualHeight < ActualHeight;
     }
 
     private void CreatePageFromCurrentCanvas()

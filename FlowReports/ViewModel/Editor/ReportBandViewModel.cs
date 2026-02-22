@@ -10,7 +10,7 @@ using FlowReports.Model.Events;
 using FlowReports.Model.ReportItems;
 using GongSolutions.Wpf.DragDrop;
 
-namespace FlowReports.ViewModel.EditorItems
+namespace FlowReports.ViewModel.Editor
 {
   public class ReportBandViewModel : ReportbandBaseViewModel<ReportBand>, IBandParentViewModel
   {
@@ -41,14 +41,16 @@ namespace FlowReports.ViewModel.EditorItems
       if (bandOwner.HeaderBand != null)
       {
         HeaderBand = new HeaderBandViewModel(bandOwner.HeaderBand) { Parent = this };
+        HeaderBand.SelectionChanged += ReportBandVM_SelectionChanged;
       }
 
       if (bandOwner.FooterBand != null)
       {
         FooterBand = new FooterBandViewModel(bandOwner.FooterBand) { Parent = this };
+        FooterBand.SelectionChanged += ReportBandVM_SelectionChanged;
       }
 
-      EditDetailsCommand = new ActionCommand(EditDetails, CanEditDetails);
+      EditBandDetailsCommand = new ActionCommand(EditBandDetails, CanEditBandDetails);
     }
 
     #endregion
@@ -119,15 +121,26 @@ namespace FlowReports.ViewModel.EditorItems
 
     #region Edit Details
 
-    public ICommand EditDetailsCommand { get; }
+    public ICommand EditBandDetailsCommand { get; }
 
-    public void EditDetails()
+    public void EditBandDetails()
     {
       string oldDataSource = DataSource;
-      var v = ViewFactory.Instance.CreateView(this);
-      if (v.ShowDialog() != true)
+      bool oldHeightAuto = HeightAuto;
+      double oldHeight = Height;
+
+      var view = ViewFactory.Instance.CreateView(this);
+      if (view.ShowDialog() != true)
       {
         DataSource = oldDataSource;
+        if (oldHeightAuto)
+        {
+          HeightAuto = true;
+        }
+        else
+        {
+          Height = oldHeight;
+        }
       }
       else if (ReportVM != null)
       {
@@ -135,7 +148,7 @@ namespace FlowReports.ViewModel.EditorItems
       }
     }
 
-    private bool CanEditDetails()
+    private bool CanEditBandDetails()
     {
       return IsSelected;
     }
@@ -151,9 +164,11 @@ namespace FlowReports.ViewModel.EditorItems
       if (Band.HeaderBand != null)
       {
         HeaderBand = new HeaderBandViewModel(Band.HeaderBand) { Parent = this };
+        HeaderBand.SelectionChanged += ReportBandVM_SelectionChanged;
       }
       else
       {
+        HeaderBand.SelectionChanged -= ReportBandVM_SelectionChanged;
         HeaderBand.Dispose();
         HeaderBand = null;
       }
@@ -165,9 +180,11 @@ namespace FlowReports.ViewModel.EditorItems
       if (Band.FooterBand != null)
       {
         FooterBand = new FooterBandViewModel(Band.FooterBand) { Parent = this };
+        FooterBand.SelectionChanged += ReportBandVM_SelectionChanged;
       }
       else
       {
+        FooterBand.SelectionChanged -= ReportBandVM_SelectionChanged;
         FooterBand.Dispose();
         FooterBand = null;
       }
@@ -255,6 +272,16 @@ namespace FlowReports.ViewModel.EditorItems
       {
         Band.HeaderChanged -= Band_HeaderChanged;
         Band.FooterChanged -= Band_FooterChanged;
+
+        if (HeaderBand != null)
+        {
+          HeaderBand.SelectionChanged -= ReportBandVM_SelectionChanged;
+        }
+
+        if (FooterBand != null)
+        {
+          FooterBand.SelectionChanged -= ReportBandVM_SelectionChanged;
+        }
 
         HeaderBand?.Dispose();
         FooterBand?.Dispose();

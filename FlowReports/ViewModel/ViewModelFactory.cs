@@ -1,5 +1,5 @@
 ﻿using FlowReports.Model.ReportItems;
-using FlowReports.ViewModel.EditorItems;
+using FlowReports.ViewModel.Editor;
 using FlowReports.ViewModel.ReportItems;
 
 namespace FlowReports.ViewModel

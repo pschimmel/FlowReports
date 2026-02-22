@@ -11,7 +11,7 @@ using FlowReports.Model.Events;
 using FlowReports.Model.ReportItems;
 using GongSolutions.Wpf.DragDrop;
 
-namespace FlowReports.ViewModel.EditorItems
+namespace FlowReports.ViewModel.Editor
 {
   public abstract class ReportbandBaseViewModel<T> : ViewModelBase, IItemContainerViewModel, IDropTarget where T : ReportBandBase
   {

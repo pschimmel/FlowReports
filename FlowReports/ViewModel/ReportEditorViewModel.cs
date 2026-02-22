@@ -5,6 +5,7 @@ using System.Windows.Input;
 using ES.Tools.Core.Infrastructure;
 using ES.Tools.Core.MVVM;
 using FlowReports.Model;
+using FlowReports.ViewModel.Editor;
 using FlowReports.ViewModel.Infrastructure;
 using Microsoft.Win32;
 

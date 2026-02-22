@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using FlowReports.Model;
-using FlowReports.ViewModel.EditorItems;
+using FlowReports.ViewModel.Editor;
 
 namespace FlowReports.ViewModel
 {

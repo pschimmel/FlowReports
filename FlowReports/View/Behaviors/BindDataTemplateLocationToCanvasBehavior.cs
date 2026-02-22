@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 using ES.Tools.UI;
-using FlowReports.ViewModel.EditorItems;
+using FlowReports.ViewModel.Editor;
 using Microsoft.Xaml.Behaviors;
 
 namespace FlowReports.View.Behaviors

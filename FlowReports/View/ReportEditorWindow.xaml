@@ -168,7 +168,11 @@
           <ItemsControl ItemsSource="{Binding ReportVM.Bands}" />
         </StackPanel>
       </Border>
-      <GridSplitter Width="2" Background="Black" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+      <GridSplitter Grid.Column="1"
+                    Width="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    Background="Black" />
       <Border x:Name="EditorContainer" Grid.Column="2" Background="{StaticResource Editor.Background}">
         <Border.InputBindings>
           <KeyBinding Command="{Binding ReportVM.CutCommand}" Gesture="Ctrl+X" />

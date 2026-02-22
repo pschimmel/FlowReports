@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace FlowReports.ViewModel.EditorItems
+namespace FlowReports.ViewModel.Editor
 {
   public interface IItemContainerViewModel
   {

@@ -1,6 +1,6 @@
 ﻿using FlowReports.Model.ReportItems;
 
-namespace FlowReports.ViewModel.EditorItems
+namespace FlowReports.ViewModel.Editor
 {
   public class FooterBandViewModel : ReportbandBaseViewModel<FooterBand>
   {

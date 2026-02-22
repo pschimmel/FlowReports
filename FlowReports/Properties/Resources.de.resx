@@ -252,6 +252,9 @@
   <data name="RemoveItem" xml:space="preserve">
     <value>Eintrag entfernen</value>
   </data>
+  <data name="Repeat" xml:space="preserve">
+    <value>Repeat</value>
+  </data>
   <data name="Report" xml:space="preserve">
     <value>Bericht</value>
   </data>
