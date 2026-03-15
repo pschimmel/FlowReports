@@ -4,8 +4,20 @@
     <TargetFramework>net9.0-windows7.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <BaseOutputPath>..\Output\bin</BaseOutputPath>
-    <Version>0.8.10.0</Version>
+    <Version>0.8.11.0</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Model\DataSources\**" />
+    <Compile Remove="Model\Events\**" />
+    <Compile Remove="Model\ReportItems\**" />
+    <EmbeddedResource Remove="Model\DataSources\**" />
+    <EmbeddedResource Remove="Model\Events\**" />
+    <EmbeddedResource Remove="Model\ReportItems\**" />
+    <None Remove="Model\DataSources\**" />
+    <None Remove="Model\Events\**" />
+    <None Remove="Model\ReportItems\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />

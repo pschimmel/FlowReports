@@ -189,7 +189,7 @@ namespace FlowReports.ViewModel.Printing
         // Current band does not fit onto page -> create next page
         CreatePageFromCurrentCanvas();
 
-        // Create canvas for next page and reset y valze
+        // Create canvas for next page and reset y value
         CreateNewCanvas();
 
         // Draw header band on new page if it exists
@@ -236,11 +236,16 @@ namespace FlowReports.ViewModel.Printing
     /// </summary>
     private bool CreateNewPage(ReportBandBase band)
     {
-      return _currentY + band.ActualHeight >= ActualHeight && band.ActualHeight < ActualHeight;
+      return band != null && _currentY + band.ActualHeight >= ActualHeight && band.ActualHeight < ActualHeight;
     }
 
     private void CreatePageFromCurrentCanvas()
     {
+      if (_currentCanvas == null || _printableArea == null)
+      {
+        return;
+      }
+
       _currentCanvas.Measure(new Size(_currentCanvas.Width, _currentCanvas.Height));
       _currentCanvas.Arrange(new Rect(new Point(_printableArea.OriginWidth, _printableArea.OriginHeight), new Size(_currentCanvas.Width, _currentCanvas.Height)));
       var dp = new DocumentPage(_currentCanvas, _pageSize, new Rect(), new Rect(new Point(_printableArea.OriginWidth, _printableArea.OriginHeight), new Size(ActualWidth, ActualHeight)));
@@ -249,6 +254,11 @@ namespace FlowReports.ViewModel.Printing
 
     private static IEnumerable GetSubData(object data, string dataSource)
     {
+      if (data == null || string.IsNullOrWhiteSpace(dataSource))
+      {
+        return null;
+      }
+
       var type = data.GetType();
       var property = type.GetProperty(dataSource);
 
