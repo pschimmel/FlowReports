@@ -137,7 +137,12 @@ namespace FlowReports.Model.ReportItems
 
     public override int GetHashCode()
     {
-      return 7 ^ _bands.GetHashCode();
+      var hash = new HashCode();
+      foreach (var band in _bands)
+      {
+        hash.Add(band);
+      }
+      return hash.ToHashCode();
     }
   }
 }

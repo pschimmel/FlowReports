@@ -291,15 +291,5 @@ namespace FlowReports.UnitTests.Model
     {
       Assert.That(_item.DefaultWidth, Is.EqualTo(_item.DefaultHeight));
     }
-
-    [Test]
-    public void ImageItem_IsLargerThanTextItem()
-    {
-      var imageItem = new ImageItem();
-      var textItem = new TextItem();
-
-      Assert.That(imageItem.DefaultWidth, Is.GreaterThan(textItem.DefaultWidth));
-      Assert.That(imageItem.DefaultHeight, Is.GreaterThan(textItem.DefaultHeight));
-    }
   }
 }

@@ -100,10 +100,10 @@ namespace FlowReports.ViewModel
         if (ReportVM?.FilePath != null)
         {
           title += " - " + Path.GetFileName(ReportVM.FilePath);
-          if (ReportVM.IsDirty)
-          {
-            title += "*";
-          }
+        }
+        if (ReportVM?.IsDirty == true)
+        {
+          title += "*";
         }
         return title;
       }
@@ -291,8 +291,8 @@ namespace FlowReports.ViewModel
       if (e.PropertyName == nameof(ReportVM.IsDirty))
       {
         OnPropertyChanged(nameof(Title));
-        _saveCommand.RaiseCanExecuteChanged();
-        _saveAsCommand.RaiseCanExecuteChanged();
+        _saveCommand?.RaiseCanExecuteChanged();
+        _saveAsCommand?.RaiseCanExecuteChanged();
       }
     }
 

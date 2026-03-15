@@ -11,7 +11,7 @@ namespace FlowReports.UnitTests.ViewModel
     [SetUp]
     public void Setup()
     {
-      _dataSource = new DataSource();
+      _dataSource = new DataSource { Name = "TestDataSource" };
       _viewModel = new DataSourceListViewModel(_dataSource);
     }
 

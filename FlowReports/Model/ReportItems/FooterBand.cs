@@ -26,7 +26,13 @@ namespace FlowReports.Model.ReportItems
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(Height, Items);
+      var hash = new HashCode();
+      hash.Add(Height);
+      foreach (var item in Items)
+      {
+        hash.Add(item);
+      }
+      return hash.ToHashCode();
     }
 
     #endregion

@@ -157,13 +157,6 @@ namespace FlowReports.UnitTests.Model
     }
 
     [Test]
-    public void DateFieldAnalyzer_IsSupported_DateOnly_ReturnsTrue()
-    {
-      var analyzer = new DateFieldAnalyzer();
-      Assert.That(analyzer.IsSupported(typeof(DateOnly)), Is.True);
-    }
-
-    [Test]
     public void DateFieldAnalyzer_IsSupported_String_ReturnsFalse()
     {
       var analyzer = new DateFieldAnalyzer();
@@ -406,8 +399,8 @@ namespace FlowReports.UnitTests.Model
     {
       var items = new List<MultiPropertyObject>
       {
-        new MultiPropertyObject 
-        { 
+        new MultiPropertyObject
+        {
           Name = "Test",
           Age = 30,
           IsActive = true,

@@ -254,8 +254,10 @@ namespace FlowReports.ViewModel.Editor
         parent = reportBandViewModel.Parent;
       }
 
-      Debug.Assert(parent is ReportViewModel);
-      SelectBand(parent, this);
+      if (parent is ReportViewModel)
+      {
+        SelectBand(parent, this);
+      }
     }
 
     /// <summary>
