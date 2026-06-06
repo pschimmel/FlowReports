@@ -76,6 +76,40 @@ namespace FlowReports.Model.ImportExport
       band.DataSource = bandNode.ReadAttributeOrDefault(Tags.DataSource, default(string));
       band.Height = bandNode.ReadAttributeOrDefault<double?>(Tags.Height, null);
 
+      // Read filtering if present
+      if (bandNode.SelectSingleNode(Tags.Filtering) is XmlElement filteringNode)
+      {
+        foreach (var filterNode in filteringNode.SelectNodes(Tags.Filter).OfType<XmlElement>())
+        {
+          var expression = filterNode.ReadAttributeOrDefault(Tags.Expression, string.Empty);
+          if (!string.IsNullOrWhiteSpace(expression))
+          {
+            band.FilterExpression = new Filtering.FilterExpression(expression);
+          }
+        }
+      }
+
+      // Read ordering if present
+      if (bandNode.SelectSingleNode(Tags.Ordering) is XmlElement orderingNode)
+      {
+        foreach (var orderNode in orderingNode.SelectNodes(Tags.Order).OfType<XmlElement>())
+        {
+          var prop = orderNode.ReadAttributeOrDefault(Tags.Property, string.Empty);
+          var dirStr = orderNode.ReadAttributeOrDefault(Tags.Direction, string.Empty);
+          if (!string.IsNullOrWhiteSpace(prop))
+          {
+            if (Enum.TryParse<SortDirection>(dirStr, out var dir))
+            {
+              band.Ordering.Add(new SortDescriptor { Property = prop, Direction = dir });
+            }
+            else
+            {
+              band.Ordering.Add(new SortDescriptor { Property = prop, Direction = SortDirection.Ascending });
+            }
+          }
+        }
+      }
+
       // Read header and footer nodes
       ReadHeaderNode(bandNode, band);
       ReadFooterNode(bandNode, band);

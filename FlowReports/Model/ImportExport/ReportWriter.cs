@@ -80,7 +80,33 @@ namespace FlowReports.Model.ImportExport
         bandNode.WriteAttribute(Tags.Height, band.Height.Value);
       }
 
+      // Write filter expression
+      if (band.FilterExpression != null && !string.IsNullOrWhiteSpace(band.FilterExpression.Expression))
+      {
+        var filteringNode = bandNode.AppendChild(Tags.Filtering);
+        var filterNode = filteringNode.AppendChild(Tags.Filter);
+        filterNode.WriteAttribute(Tags.Expression, band.FilterExpression.Expression);
+      }
+
+      // Write ordering
+      if (band.Ordering != null && band.Ordering.Count > 0)
+      {
+        var orderingNode = bandNode.AppendChild(Tags.Ordering);
+        foreach (var ord in band.Ordering)
+        {
+          var orderNode = orderingNode.AppendChild(Tags.Order);
+          if (!string.IsNullOrEmpty(ord.Property))
+          {
+            orderNode.WriteAttribute(Tags.Property, ord.Property);
+          }
+          orderNode.WriteAttribute(Tags.Direction, ord.Direction.ToString());
+        }
+      }
+
+      // Write parameters
       WriteBandItems(band, bandNode);
+
+      // Write subbands
       WriteSubbands(band, bandNode);
 
       if (band.HeaderBand != null)

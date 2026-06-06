@@ -22,5 +22,12 @@
     public const string Height = nameof(Height);
     public const string Header = nameof(Header);
     public const string Footer = nameof(Footer);
+    public const string Filtering = nameof(Filtering);
+    public const string Filter = nameof(Filter);
+    public const string Expression = nameof(Expression);
+    public const string Ordering = nameof(Ordering);
+    public const string Order = nameof(Order);
+    public const string Property = nameof(Property);
+    public const string Direction = nameof(Direction);
   }
 }

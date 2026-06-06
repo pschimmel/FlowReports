@@ -51,7 +51,14 @@ namespace FlowReports.ViewModel.Editor
         FooterBand.SelectionChanged += ReportBandVM_SelectionChanged;
       }
 
+      // initialize orderings from model
+      Orderings = new ObservableCollection<OrderDescriptorViewModel>(bandOwner.Ordering.Select(o => new OrderDescriptorViewModel(o)));
+
       EditBandDetailsCommand = new ActionCommand(EditBandDetails, CanEditBandDetails);
+      AddOrderCommand = new ActionCommand(AddOrder);
+      RemoveOrderCommand = new ActionCommand(RemoveOrder, CanRemoveOrder);
+      MoveOrderUpCommand = new ActionCommand(MoveOrderUp, CanMoveOrderUp);
+      MoveOrderDownCommand = new ActionCommand(MoveOrderDown, CanMoveOrderDown);
     }
 
     #endregion
@@ -87,18 +94,15 @@ namespace FlowReports.ViewModel.Editor
       {
         if ((Band.FilterExpression?.Expression ?? string.Empty) != value)
         {
-          if (string.IsNullOrWhiteSpace(value))
-          {
-            Band.FilterExpression = null;
-          }
-          else
-          {
-            Band.FilterExpression = new FilterExpression(value);
-          }
+          Band.FilterExpression = string.IsNullOrWhiteSpace(value) ? null : new FilterExpression(value);
           OnPropertyChanged();
         }
       }
     }
+
+    public ObservableCollection<OrderDescriptorViewModel> Orderings { get; }
+
+    public OrderDescriptorViewModel SelectedOrdering { get; set; }
 
     #endregion
 
@@ -143,7 +147,7 @@ namespace FlowReports.ViewModel.Editor
 
     #region Commands
 
-    #region Edit Details
+    #region Edit Band Details
 
     public ICommand EditBandDetailsCommand { get; }
 
@@ -154,11 +158,22 @@ namespace FlowReports.ViewModel.Editor
       bool oldHeightAuto = HeightAuto;
       double oldHeight = Height;
 
+      // backup ordering
+      var oldOrdering = Orderings.Select(o => new OrderDescriptorViewModel(o.ToModel())).ToList();
+
       var view = ViewFactory.Instance.CreateView(this);
       if (view.ShowDialog() != true)
       {
         DataSource = oldDataSource;
         FilterExpressionText = oldFilterExpression;
+
+        // restore ordering
+        Orderings.Clear();
+        foreach (var o in oldOrdering)
+        {
+          Orderings.Add(new OrderDescriptorViewModel(o.ToModel()));
+        }
+
         if (oldHeightAuto)
         {
           HeightAuto = true;
@@ -170,6 +185,13 @@ namespace FlowReports.ViewModel.Editor
       }
       else if (ReportVM != null)
       {
+        // persist ordering into model
+        Band.Ordering.Clear();
+        foreach (var o in Orderings)
+        {
+          Band.Ordering.Add(o.ToModel());
+        }
+
         ReportVM.IsDirty = true;
       }
     }
@@ -177,6 +199,83 @@ namespace FlowReports.ViewModel.Editor
     private bool CanEditBandDetails()
     {
       return IsSelected;
+    }
+
+    #endregion
+
+    #region Add Order Command
+
+    public ICommand AddOrderCommand { get; }
+
+    private void AddOrder()
+    {
+      Orderings.Add(new OrderDescriptorViewModel { Property = string.Empty, Direction = SortDirection.Ascending });
+    }
+
+    #endregion
+
+    #region Remove Order Command
+
+    public ICommand RemoveOrderCommand { get; }
+
+    private void RemoveOrder()
+    {
+      if (SelectedOrdering != null)
+      {
+        Orderings.Remove(SelectedOrdering);
+        SelectedOrdering = null;
+      }
+    }
+
+    private bool CanRemoveOrder()
+    {
+      return SelectedOrdering != null;
+    }
+
+    #endregion
+
+    #region Move Order Up Command
+
+    public ICommand MoveOrderUpCommand { get; }
+
+    private void MoveOrderUp()
+    {
+      if (SelectedOrdering != null)
+      {
+        var idx = Orderings.IndexOf(SelectedOrdering);
+        if (idx > 0)
+        {
+          Orderings.Move(idx, idx - 1);
+        }
+      }
+    }
+
+    private bool CanMoveOrderUp()
+    {
+      return SelectedOrdering != null && Orderings.IndexOf(SelectedOrdering) > 0;
+    }
+
+    #endregion
+
+    #region Move Order Down Command
+
+    public ICommand MoveOrderDownCommand { get; }
+
+    private void MoveOrderDown()
+    {
+      if (SelectedOrdering != null)
+      {
+        var idx = Orderings.IndexOf(SelectedOrdering);
+        if (idx < Orderings.Count - 1)
+        {
+          Orderings.Move(idx, idx + 1);
+        }
+      }
+    }
+
+    private bool CanMoveOrderDown()
+    {
+      return SelectedOrdering != null && Orderings.IndexOf(SelectedOrdering) < Orderings.Count - 1;
     }
 
     #endregion

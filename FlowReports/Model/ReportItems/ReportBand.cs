@@ -19,7 +19,6 @@ namespace FlowReports.Model.ReportItems
 
     private HeaderBand _headerBand;
     private FooterBand _footerBand;
-    private FilterExpression _filterExpression;
 
     #endregion
 
@@ -89,16 +88,17 @@ namespace FlowReports.Model.ReportItems
     /// will be rendered in this band. The expression should be a string like "PropertyName == 'value'"
     /// or "Age > 18 && Status == 'Active'".
     /// </summary>
-    public FilterExpression FilterExpression
-    {
-      get => _filterExpression;
-      set => _filterExpression = value;
-    }
+    public FilterExpression FilterExpression { get; set; }
 
     /// <summary>
     /// Gets the collection of sub-bands contained within this band. 
     /// </summary>
     public ReportBandCollection Bands { get; } = new ReportBandCollection();
+
+    /// <summary>
+    /// Gets or sets the ordering descriptors used to sort items in this band.
+    /// </summary>
+    public List<SortDescriptor> Ordering { get; } = new List<SortDescriptor>();
 
 
     #endregion
@@ -112,7 +112,8 @@ namespace FlowReports.Model.ReportItems
         Equals(DataSource, other.DataSource) &&
         Equals(FilterExpression, other.FilterExpression) &&
         Equals(Bands, other.Bands) &&
-        List.Equals(Items, other.Items);
+        List.Equals(Items, other.Items) &&
+        List.Equals(Ordering, other.Ordering);
     }
 
     public override int GetHashCode()
@@ -125,6 +126,10 @@ namespace FlowReports.Model.ReportItems
       foreach (var item in Items)
       {
         hash.Add(item);
+      }
+      foreach (var ord in Ordering)
+      {
+        hash.Add(ord);
       }
       return hash.ToHashCode();
     }

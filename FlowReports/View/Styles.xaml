@@ -241,8 +241,8 @@
   </Style>
 
   <Style x:Key="SmallTextBlockStyle" TargetType="TextBlock">
-    <Setter Property="FontSize" Value="11"/>
-    <Setter Property="Foreground" Value="Gray"/>
+    <Setter Property="FontSize" Value="9"/>
+    <Setter Property="Foreground" Value="DarkGray"/>
     <Setter Property="Margin" Value="0,0,0,2"/>
   </Style>
 </ResourceDictionary>

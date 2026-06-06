@@ -129,11 +129,17 @@
   <data name="AddImageItem" xml:space="preserve">
     <value>Add Image Item</value>
   </data>
+  <data name="AddOrder" xml:space="preserve">
+    <value>Add order</value>
+  </data>
   <data name="AddSubBand" xml:space="preserve">
     <value>Add Sub Band</value>
   </data>
   <data name="AddTextItem" xml:space="preserve">
     <value>Add Text Item</value>
+  </data>
+  <data name="Ascending" xml:space="preserve">
+    <value>Ascending</value>
   </data>
   <data name="Auto" xml:space="preserve">
     <value>Auto</value>
@@ -162,6 +168,9 @@
   <data name="DataSource" xml:space="preserve">
     <value>Data Source</value>
   </data>
+  <data name="Descending" xml:space="preserve">
+    <value>Descending</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Details</value>
   </data>
@@ -177,9 +186,6 @@
   <data name="Filter" xml:space="preserve">
     <value>Filter</value>
   </data>
-  <data name="FilterExamplesHeader" xml:space="preserve">
-    <value>Examples</value>
-  </data>
   <data name="FilterExample1" xml:space="preserve">
     <value>Name == 'John'  — exact string match</value>
   </data>
@@ -191,6 +197,9 @@
   </data>
   <data name="FilterExample4" xml:space="preserve">
     <value>!(Status == 'Inactive')  — NOT</value>
+  </data>
+  <data name="FilterExamplesHeader" xml:space="preserve">
+    <value>Examples</value>
   </data>
   <data name="FlowReportFiles" xml:space="preserve">
     <value>FlowReport files (*.nas)</value>
@@ -228,6 +237,12 @@
   <data name="MoveBandUp" xml:space="preserve">
     <value>Move Up</value>
   </data>
+  <data name="MoveOrderDown" xml:space="preserve">
+    <value>Move oder down</value>
+  </data>
+  <data name="MoveOrderUp" xml:space="preserve">
+    <value>Move order up</value>
+  </data>
   <data name="NASFiles" xml:space="preserve">
     <value>NAS files (*.nas)</value>
   </data>
@@ -239,6 +254,9 @@
   </data>
   <data name="Open" xml:space="preserve">
     <value>Open...</value>
+  </data>
+  <data name="OrderBy" xml:space="preserve">
+    <value>Order by</value>
   </data>
   <data name="PageOrientation" xml:space="preserve">
     <value>Page Orientation</value>
@@ -269,6 +287,9 @@
   </data>
   <data name="RemoveItem" xml:space="preserve">
     <value>Remove Item</value>
+  </data>
+  <data name="RemoveOrder" xml:space="preserve">
+    <value>Remove order</value>
   </data>
   <data name="Repeat" xml:space="preserve">
     <value>Repeat</value>

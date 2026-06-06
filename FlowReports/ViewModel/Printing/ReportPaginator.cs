@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 using System.Printing;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -153,8 +154,11 @@ namespace FlowReports.ViewModel.Printing
         DrawBandContent(band.HeaderBand, GetFirstItem(data));
       }
 
+      // Prepare ordered data
+      var orderedData = ApplyOrdering(data, band);
+
       // Draw content for each item in the data source
-      foreach (var itemData in data)
+      foreach (var itemData in orderedData)
       {
         // Apply filter expression if it exists
         if (band.FilterExpression != null && !band.FilterExpression.Evaluate(itemData))
@@ -184,6 +188,127 @@ namespace FlowReports.ViewModel.Printing
       if (band.FooterBand != null)
       {
         DrawBandContent(band.FooterBand, GetFirstItem(data));
+      }
+    }
+
+    private static IEnumerable<object> ApplyOrdering(IEnumerable data, ReportBand band)
+    {
+      if (data == null)
+      {
+        return Enumerable.Empty<object>();
+      }
+
+      var items = data.Cast<object>().ToList();
+      if (band?.Ordering == null || band.Ordering.Count == 0)
+      {
+        return items;
+      }
+
+      IOrderedEnumerable<object> ordered = null;
+      var comparer = new ObjectComparer();
+
+      foreach (var ord in band.Ordering)
+      {
+        object keySelector(object obj) => GetPropertyValue(obj, ord.Property);
+        ordered = ordered == null
+          ? ord.Direction == SortDirection.Ascending
+            ? items.OrderBy(keySelector, comparer)
+            : items.OrderByDescending(keySelector, comparer)
+          : ord.Direction == SortDirection.Ascending
+            ? ordered.ThenBy(keySelector, comparer)
+            : ordered.ThenByDescending(keySelector, comparer);
+      }
+
+      return ordered != null ? ordered : items;
+    }
+
+    private static object GetPropertyValue(object obj, string propertyPath)
+    {
+      if (obj == null || string.IsNullOrWhiteSpace(propertyPath))
+      {
+        return null;
+      }
+
+      var parts = propertyPath.Split('.');
+      object current = obj;
+      foreach (var part in parts)
+      {
+        if (current == null)
+        {
+          return null;
+        }
+
+        var prop = current.GetType().GetProperty(part, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+        if (prop == null)
+        {
+          return null;
+        }
+
+        current = prop.GetValue(current);
+      }
+      return current;
+    }
+
+    private class ObjectComparer : IComparer<object>, IComparer
+    {
+      public int Compare(object x, object y)
+      {
+        return CompareObjects(x, y);
+      }
+
+      int IComparer<object>.Compare(object x, object y)
+      {
+        return CompareObjects(x, y);
+      }
+
+      int IComparer.Compare(object x, object y)
+      {
+        return CompareObjects(x, y);
+      }
+
+      private static int CompareObjects(object x, object y)
+      {
+        if (ReferenceEquals(x, y))
+        {
+          return 0;
+        }
+
+        if (x == null)
+        {
+          return -1;
+        }
+
+        if (y == null)
+        {
+          return 1;
+        }
+
+        if (x is IComparable xc && y is IComparable yc && x.GetType() == y.GetType())
+        {
+          return xc.CompareTo(yc);
+        }
+
+        // Try to compare as numbers
+        if (TryConvertToDouble(x, out var dx) && TryConvertToDouble(y, out var dy))
+        {
+          return dx.CompareTo(dy);
+        }
+
+        // Fallback to string comparison
+        var xs = x.ToString();
+        var ys = y.ToString();
+        return string.Compare(xs, ys, StringComparison.CurrentCulture);
+      }
+
+      private static bool TryConvertToDouble(object o, out double d)
+      {
+        if (o is double dd) { d = dd; return true; }
+        if (o is float f) { d = f; return true; }
+        if (o is int i) { d = i; return true; }
+        if (o is long l) { d = l; return true; }
+        if (o is decimal dec) { d = (double)dec; return true; }
+        if (double.TryParse(Convert.ToString(o), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var parsed)) { d = parsed; return true; }
+        d = 0; return false;
       }
     }
 

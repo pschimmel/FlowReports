@@ -22,6 +22,8 @@
     <None Remove="View\Images\AddSubBand_32x.png" />
     <None Remove="View\Images\AddTextItem_16x.png" />
     <None Remove="View\Images\AddTextItem_32x.png" />
+    <None Remove="View\Images\ArrowDown_16x.png" />
+    <None Remove="View\Images\ArrowUp_16x.png" />
     <None Remove="View\Images\Bands_16x.png" />
     <None Remove="View\Images\Bands_32x.png" />
     <None Remove="View\Images\Calendar_16x.png" />
@@ -56,6 +58,7 @@
     <None Remove="View\Images\RemoveBand_32x.png" />
     <None Remove="View\Images\RemoveItem_16x.png" />
     <None Remove="View\Images\RemoveItem_32x.png" />
+    <None Remove="View\Images\Remove_16x.png" />
     <None Remove="View\Images\Repeat_16x.png" />
     <None Remove="View\Images\ReportItem_16x.png" />
     <None Remove="View\Images\ReportItem_32x.png" />
@@ -122,6 +125,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="View\Images\Add_16x.png" />
+    <Resource Include="View\Images\ArrowDown_16x.png" />
+    <Resource Include="View\Images\ArrowUp_16x.png" />
     <Resource Include="View\Images\MoveBandUp_16x.png" />
     <Resource Include="View\Images\MoveBandDown_16x.png" />
     <Resource Include="View\Images\AddBand_16x.png" />
@@ -170,6 +176,7 @@
     <Resource Include="View\Images\RemoveBand_32x.png" />
     <Resource Include="View\Images\RemoveItem_16x.png" />
     <Resource Include="View\Images\RemoveItem_32x.png" />
+    <Resource Include="View\Images\Remove_16x.png" />
     <Resource Include="View\Images\Repeat_16x.png" />
     <Resource Include="View\Images\ReportItem_16x.png" />
     <Resource Include="View\Images\ReportItem_32x.png" />
