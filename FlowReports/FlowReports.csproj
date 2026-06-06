@@ -193,8 +193,4 @@
     <Resource Include="View\Images\ZoomToWidth_32x.png" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="FlowReports\View\" />
-  </ItemGroup>
-
 </Project>

@@ -241,6 +241,51 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Examples.
+        /// </summary>
+        public static string FilterExamplesHeader {
+            get {
+                return ResourceManager.GetString("FilterExamplesHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name == 'John'  — exact string match.
+        /// </summary>
+        public static string FilterExample1 {
+            get {
+                return ResourceManager.GetString("FilterExample1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Age > 30  — numeric comparison.
+        /// </summary>
+        public static string FilterExample2 {
+            get {
+                return ResourceManager.GetString("FilterExample2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Department == 'Sales' || Department == 'Engineering'  — OR.
+        /// </summary>
+        public static string FilterExample3 {
+            get {
+                return ResourceManager.GetString("FilterExample3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to !(Status == 'Inactive')  — NOT.
+        /// </summary>
+        public static string FilterExample4 {
+            get {
+                return ResourceManager.GetString("FilterExample4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FlowReport files (*.nas).
         /// </summary>
         public static string FlowReportFiles {

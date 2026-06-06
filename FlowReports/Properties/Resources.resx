@@ -177,6 +177,21 @@
   <data name="Filter" xml:space="preserve">
     <value>Filter</value>
   </data>
+  <data name="FilterExamplesHeader" xml:space="preserve">
+    <value>Examples</value>
+  </data>
+  <data name="FilterExample1" xml:space="preserve">
+    <value>Name == 'John'  — exact string match</value>
+  </data>
+  <data name="FilterExample2" xml:space="preserve">
+    <value>Age &gt; 30  — numeric comparison</value>
+  </data>
+  <data name="FilterExample3" xml:space="preserve">
+    <value>Department == 'Sales' || Department == 'Engineering'  — OR</value>
+  </data>
+  <data name="FilterExample4" xml:space="preserve">
+    <value>!(Status == 'Inactive')  — NOT</value>
+  </data>
   <data name="FlowReportFiles" xml:space="preserve">
     <value>FlowReport files (*.nas)</value>
   </data>

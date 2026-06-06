@@ -19,6 +19,7 @@ namespace FlowReports
       ViewFactory.Instance.Register<ReportEditorViewModel, ReportEditorWindow>();
       ViewFactory.Instance.Register<ReportBandViewModel, ReportBandDetails>();
       ViewFactory.Instance.Register<HeaderBandViewModel, HeaderBandDetails>();
+      ViewFactory.Instance.Register<FooterBandViewModel, FooterBandDetails>();
       ViewFactory.Instance.Register<PrintPreviewViewModel, PrintPreviewWindow>();
       ViewFactory.Instance.Register<PageSettingsViewModel, PageSettingsWindow>();
       ViewFactory.Instance.Register<AboutViewModel, AboutWindow>();
