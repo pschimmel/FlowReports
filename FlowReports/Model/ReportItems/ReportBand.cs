@@ -1,4 +1,5 @@
-﻿using FlowReports.Model.Tools;
+﻿using FlowReports.Model.Filtering;
+using FlowReports.Model.Tools;
 
 namespace FlowReports.Model.ReportItems
 {
@@ -18,6 +19,7 @@ namespace FlowReports.Model.ReportItems
 
     private HeaderBand _headerBand;
     private FooterBand _footerBand;
+    private FilterExpression _filterExpression;
 
     #endregion
 
@@ -83,6 +85,17 @@ namespace FlowReports.Model.ReportItems
     public string DataSource { get; set; }
 
     /// <summary>
+    /// Gets or sets a filter expression that determines which items from the data source
+    /// will be rendered in this band. The expression should be a string like "PropertyName == 'value'"
+    /// or "Age > 18 && Status == 'Active'".
+    /// </summary>
+    public FilterExpression FilterExpression
+    {
+      get => _filterExpression;
+      set => _filterExpression = value;
+    }
+
+    /// <summary>
     /// Gets the collection of sub-bands contained within this band. 
     /// </summary>
     public ReportBandCollection Bands { get; } = new ReportBandCollection();
@@ -97,6 +110,7 @@ namespace FlowReports.Model.ReportItems
       return obj is ReportBand other &&
         Equals(Height, other.Height) &&
         Equals(DataSource, other.DataSource) &&
+        Equals(FilterExpression, other.FilterExpression) &&
         Equals(Bands, other.Bands) &&
         List.Equals(Items, other.Items);
     }
@@ -106,6 +120,7 @@ namespace FlowReports.Model.ReportItems
       var hash = new HashCode();
       hash.Add(Height);
       hash.Add(DataSource);
+      hash.Add(FilterExpression);
       hash.Add(Bands);
       foreach (var item in Items)
       {

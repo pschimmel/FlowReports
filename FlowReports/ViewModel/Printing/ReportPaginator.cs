@@ -156,6 +156,12 @@ namespace FlowReports.ViewModel.Printing
       // Draw content for each item in the data source
       foreach (var itemData in data)
       {
+        // Apply filter expression if it exists
+        if (band.FilterExpression != null && !band.FilterExpression.Evaluate(itemData))
+        {
+          continue;
+        }
+
         DrawBandContent(band, itemData);
 
         // Draw sub bands

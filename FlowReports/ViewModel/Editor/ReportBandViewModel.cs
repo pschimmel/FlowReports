@@ -7,6 +7,7 @@ using ES.Tools.Core.MVVM;
 using ES.Tools.UI;
 using FlowReports.Model;
 using FlowReports.Model.Events;
+using FlowReports.Model.Filtering;
 using FlowReports.Model.ReportItems;
 using GongSolutions.Wpf.DragDrop;
 
@@ -76,6 +77,29 @@ namespace FlowReports.ViewModel.Editor
 
     public string FullDataSource => Parent is ReportBandViewModel reportBandViewModel ? reportBandViewModel.FullDataSource + "." + DataSource : DataSource;
 
+    /// <summary>
+    /// Gets or sets the filter expression for this band.
+    /// </summary>
+    public string FilterExpressionText
+    {
+      get => Band.FilterExpression?.Expression ?? string.Empty;
+      set
+      {
+        if ((Band.FilterExpression?.Expression ?? string.Empty) != value)
+        {
+          if (string.IsNullOrWhiteSpace(value))
+          {
+            Band.FilterExpression = null;
+          }
+          else
+          {
+            Band.FilterExpression = new FilterExpression(value);
+          }
+          OnPropertyChanged();
+        }
+      }
+    }
+
     #endregion
 
     #region Public Methods
@@ -126,6 +150,7 @@ namespace FlowReports.ViewModel.Editor
     public void EditBandDetails()
     {
       string oldDataSource = DataSource;
+      string oldFilterExpression = FilterExpressionText;
       bool oldHeightAuto = HeightAuto;
       double oldHeight = Height;
 
@@ -133,6 +158,7 @@ namespace FlowReports.ViewModel.Editor
       if (view.ShowDialog() != true)
       {
         DataSource = oldDataSource;
+        FilterExpressionText = oldFilterExpression;
         if (oldHeightAuto)
         {
           HeightAuto = true;
