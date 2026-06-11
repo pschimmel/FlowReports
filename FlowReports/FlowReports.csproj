@@ -8,7 +8,7 @@
     <Description>A simple library for printing reports from any .NET obejct.</Description>    
     <Copyright>© Engineering Solutions 2023-2026</Copyright>    
     <RepositoryUrl>https://github.com/pschimmel/FlowReports</RepositoryUrl>    
-    <Version>0.8.12.0</Version>
+    <Version>0.8.14.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

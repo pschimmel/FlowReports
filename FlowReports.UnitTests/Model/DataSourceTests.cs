@@ -41,7 +41,7 @@ namespace FlowReports.UnitTests.Model
       var field = new TextField { Name = "FirstName", Type = typeof(string) };
       _dataSource.Add(field);
       Assert.That(_dataSource, Contains.Item(field));
-      Assert.That(_dataSource.Count, Is.EqualTo(1));
+      Assert.That(_dataSource, Has.Count.EqualTo(1));
     }
 
     [Test]
@@ -64,7 +64,7 @@ namespace FlowReports.UnitTests.Model
       _dataSource.Add(field2);
       _dataSource.Add(field3);
 
-      Assert.That(_dataSource.Count, Is.EqualTo(3));
+      Assert.That(_dataSource, Has.Count.EqualTo(3));
       Assert.That(_dataSource, Contains.Item(field1).And.Contains(field2).And.Contains(field3));
     }
 
@@ -79,8 +79,11 @@ namespace FlowReports.UnitTests.Model
 
       var items = new List<IDataSourceItem>(_dataSource);
       Assert.That(items, Has.Count.EqualTo(2));
-      Assert.That(items[0], Is.EqualTo(field1));
-      Assert.That(items[1], Is.EqualTo(field2));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(items[0], Is.EqualTo(field1));
+        Assert.That(items[1], Is.EqualTo(field2));
+      }
     }
 
     [Test]
@@ -99,10 +102,13 @@ namespace FlowReports.UnitTests.Model
     public void TextField_CanBeCreatedAndConfigured()
     {
       var field = new TextField { Name = "Description", Type = typeof(string) };
-      Assert.That(field.Name, Is.EqualTo("Description"));
-      Assert.That(field.Type, Is.EqualTo(typeof(string)));
-      Assert.That(field.DefaultFormat, Is.Empty);
-      Assert.That(field.Formats, Is.Empty);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(field.Name, Is.EqualTo("Description"));
+        Assert.That(field.Type, Is.EqualTo(typeof(string)));
+        Assert.That(field.DefaultFormat, Is.Empty);
+        Assert.That(field.Formats, Is.Empty);
+      }
     }
 
     [Test]
@@ -116,24 +122,33 @@ namespace FlowReports.UnitTests.Model
     public void BooleanField_CanBeCreatedAndConfigured()
     {
       var field = new BooleanField { Name = "IsActive", Type = typeof(bool) };
-      Assert.That(field.Name, Is.EqualTo("IsActive"));
-      Assert.That(field.Type, Is.EqualTo(typeof(bool)));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(field.Name, Is.EqualTo("IsActive"));
+        Assert.That(field.Type, Is.EqualTo(typeof(bool)));
+      }
     }
 
     [Test]
     public void DateField_CanBeCreatedAndConfigured()
     {
       var field = new DateField { Name = "CreatedDate", Type = typeof(DateTime) };
-      Assert.That(field.Name, Is.EqualTo("CreatedDate"));
-      Assert.That(field.Type, Is.EqualTo(typeof(DateTime)));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(field.Name, Is.EqualTo("CreatedDate"));
+        Assert.That(field.Type, Is.EqualTo(typeof(DateTime)));
+      }
     }
 
     [Test]
     public void ImageField_CanBeCreatedAndConfigured()
     {
       var field = new ImageField { Name = "ProductImage", Type = typeof(byte[]) };
-      Assert.That(field.Name, Is.EqualTo("ProductImage"));
-      Assert.That(field.Type, Is.EqualTo(typeof(byte[])));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(field.Name, Is.EqualTo("ProductImage"));
+        Assert.That(field.Type, Is.EqualTo(typeof(byte[])));
+      }
     }
 
     [Test]
@@ -159,9 +174,12 @@ namespace FlowReports.UnitTests.Model
       _dataSource.Add(field2);
       _dataSource.Add(field3);
 
-      Assert.That(_dataSource[0], Is.EqualTo(field1));
-      Assert.That(_dataSource[1], Is.EqualTo(field2));
-      Assert.That(_dataSource[2], Is.EqualTo(field3));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(_dataSource[0], Is.EqualTo(field1));
+        Assert.That(_dataSource[1], Is.EqualTo(field2));
+        Assert.That(_dataSource[2], Is.EqualTo(field3));
+      }
     }
 
     [Test]
@@ -191,7 +209,7 @@ namespace FlowReports.UnitTests.Model
 
       _dataSource.RemoveAt(0);
 
-      Assert.That(_dataSource.Count, Is.EqualTo(1));
+      Assert.That(_dataSource, Has.Count.EqualTo(1));
       Assert.That(_dataSource[0], Is.EqualTo(field2));
     }
   }

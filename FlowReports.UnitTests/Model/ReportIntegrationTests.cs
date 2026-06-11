@@ -23,9 +23,12 @@ namespace FlowReports.UnitTests.Model
       band.HeaderBand = headerBand;
       band.FooterBand = footerBand;
 
-      Assert.That(band.HeaderBand, Is.EqualTo(headerBand));
-      Assert.That(band.FooterBand, Is.EqualTo(footerBand));
-      Assert.That(headerBand.RepeatOnEachPage, Is.True);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(band.HeaderBand, Is.EqualTo(headerBand));
+        Assert.That(band.FooterBand, Is.EqualTo(footerBand));
+        Assert.That(headerBand.RepeatOnEachPage, Is.True);
+      }
     }
 
     [Test]
@@ -35,8 +38,11 @@ namespace FlowReports.UnitTests.Model
       var subBand1 = mainBand.Bands.AddBand("SubItems1");
       var subBand2 = mainBand.Bands.AddBand("SubItems2");
 
-      Assert.That(mainBand.Bands.Count(), Is.EqualTo(2));
-      Assert.That(mainBand.Bands, Contains.Item(subBand1).And.Contains(subBand2));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(mainBand.Bands.Count(), Is.EqualTo(2));
+        Assert.That(mainBand.Bands, Contains.Item(subBand1).And.Contains(subBand2));
+      }
     }
 
     [Test]
@@ -51,9 +57,12 @@ namespace FlowReports.UnitTests.Model
       band.AddReportItem(textItem);
       band.AddReportItem(boolItem);
 
-      Assert.That(band.Items, Has.Count.EqualTo(2));
-      Assert.That(band.Height, Is.EqualTo(100));
-      Assert.That(band.DataSource, Is.EqualTo("Items"));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(band.Items, Has.Count.EqualTo(2));
+        Assert.That(band.Height, Is.EqualTo(100));
+        Assert.That(band.DataSource, Is.EqualTo("Items"));
+      }
     }
 
     [Test]
@@ -80,18 +89,24 @@ namespace FlowReports.UnitTests.Model
       _report.Bands.MoveBandUp(band4);
 
       var bandsArray = new List<ReportBand>(_report.Bands).ToArray();
-      Assert.That(bandsArray[0], Is.EqualTo(band2));
-      Assert.That(bandsArray[1], Is.EqualTo(band1));
-      Assert.That(bandsArray[2], Is.EqualTo(band4));
-      Assert.That(bandsArray[3], Is.EqualTo(band3));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(bandsArray[0], Is.EqualTo(band2));
+        Assert.That(bandsArray[1], Is.EqualTo(band1));
+        Assert.That(bandsArray[2], Is.EqualTo(band4));
+        Assert.That(bandsArray[3], Is.EqualTo(band3));
+      }
     }
 
     [Test]
     public void BandWithoutDataSource_IsDrawnOnce()
     {
       var band = _report.Bands.AddBand(dataSource: null);
-      Assert.That(band.DataSource, Is.Null);
-      Assert.That(string.IsNullOrWhiteSpace(band.DataSource), Is.True);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(band.DataSource, Is.Null);
+        Assert.That(string.IsNullOrWhiteSpace(band.DataSource), Is.True);
+      }
     }
 
     [Test]
@@ -166,8 +181,11 @@ namespace FlowReports.UnitTests.Model
       band.AddReportItem(item2);
       band.RemoveItem(item1);
 
-      Assert.That(addedCount, Is.EqualTo(2));
-      Assert.That(removedCount, Is.EqualTo(1));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(addedCount, Is.EqualTo(2));
+        Assert.That(removedCount, Is.EqualTo(1));
+      }
     }
 
     [Test]
@@ -197,9 +215,12 @@ namespace FlowReports.UnitTests.Model
 
       Assert.That(_report.Bands.Count(), Is.EqualTo(3));
       var allBands = new List<ReportBand>(_report.Bands);
-      Assert.That(allBands[0].DataSource, Is.EqualTo("Customers"));
-      Assert.That(allBands[1].DataSource, Is.EqualTo("Orders"));
-      Assert.That(allBands[2].DataSource, Is.EqualTo("Items"));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(allBands[0].DataSource, Is.EqualTo("Customers"));
+        Assert.That(allBands[1].DataSource, Is.EqualTo("Orders"));
+        Assert.That(allBands[2].DataSource, Is.EqualTo("Items"));
+      }
     }
 
     [Test]
@@ -210,9 +231,12 @@ namespace FlowReports.UnitTests.Model
       var band2 = _report.Bands.AddBand(band1, InsertLocation.After);
 
       var bandsArray = new List<ReportBand>(_report.Bands).ToArray();
-      Assert.That(bandsArray[0], Is.EqualTo(band1));
-      Assert.That(bandsArray[1], Is.EqualTo(band2));
-      Assert.That(bandsArray[2], Is.EqualTo(band3));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(bandsArray[0], Is.EqualTo(band1));
+        Assert.That(bandsArray[1], Is.EqualTo(band2));
+        Assert.That(bandsArray[2], Is.EqualTo(band3));
+      }
     }
   }
 }

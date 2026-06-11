@@ -13,8 +13,11 @@ namespace FlowReports.UnitTests.Model
 
       var eventArgs = new BandsEventArgs(index, band);
 
-      Assert.That(eventArgs.Item.Index, Is.EqualTo(index));
-      Assert.That(eventArgs.Item.Band, Is.EqualTo(band));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(eventArgs.Item.Index, Is.EqualTo(index));
+        Assert.That(eventArgs.Item.Band, Is.EqualTo(band));
+      }
     }
 
     [Test]
@@ -74,8 +77,11 @@ namespace FlowReports.UnitTests.Model
       var textEventArgs = new ReportItemsEventArgs(textItem);
       var boolEventArgs = new ReportItemsEventArgs(boolItem);
 
-      Assert.That(textEventArgs.Item, Is.EqualTo(textItem));
-      Assert.That(boolEventArgs.Item, Is.EqualTo(boolItem));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(textEventArgs.Item, Is.EqualTo(textItem));
+        Assert.That(boolEventArgs.Item, Is.EqualTo(boolItem));
+      }
       Assert.That(textEventArgs.Item, Is.Not.EqualTo(boolEventArgs.Item));
     }
 
@@ -115,10 +121,17 @@ namespace FlowReports.UnitTests.Model
       var eventArgs1 = new HeaderEventArgs(header1);
       var eventArgs2 = new HeaderEventArgs(header2);
 
-      Assert.That(eventArgs1.Item, Is.EqualTo(header1));
-      Assert.That(eventArgs2.Item, Is.EqualTo(header2));
-      Assert.That(eventArgs1.Item.RepeatOnEachPage, Is.True);
-      Assert.That(eventArgs2.Item.RepeatOnEachPage, Is.False);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(eventArgs1.Item, Is.EqualTo(header1));
+        Assert.That(eventArgs2.Item, Is.EqualTo(header2));
+      }
+
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(eventArgs1.Item.RepeatOnEachPage, Is.True);
+        Assert.That(eventArgs2.Item.RepeatOnEachPage, Is.False);
+      }
     }
 
     [Test]
@@ -149,10 +162,17 @@ namespace FlowReports.UnitTests.Model
       var eventArgs1 = new FooterEventArgs(footer1);
       var eventArgs2 = new FooterEventArgs(footer2);
 
-      Assert.That(eventArgs1.Item, Is.EqualTo(footer1));
-      Assert.That(eventArgs2.Item, Is.EqualTo(footer2));
-      Assert.That(eventArgs1.Item.Height, Is.EqualTo(50));
-      Assert.That(eventArgs2.Item.Height, Is.EqualTo(100));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(eventArgs1.Item, Is.EqualTo(footer1));
+        Assert.That(eventArgs2.Item, Is.EqualTo(footer2));
+      }
+
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(eventArgs1.Item.Height, Is.EqualTo(50));
+        Assert.That(eventArgs2.Item.Height, Is.EqualTo(100));
+      }
     }
 
     [Test]

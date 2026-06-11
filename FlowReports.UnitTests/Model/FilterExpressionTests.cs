@@ -1,6 +1,6 @@
 using FlowReports.Model.Filtering;
 
-namespace FlowReports.UnitTests.Model.Filtering
+namespace FlowReports.UnitTests.Model
 {
   public class FilterExpressionTests
   {
@@ -46,8 +46,11 @@ namespace FlowReports.UnitTests.Model.Filtering
       var itemMatch = new TestItem { Name = "John" };
       var itemNoMatch = new TestItem { Name = "Jane" };
 
-      Assert.That(filter.Evaluate(itemMatch), Is.True);
-      Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(filter.Evaluate(itemMatch), Is.True);
+        Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      }
     }
 
     [Test]
@@ -57,8 +60,11 @@ namespace FlowReports.UnitTests.Model.Filtering
       var itemMatch = new TestItem { Name = "John" };
       var itemNoMatch = new TestItem { Name = "Jane" };
 
-      Assert.That(filter.Evaluate(itemMatch), Is.True);
-      Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(filter.Evaluate(itemMatch), Is.True);
+        Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      }
     }
 
     [Test]
@@ -68,8 +74,11 @@ namespace FlowReports.UnitTests.Model.Filtering
       var itemMatch = new TestItem { Name = "Jane" };
       var itemNoMatch = new TestItem { Name = "John" };
 
-      Assert.That(filter.Evaluate(itemMatch), Is.True);
-      Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(filter.Evaluate(itemMatch), Is.True);
+        Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      }
     }
 
     [Test]
@@ -79,8 +88,11 @@ namespace FlowReports.UnitTests.Model.Filtering
       var itemMatch = new TestItem { Age = 35 };
       var itemNoMatch = new TestItem { Age = 25 };
 
-      Assert.That(filter.Evaluate(itemMatch), Is.True);
-      Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(filter.Evaluate(itemMatch), Is.True);
+        Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      }
     }
 
     [Test]
@@ -90,8 +102,11 @@ namespace FlowReports.UnitTests.Model.Filtering
       var itemMatch = new TestItem { Age = 25 };
       var itemNoMatch = new TestItem { Age = 35 };
 
-      Assert.That(filter.Evaluate(itemMatch), Is.True);
-      Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(filter.Evaluate(itemMatch), Is.True);
+        Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      }
     }
 
     [Test]
@@ -102,9 +117,12 @@ namespace FlowReports.UnitTests.Model.Filtering
       var itemMatch2 = new TestItem { Age = 30 };
       var itemNoMatch = new TestItem { Age = 25 };
 
-      Assert.That(filter.Evaluate(itemMatch1), Is.True);
-      Assert.That(filter.Evaluate(itemMatch2), Is.True);
-      Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(filter.Evaluate(itemMatch1), Is.True);
+        Assert.That(filter.Evaluate(itemMatch2), Is.True);
+        Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      }
     }
 
     [Test]
@@ -115,9 +133,12 @@ namespace FlowReports.UnitTests.Model.Filtering
       var itemMatch2 = new TestItem { Age = 30 };
       var itemNoMatch = new TestItem { Age = 35 };
 
-      Assert.That(filter.Evaluate(itemMatch1), Is.True);
-      Assert.That(filter.Evaluate(itemMatch2), Is.True);
-      Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(filter.Evaluate(itemMatch1), Is.True);
+        Assert.That(filter.Evaluate(itemMatch2), Is.True);
+        Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      }
     }
 
     [Test]
@@ -127,8 +148,11 @@ namespace FlowReports.UnitTests.Model.Filtering
       var itemMatch = new TestItem { IsActive = true };
       var itemNoMatch = new TestItem { IsActive = false };
 
-      Assert.That(filter.Evaluate(itemMatch), Is.True);
-      Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(filter.Evaluate(itemMatch), Is.True);
+        Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      }
     }
 
     [Test]
@@ -138,8 +162,11 @@ namespace FlowReports.UnitTests.Model.Filtering
       var itemMatch = new TestItem { IsActive = false };
       var itemNoMatch = new TestItem { IsActive = true };
 
-      Assert.That(filter.Evaluate(itemMatch), Is.True);
-      Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(filter.Evaluate(itemMatch), Is.True);
+        Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      }
     }
 
     [Test]
@@ -150,9 +177,12 @@ namespace FlowReports.UnitTests.Model.Filtering
       var itemNoMatch1 = new TestItem { Age = 25, Status = "Active" };
       var itemNoMatch2 = new TestItem { Age = 35, Status = "Inactive" };
 
-      Assert.That(filter.Evaluate(itemMatch), Is.True);
-      Assert.That(filter.Evaluate(itemNoMatch1), Is.False);
-      Assert.That(filter.Evaluate(itemNoMatch2), Is.False);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(filter.Evaluate(itemMatch), Is.True);
+        Assert.That(filter.Evaluate(itemNoMatch1), Is.False);
+        Assert.That(filter.Evaluate(itemNoMatch2), Is.False);
+      }
     }
 
     [Test]
@@ -164,10 +194,13 @@ namespace FlowReports.UnitTests.Model.Filtering
       var itemMatch3 = new TestItem { Age = 35, Status = "VIP" };
       var itemNoMatch = new TestItem { Age = 25, Status = "Regular" };
 
-      Assert.That(filter.Evaluate(itemMatch1), Is.True);
-      Assert.That(filter.Evaluate(itemMatch2), Is.True);
-      Assert.That(filter.Evaluate(itemMatch3), Is.True);
-      Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(filter.Evaluate(itemMatch1), Is.True);
+        Assert.That(filter.Evaluate(itemMatch2), Is.True);
+        Assert.That(filter.Evaluate(itemMatch3), Is.True);
+        Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      }
     }
 
     [Test]
@@ -177,8 +210,11 @@ namespace FlowReports.UnitTests.Model.Filtering
       var itemMatch = new TestItem { Age = 25 };
       var itemNoMatch = new TestItem { Age = 35 };
 
-      Assert.That(filter.Evaluate(itemMatch), Is.True);
-      Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(filter.Evaluate(itemMatch), Is.True);
+        Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      }
     }
 
     [Test]
@@ -189,9 +225,12 @@ namespace FlowReports.UnitTests.Model.Filtering
       var itemMatch2 = new TestItem { Age = 20, Status = "Inactive", IsActive = true };
       var itemNoMatch = new TestItem { Age = 20, Status = "Inactive", IsActive = false };
 
-      Assert.That(filter.Evaluate(itemMatch1), Is.True);
-      Assert.That(filter.Evaluate(itemMatch2), Is.True);
-      Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(filter.Evaluate(itemMatch1), Is.True);
+        Assert.That(filter.Evaluate(itemMatch2), Is.True);
+        Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      }
     }
 
     [Test]
@@ -201,8 +240,11 @@ namespace FlowReports.UnitTests.Model.Filtering
       var itemMatch = new TestItem { Salary = 60000.0 };
       var itemNoMatch = new TestItem { Salary = 40000.0 };
 
-      Assert.That(filter.Evaluate(itemMatch), Is.True);
-      Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(filter.Evaluate(itemMatch), Is.True);
+        Assert.That(filter.Evaluate(itemNoMatch), Is.False);
+      }
     }
 
     [Test]

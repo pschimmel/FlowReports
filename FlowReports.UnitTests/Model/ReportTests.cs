@@ -55,8 +55,11 @@ namespace FlowReports.UnitTests.Model
       var band2 = _report.Bands.AddBand();
       var band3 = _report.Bands.AddBand();
 
-      Assert.That(_report.Bands.Count(), Is.EqualTo(3));
-      Assert.That(_report.Bands, Contains.Item(band1).And.Contains(band2).And.Contains(band3));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(_report.Bands.Count(), Is.EqualTo(3));
+        Assert.That(_report.Bands, Contains.Item(band1).And.Contains(band2).And.Contains(band3));
+      }
     }
 
     [Test]
@@ -95,9 +98,12 @@ namespace FlowReports.UnitTests.Model
       _report.Bands.MoveBandUp(band3);
 
       var bandsArray = new List<ReportBand>(_report.Bands).ToArray();
-      Assert.That(bandsArray[0], Is.EqualTo(band1));
-      Assert.That(bandsArray[1], Is.EqualTo(band3));
-      Assert.That(bandsArray[2], Is.EqualTo(band2));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(bandsArray[0], Is.EqualTo(band1));
+        Assert.That(bandsArray[1], Is.EqualTo(band3));
+        Assert.That(bandsArray[2], Is.EqualTo(band2));
+      }
     }
 
     [Test]
@@ -110,9 +116,12 @@ namespace FlowReports.UnitTests.Model
       _report.Bands.MoveBandDown(band1);
 
       var bandsArray = new List<ReportBand>(_report.Bands).ToArray();
-      Assert.That(bandsArray[0], Is.EqualTo(band2));
-      Assert.That(bandsArray[1], Is.EqualTo(band1));
-      Assert.That(bandsArray[2], Is.EqualTo(band3));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(bandsArray[0], Is.EqualTo(band2));
+        Assert.That(bandsArray[1], Is.EqualTo(band1));
+        Assert.That(bandsArray[2], Is.EqualTo(band3));
+      }
     }
 
     [Test]
@@ -208,9 +217,12 @@ namespace FlowReports.UnitTests.Model
       var newBand = _report.Bands.AddBand(band1, InsertLocation.After);
 
       var bandsArray = new List<ReportBand>(_report.Bands).ToArray();
-      Assert.That(bandsArray[0], Is.EqualTo(band1));
-      Assert.That(bandsArray[1], Is.EqualTo(newBand));
-      Assert.That(bandsArray[2], Is.EqualTo(band2));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(bandsArray[0], Is.EqualTo(band1));
+        Assert.That(bandsArray[1], Is.EqualTo(newBand));
+        Assert.That(bandsArray[2], Is.EqualTo(band2));
+      }
     }
 
     [Test]
@@ -221,9 +233,12 @@ namespace FlowReports.UnitTests.Model
       var newBand = _report.Bands.AddBand(band2, InsertLocation.Before);
 
       var bandsArray = new List<ReportBand>(_report.Bands).ToArray();
-      Assert.That(bandsArray[0], Is.EqualTo(band1));
-      Assert.That(bandsArray[1], Is.EqualTo(newBand));
-      Assert.That(bandsArray[2], Is.EqualTo(band2));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(bandsArray[0], Is.EqualTo(band1));
+        Assert.That(bandsArray[1], Is.EqualTo(newBand));
+        Assert.That(bandsArray[2], Is.EqualTo(band2));
+      }
     }
 
     [Test]

@@ -8,9 +8,12 @@ namespace FlowReports.UnitTests.Model
     public void TextItem_Constructor_CreatesValidItem()
     {
       var item = new TextItem();
-      Assert.That(item.ID, Is.Not.EqualTo(Guid.Empty));
-      Assert.That(item.Width, Is.EqualTo(item.DefaultWidth));
-      Assert.That(item.Height, Is.EqualTo(item.DefaultHeight));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(item.ID, Is.Not.EqualTo(Guid.Empty));
+        Assert.That(item.Width, Is.EqualTo(item.DefaultWidth));
+        Assert.That(item.Height, Is.EqualTo(item.DefaultHeight));
+      }
     }
 
     [Test]
@@ -35,8 +38,11 @@ namespace FlowReports.UnitTests.Model
       var item = new TextItem();
       item.Left = 10;
       item.Top = 20;
-      Assert.That(item.Left, Is.EqualTo(10));
-      Assert.That(item.Top, Is.EqualTo(20));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(item.Left, Is.EqualTo(10));
+        Assert.That(item.Top, Is.EqualTo(20));
+      }
     }
 
     [Test]
@@ -45,16 +51,22 @@ namespace FlowReports.UnitTests.Model
       var item = new TextItem();
       item.Width = 150;
       item.Height = 30;
-      Assert.That(item.Width, Is.EqualTo(150));
-      Assert.That(item.Height, Is.EqualTo(30));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(item.Width, Is.EqualTo(150));
+        Assert.That(item.Height, Is.EqualTo(30));
+      }
     }
 
     [Test]
     public void TextItem_DefaultDimensions_AreSet()
     {
       var item = new TextItem();
-      Assert.That(item.DefaultWidth, Is.EqualTo(100));
-      Assert.That(item.DefaultHeight, Is.EqualTo(ReportBandBase.DefaultHeight));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(item.DefaultWidth, Is.EqualTo(100));
+        Assert.That(item.DefaultHeight, Is.EqualTo(ReportBandBase.DefaultHeight));
+      }
     }
 
     [Test]
@@ -85,9 +97,12 @@ namespace FlowReports.UnitTests.Model
     public void BooleanItem_Constructor_CreatesValidItem()
     {
       var item = new BooleanItem();
-      Assert.That(item.ID, Is.Not.EqualTo(Guid.Empty));
-      Assert.That(item.Width, Is.GreaterThan(0));
-      Assert.That(item.Height, Is.GreaterThan(0));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(item.ID, Is.Not.EqualTo(Guid.Empty));
+        Assert.That(item.Width, Is.GreaterThan(0));
+        Assert.That(item.Height, Is.GreaterThan(0));
+      }
     }
 
     [Test]
@@ -104,17 +119,23 @@ namespace FlowReports.UnitTests.Model
       var item = new BooleanItem();
       item.Left = 50;
       item.Top = 100;
-      Assert.That(item.Left, Is.EqualTo(50));
-      Assert.That(item.Top, Is.EqualTo(100));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(item.Left, Is.EqualTo(50));
+        Assert.That(item.Top, Is.EqualTo(100));
+      }
     }
 
     [Test]
     public void ImageItem_Constructor_CreatesValidItem()
     {
       var item = new ImageItem();
-      Assert.That(item.ID, Is.Not.EqualTo(Guid.Empty));
-      Assert.That(item.Width, Is.GreaterThan(0));
-      Assert.That(item.Height, Is.GreaterThan(0));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(item.ID, Is.Not.EqualTo(Guid.Empty));
+        Assert.That(item.Width, Is.GreaterThan(0));
+        Assert.That(item.Height, Is.GreaterThan(0));
+      }
     }
 
     [Test]
@@ -145,8 +166,11 @@ namespace FlowReports.UnitTests.Model
     public void ReportItem_DefaultPosition_IsOrigin()
     {
       var item = new TextItem();
-      Assert.That(item.DefaultX, Is.EqualTo(0));
-      Assert.That(item.DefaultY, Is.EqualTo(0));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(item.DefaultX, Is.EqualTo(0));
+        Assert.That(item.DefaultY, Is.EqualTo(0));
+      }
     }
   }
 }

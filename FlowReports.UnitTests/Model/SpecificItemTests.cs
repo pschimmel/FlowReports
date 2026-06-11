@@ -63,8 +63,11 @@ namespace FlowReports.UnitTests.Model
     {
       _item.Left = 25;
       _item.Top = 50;
-      Assert.That(_item.Left, Is.EqualTo(25));
-      Assert.That(_item.Top, Is.EqualTo(50));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(_item.Left, Is.EqualTo(25));
+        Assert.That(_item.Top, Is.EqualTo(50));
+      }
     }
 
     [Test]
@@ -72,8 +75,11 @@ namespace FlowReports.UnitTests.Model
     {
       _item.Width = 50;
       _item.Height = 30;
-      Assert.That(_item.Width, Is.EqualTo(50));
-      Assert.That(_item.Height, Is.EqualTo(30));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(_item.Width, Is.EqualTo(50));
+        Assert.That(_item.Height, Is.EqualTo(30));
+      }
     }
 
     [Test]
@@ -213,8 +219,11 @@ namespace FlowReports.UnitTests.Model
     {
       _item.Left = 100;
       _item.Top = 150;
-      Assert.That(_item.Left, Is.EqualTo(100));
-      Assert.That(_item.Top, Is.EqualTo(150));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(_item.Left, Is.EqualTo(100));
+        Assert.That(_item.Top, Is.EqualTo(150));
+      }
     }
 
     [Test]
@@ -222,8 +231,11 @@ namespace FlowReports.UnitTests.Model
     {
       _item.Width = 200;
       _item.Height = 150;
-      Assert.That(_item.Width, Is.EqualTo(200));
-      Assert.That(_item.Height, Is.EqualTo(150));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(_item.Width, Is.EqualTo(200));
+        Assert.That(_item.Height, Is.EqualTo(150));
+      }
     }
 
     [Test]

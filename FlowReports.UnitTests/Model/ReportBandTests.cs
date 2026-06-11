@@ -210,8 +210,11 @@ namespace FlowReports.UnitTests.Model
     public void Bands_NestedBands_CanBeAdded()
     {
       var subBand = _band.Bands.AddBand();
-      Assert.That(_band.Bands, Contains.Item(subBand));
-      Assert.That(new List<ReportBand>(_band.Bands).Count, Is.EqualTo(1));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(_band.Bands, Contains.Item(subBand));
+        Assert.That(new List<ReportBand>(_band.Bands), Has.Count.EqualTo(1));
+      }
     }
 
     [Test]

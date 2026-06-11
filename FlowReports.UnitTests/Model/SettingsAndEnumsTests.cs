@@ -97,10 +97,13 @@ namespace FlowReports.UnitTests.Model
     [Test]
     public void Constants_AreCorrect()
     {
-      Assert.That(Settings.RECURSION_MAX_DEPTH, Is.EqualTo(100));
-      Assert.That(Settings.RECURSION_DEFAULT, Is.EqualTo(10));
-      Assert.That(Settings.DATASOURCE_OPENING_BRACKET, Is.EqualTo('['));
-      Assert.That(Settings.DATASOURCE_CLOSING_BRACKET, Is.EqualTo(']'));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(Settings.RECURSION_MAX_DEPTH, Is.EqualTo(100));
+        Assert.That(Settings.RECURSION_DEFAULT, Is.EqualTo(10));
+        Assert.That(Settings.DATASOURCE_OPENING_BRACKET, Is.EqualTo('['));
+        Assert.That(Settings.DATASOURCE_CLOSING_BRACKET, Is.EqualTo(']'));
+      }
     }
 
     [Test]
@@ -112,8 +115,11 @@ namespace FlowReports.UnitTests.Model
       settings1.RecursionDepth = 5;
       settings2.RecursionDepth = 20;
 
-      Assert.That(settings1.RecursionDepth, Is.EqualTo(5));
-      Assert.That(settings2.RecursionDepth, Is.EqualTo(20));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(settings1.RecursionDepth, Is.EqualTo(5));
+        Assert.That(settings2.RecursionDepth, Is.EqualTo(20));
+      }
     }
 
     [Test]
@@ -146,8 +152,11 @@ namespace FlowReports.UnitTests.Model
     [Test]
     public void InsertLocation_ToString_ReturnsMemberName()
     {
-      Assert.That(InsertLocation.Before.ToString(), Is.EqualTo("Before"));
-      Assert.That(InsertLocation.After.ToString(), Is.EqualTo("After"));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(InsertLocation.Before.ToString(), Is.EqualTo("Before"));
+        Assert.That(InsertLocation.After.ToString(), Is.EqualTo("After"));
+      }
     }
 
     [Test]

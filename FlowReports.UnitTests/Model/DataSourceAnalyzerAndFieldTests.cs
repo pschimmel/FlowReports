@@ -81,8 +81,11 @@ namespace FlowReports.UnitTests.Model
       var item = analyzer.GetItem(typeof(string), "Name");
 
       Assert.That(item, Is.InstanceOf<TextField>());
-      Assert.That(item.Name, Is.EqualTo("Name"));
-      Assert.That(item.Type, Is.EqualTo(typeof(string)));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(item.Name, Is.EqualTo("Name"));
+        Assert.That(item.Type, Is.EqualTo(typeof(string)));
+      }
     }
 
     [Test]
@@ -120,8 +123,11 @@ namespace FlowReports.UnitTests.Model
       var item = analyzer.GetItem(typeof(decimal), "Price");
 
       Assert.That(item, Is.InstanceOf<NumberField>());
-      Assert.That(item.Name, Is.EqualTo("Price"));
-      Assert.That(item.Type, Is.EqualTo(typeof(decimal)));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(item.Name, Is.EqualTo("Price"));
+        Assert.That(item.Type, Is.EqualTo(typeof(decimal)));
+      }
     }
 
     [Test]
@@ -145,8 +151,11 @@ namespace FlowReports.UnitTests.Model
       var item = analyzer.GetItem(typeof(bool), "IsActive");
 
       Assert.That(item, Is.InstanceOf<BooleanField>());
-      Assert.That(item.Name, Is.EqualTo("IsActive"));
-      Assert.That(item.Type, Is.EqualTo(typeof(bool)));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(item.Name, Is.EqualTo("IsActive"));
+        Assert.That(item.Type, Is.EqualTo(typeof(bool)));
+      }
     }
 
     [Test]
@@ -170,8 +179,11 @@ namespace FlowReports.UnitTests.Model
       var item = analyzer.GetItem(typeof(DateTime), "CreatedDate");
 
       Assert.That(item, Is.InstanceOf<DateField>());
-      Assert.That(item.Name, Is.EqualTo("CreatedDate"));
-      Assert.That(item.Type, Is.EqualTo(typeof(DateTime)));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(item.Name, Is.EqualTo("CreatedDate"));
+        Assert.That(item.Type, Is.EqualTo(typeof(DateTime)));
+      }
     }
 
     [Test]
@@ -195,8 +207,11 @@ namespace FlowReports.UnitTests.Model
       var item = analyzer.GetItem(typeof(byte[]), "Photo");
 
       Assert.That(item, Is.InstanceOf<ImageField>());
-      Assert.That(item.Name, Is.EqualTo("Photo"));
-      Assert.That(item.Type, Is.EqualTo(typeof(byte[])));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(item.Name, Is.EqualTo("Photo"));
+        Assert.That(item.Type, Is.EqualTo(typeof(byte[])));
+      }
     }
 
     [Test]
@@ -216,13 +231,16 @@ namespace FlowReports.UnitTests.Model
       var numberAnalyzer = new NumberFieldAnalyzer();
       var boolAnalyzer = new BooleanFieldAnalyzer();
 
-      Assert.That(stringAnalyzer.IsSupported(typeof(string)), Is.True);
-      Assert.That(numberAnalyzer.IsSupported(typeof(int)), Is.True);
-      Assert.That(boolAnalyzer.IsSupported(typeof(bool)), Is.True);
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(stringAnalyzer.IsSupported(typeof(string)), Is.True);
+        Assert.That(numberAnalyzer.IsSupported(typeof(int)), Is.True);
+        Assert.That(boolAnalyzer.IsSupported(typeof(bool)), Is.True);
 
-      Assert.That(stringAnalyzer.IsSupported(typeof(int)), Is.False);
-      Assert.That(numberAnalyzer.IsSupported(typeof(bool)), Is.False);
-      Assert.That(boolAnalyzer.IsSupported(typeof(string)), Is.False);
+        Assert.That(stringAnalyzer.IsSupported(typeof(int)), Is.False);
+        Assert.That(numberAnalyzer.IsSupported(typeof(bool)), Is.False);
+        Assert.That(boolAnalyzer.IsSupported(typeof(string)), Is.False);
+      }
     }
 
     [Test]
@@ -300,8 +318,11 @@ namespace FlowReports.UnitTests.Model
       var dataSource = DataSourceAnalyzer.Analyze(items, "SimpleObjects");
 
       Assert.That(dataSource, Is.Not.Null);
-      Assert.That(dataSource.Name, Is.EqualTo("SimpleObjects"));
-      Assert.That(dataSource.Count, Is.GreaterThan(0));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(dataSource.Name, Is.EqualTo("SimpleObjects"));
+        Assert.That(dataSource.Count, Is.GreaterThan(0));
+      }
     }
 
     [Test]
@@ -410,11 +431,14 @@ namespace FlowReports.UnitTests.Model
 
       var dataSource = DataSourceAnalyzer.Analyze(items, "Objects");
 
-      Assert.That(dataSource.Count, Is.GreaterThanOrEqualTo(4));
-      Assert.That(dataSource.Any(f => f.Name == "Name"), Is.True);
-      Assert.That(dataSource.Any(f => f.Name == "Age"), Is.True);
-      Assert.That(dataSource.Any(f => f.Name == "IsActive"), Is.True);
-      Assert.That(dataSource.Any(f => f.Name == "CreatedDate"), Is.True);
+      Assert.That(dataSource, Has.Count.GreaterThanOrEqualTo(4));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(dataSource.Any(f => f.Name == "Name"), Is.True);
+        Assert.That(dataSource.Any(f => f.Name == "Age"), Is.True);
+        Assert.That(dataSource.Any(f => f.Name == "IsActive"), Is.True);
+        Assert.That(dataSource.Any(f => f.Name == "CreatedDate"), Is.True);
+      }
     }
 
     [Test]
@@ -721,8 +745,11 @@ namespace FlowReports.UnitTests.Model
 
       field.Add(childField);
 
-      Assert.That(field.Contains(childField), Is.True);
-      Assert.That(field.Count, Is.EqualTo(1));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(field.Contains(childField), Is.True);
+        Assert.That(field, Has.Count.EqualTo(1));
+      }
     }
 
     [Test]
@@ -734,8 +761,11 @@ namespace FlowReports.UnitTests.Model
       field.Add(childField);
       field.Remove(childField);
 
-      Assert.That(field.Contains(childField), Is.False);
-      Assert.That(field.Count, Is.EqualTo(0));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(field.Contains(childField), Is.False);
+        Assert.That(field.Count, Is.EqualTo(0));
+      }
     }
 
     [Test]
@@ -794,8 +824,11 @@ namespace FlowReports.UnitTests.Model
     {
       var field = new TextField { Name = "Test", Type = typeof(string) };
 
-      Assert.That(field.Name, Is.EqualTo("Test"));
-      Assert.That(field.Type, Is.EqualTo(typeof(string)));
+      using (Assert.EnterMultipleScope())
+      {
+        Assert.That(field.Name, Is.EqualTo("Test"));
+        Assert.That(field.Type, Is.EqualTo(typeof(string)));
+      }
     }
 
     [Test]

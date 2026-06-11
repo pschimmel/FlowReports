@@ -90,7 +90,7 @@ namespace FlowReports.UnitTests.ViewModel
     public void AddBand_IncreasesSubBandCount()
     {
       _viewModel.AddBand();
-      Assert.That(_viewModel.Bands.Count, Is.EqualTo(1));
+      Assert.That(_viewModel.Bands, Has.Count.EqualTo(1));
     }
 
     [Test]
