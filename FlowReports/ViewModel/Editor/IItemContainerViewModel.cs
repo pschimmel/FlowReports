@@ -8,6 +8,12 @@ namespace FlowReports.ViewModel.Editor
 
     ObservableCollection<IEditorItemViewModel> Items { get; }
 
+    IEditorItemViewModel AddBooleanItem();
+
+    IEditorItemViewModel AddImageItem();
+
+    IEditorItemViewModel AddTextItem();
+
     void RemoveItem(IEditorItemViewModel itemVM);
 
     void Select();

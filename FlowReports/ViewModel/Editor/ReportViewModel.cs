@@ -81,7 +81,6 @@ namespace FlowReports.ViewModel.Editor
 
     public ObservableCollection<ReportBandViewModel> Bands { get; } = new ObservableCollection<ReportBandViewModel>();
 
-
     /// <summary>
     /// Gets the selected band in the report.
     /// </summary>
@@ -96,6 +95,8 @@ namespace FlowReports.ViewModel.Editor
     /// Gets the selected footer band in the report.
     /// </summary>
     public FooterBandViewModel SelectedFooter => _selectedBandVM as FooterBandViewModel;
+
+    private IItemContainerViewModel CurrentBand => SelectedBand as IItemContainerViewModel ?? SelectedHeader as IItemContainerViewModel ?? SelectedFooter;
 
     /// <summary>
     /// Gets or sets the selected item in the report.
@@ -162,6 +163,10 @@ namespace FlowReports.ViewModel.Editor
     internal Report Report { get; private set; }
 
     public bool IsBandSelected => SelectedBand != null;
+
+    public bool IsHeaderBandSelected => SelectedHeader != null;
+
+    public bool IsFooterBandSelected => SelectedFooter != null;
 
     public bool IsHeaderBandActive
     {
@@ -446,13 +451,13 @@ namespace FlowReports.ViewModel.Editor
 
     private void AddTextItem()
     {
-      var newItem = SelectedBand.AddTextItem();
+      var newItem = CurrentBand?.AddTextItem();
       SelectedItem = newItem;
     }
 
     private bool CanAddTextItem()
     {
-      return IsBandSelected || SelectedHeader != null || SelectedFooter != null;
+      return IsBandSelected || IsHeaderBandSelected || IsFooterBandSelected;
     }
 
     #endregion
@@ -466,13 +471,13 @@ namespace FlowReports.ViewModel.Editor
 
     private void AddBooleanItem()
     {
-      var newItem = SelectedBand.AddBooleanItem();
+      var newItem = CurrentBand?.AddBooleanItem();
       SelectedItem = newItem;
     }
 
     private bool CanAddBooleanItem()
     {
-      return IsBandSelected || SelectedHeader != null || SelectedFooter != null;
+      return IsBandSelected || IsHeaderBandSelected || IsFooterBandSelected;
     }
 
     #endregion
@@ -486,13 +491,13 @@ namespace FlowReports.ViewModel.Editor
 
     private void AddImageItem()
     {
-      var newItem = SelectedBand.AddImageItem();
+      var newItem = CurrentBand?.AddImageItem();
       SelectedItem = newItem;
     }
 
     private bool CanAddImageItem()
     {
-      return IsBandSelected || SelectedHeader != null || SelectedFooter != null;
+      return IsBandSelected || IsHeaderBandSelected || IsFooterBandSelected;
     }
 
     #endregion
@@ -506,13 +511,13 @@ namespace FlowReports.ViewModel.Editor
 
     private void RemoveItem()
     {
-      SelectedBand?.RemoveItem(SelectedItem);
+      CurrentBand?.RemoveItem(SelectedItem);
       SelectedItem = null;
     }
 
     private bool CanRemoveItem()
     {
-      return SelectedItem != null;
+      return SelectedItem != null && CurrentBand != null;
     }
 
     #endregion

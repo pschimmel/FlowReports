@@ -92,14 +92,8 @@ namespace FlowReports.Model.Filtering
         var expr = System.Linq.Expressions.Expression.Lambda<Func<object, bool>>(
           System.Linq.Expressions.Expression.Block(
             new[] { castParam },
-            System.Linq.Expressions.Expression.Assign(
-              castParam,
-              System.Linq.Expressions.Expression.Convert(objectParam, itemType)
-            ),
-            System.Linq.Expressions.Expression.Convert(
-              ParseLogicalExpression(_expression, itemType, castParam),
-              typeof(bool)
-            )
+            System.Linq.Expressions.Expression.Assign(castParam, System.Linq.Expressions.Expression.Convert(objectParam, itemType)),
+            System.Linq.Expressions.Expression.Convert(ParseLogicalExpression(_expression, itemType, castParam), typeof(bool))
           ),
           objectParam
         );

@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added header and footer bands.
 - Added automatic height of bands.
 - Added unit tests for ViewModel classes.
-- `FilterExpression` for `ReportBand` — filter rendered items using string expressions (e.g., `Age > 30 && Status == 'Active'`).
+- Added `FilterExpression` for `ReportBand` — filter rendered items using string expressions (e.g., `Age > 30 && Status == 'Active'`).
 - Ordering of data in bands.
 - Editor UI: band details now include a filter expression textbox for easy editing.
 - Rendering integrates filter evaluation so non-matching items are skipped.
