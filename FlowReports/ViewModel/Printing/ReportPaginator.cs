@@ -161,26 +161,25 @@ namespace FlowReports.ViewModel.Printing
       foreach (var itemData in orderedData)
       {
         // Apply filter expression if it exists
-        if (band.FilterExpression != null && !band.FilterExpression.Evaluate(itemData))
+        // Include item if: no filter exists OR the item matches the filter
+        if (band.FilterExpression == null || band.FilterExpression.Evaluate(itemData))
         {
-          continue;
-        }
+          DrawBandContent(band, itemData);
 
-        DrawBandContent(band, itemData);
+          // Draw sub bands
+          foreach (var subBand in band.Bands)
+          {
+            var subData = GetSubData(itemData, subBand.DataSource);
+            DrawBand(subBand, subData);
+          }
 
-        // Draw sub bands
-        foreach (var subBand in band.Bands)
-        {
-          var subData = GetSubData(itemData, subBand.DataSource);
-          DrawBand(subBand, subData);
-        }
+          bandCount++;
 
-        bandCount++;
-
-        // If there is no data source defined, we only want to draw the band once
-        if (string.IsNullOrWhiteSpace(band.DataSource) && bandCount == 1)
-        {
-          return;
+          // If there is no data source defined, we only want to draw the band once
+          if (string.IsNullOrWhiteSpace(band.DataSource) && bandCount == 1)
+          {
+            return;
+          }
         }
       }
 
@@ -251,11 +250,6 @@ namespace FlowReports.ViewModel.Printing
 
     private class ObjectComparer : IComparer<object>, IComparer
     {
-      public int Compare(object x, object y)
-      {
-        return CompareObjects(x, y);
-      }
-
       int IComparer<object>.Compare(object x, object y)
       {
         return CompareObjects(x, y);
