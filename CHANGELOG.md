@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Editor UI: band details now include a filter expression textbox for easy editing.
 - Rendering integrates filter evaluation so non-matching items are skipped.
 - Unit tests covering filter expression parsing and evaluation.
+- Allow text formatting.
+
+### Changed
+- Updated third party libraries.
+- Update to .NET 10.0.
 
 ### Fixed
 - Fixed wrong logic on page breaks.

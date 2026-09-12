@@ -57,14 +57,17 @@ namespace FlowReports.Model.ImportExport
         var t when t == typeof(string) => TryGetStringAttribute(parent, name, out string stringResult)
           ? (T)(object)stringResult
           : defaultValue,
-        var t when t == typeof(DateTime) || t == typeof(DateTime?) => TryGetDateTimeAttribute(parent, name, out DateTime dateTimeResult)
-          ? (T)(object)dateTimeResult
-          : defaultValue,
         var t when t == typeof(double) || t == typeof(double?) => TryGetDoubleAttribute(parent, name, out double doubleResult)
           ? (T)(object)doubleResult
           : defaultValue,
         var t when t == typeof(int) || t == typeof(int?) => TryGetIntAttribute(parent, name, out int intResult)
           ? (T)(object)intResult
+          : defaultValue,
+        var t when t == typeof(bool) || t == typeof(bool?) => TryGetBoolAttribute(parent, name, out bool boolResult)
+          ? (T)(object)boolResult
+          : defaultValue,
+        var t when t == typeof(DateTime) || t == typeof(DateTime?) => TryGetDateTimeAttribute(parent, name, out DateTime dateTimeResult)
+          ? (T)(object)dateTimeResult
           : defaultValue,
         var t when t == typeof(Guid) => TryGetGuidAttribute(parent, name, out Guid guidResult)
           ? (T)(object)guidResult
@@ -110,6 +113,21 @@ namespace FlowReports.Model.ImportExport
       if (attribute != null)
       {
         if (int.TryParse(attribute.InnerText, NumberStyles.Any, CultureInfo.InvariantCulture, out int r))
+        {
+          result = r;
+          return true;
+        }
+      }
+      return false;
+    }
+
+    public static bool TryGetBoolAttribute(this XmlElement parent, string name, out bool result)
+    {
+      result = default;
+      var attribute = parent.Attributes[name];
+      if (attribute != null)
+      {
+        if (bool.TryParse(attribute.InnerText, out bool r))
         {
           result = r;
           return true;

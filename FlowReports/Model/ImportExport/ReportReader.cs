@@ -222,6 +222,9 @@ namespace FlowReports.Model.ImportExport
         item = new TextItem();
         ReadReportItem(item, node);
         item.Format = node.ReadAttributeOrDefault(Tags.Format, string.Empty);
+        item.Bold = node.ReadAttributeOrDefault(Tags.Bold, false);
+        item.Italic = node.ReadAttributeOrDefault(Tags.Italic, false);
+        item.Underline = node.ReadAttributeOrDefault(Tags.Underline, false);
         return true;
       }
 

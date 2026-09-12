@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0-windows7.0</TargetFramework>
-    <UseWPF>true</UseWPF>    
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
+    <UseWPF>true</UseWPF>
     <BaseOutputPath>..\Output\bin</BaseOutputPath>    
     <Company>Engineering Solutions</Company>    
     <Description>A simple library for printing reports from any .NET obejct.</Description>    
     <Copyright>© Engineering Solutions 2023-2026</Copyright>    
     <RepositoryUrl>https://github.com/pschimmel/FlowReports</RepositoryUrl>    
-    <Version>0.8.16.0</Version>
+    <Version>0.8.17.0</Version>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
 

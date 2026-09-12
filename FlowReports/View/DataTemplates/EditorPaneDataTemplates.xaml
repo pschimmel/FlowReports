@@ -1,11 +1,6 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
-                    xmlns:converters="clr-namespace:FlowReports.View.Converters"
-                    xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
-                    xmlns:toolsUI="clr-namespace:ES.Tools.UI;assembly=ES.Tools"
-                    xmlns:viewBehaviors="clr-namespace:FlowReports.View.Behaviors"
-                    xmlns:vm="clr-namespace:FlowReports.ViewModel.Editor">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:converters="clr-namespace:FlowReports.View.Converters" xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop" xmlns:toolsUI="clr-namespace:ES.Tools.UI;assembly=ES.Tools"
+                    xmlns:viewBehaviors="clr-namespace:FlowReports.View.Behaviors" xmlns:vm="clr-namespace:FlowReports.ViewModel.Editor">
   <ResourceDictionary.MergedDictionaries>
     <toolsUI:SharedResourceDictionary Source="pack://application:,,,/FlowReports;component/View/Brushes.xaml" />
   </ResourceDictionary.MergedDictionaries>
@@ -21,8 +16,7 @@
   <DataTemplate DataType="{x:Type vm:ReportBandViewModel}">
     <Border dd:DragDrop.DropEventType="Bubbled"
             dd:DragDrop.DropHandler="{Binding}"
-            dd:DragDrop.IsDropTarget="True"
-            BorderThickness="0,0,0,1">
+            dd:DragDrop.IsDropTarget="True" BorderThickness="0,0,0,1">
       <behaviors:Interaction.Triggers>
         <behaviors:EventTrigger EventName="PreviewMouseLeftButtonDown">
           <behaviors:InvokeCommandAction Command="{Binding DeselectItemsCommand}" />
@@ -49,9 +43,7 @@
             </ItemsPanelTemplate>
           </ItemsControl.ItemsPanel>
         </ItemsControl>
-        <Border Grid.Row="2"
-                Margin="0,0,0,0"
-                HorizontalAlignment="Stretch"
+        <Border Grid.Row="2" Margin="0,0,0,0" HorizontalAlignment="Stretch"
                 BorderBrush="{StaticResource ReportBand.BorderBrush}"
                 BorderThickness="0,1,0,0">
           <Border.Style>
@@ -74,8 +66,7 @@
     <Border Height="{Binding Height}"
             dd:DragDrop.DropEventType="Bubbled"
             dd:DragDrop.DropHandler="{Binding}"
-            dd:DragDrop.IsDropTarget="True"
-            BorderThickness="0,0,0,1">
+            dd:DragDrop.IsDropTarget="True" BorderThickness="0,0,0,1">
       <behaviors:Interaction.Triggers>
         <behaviors:EventTrigger EventName="PreviewMouseLeftButtonDown">
           <behaviors:InvokeCommandAction Command="{Binding DeselectItemsCommand}" />
@@ -100,8 +91,7 @@
   <DataTemplate DataType="{x:Type vm:FooterBandViewModel}">
     <Border dd:DragDrop.DropEventType="Bubbled"
             dd:DragDrop.DropHandler="{Binding}"
-            dd:DragDrop.IsDropTarget="True"
-            BorderThickness="0,0,0,1">
+            dd:DragDrop.IsDropTarget="True" BorderThickness="0,0,0,1">
       <behaviors:Interaction.Triggers>
         <behaviors:EventTrigger EventName="PreviewMouseLeftButtonDown">
           <behaviors:InvokeCommandAction Command="{Binding DeselectItemsCommand}" />
@@ -118,7 +108,9 @@
           <RowDefinition />
           <RowDefinition Height="{Binding Height}" />
         </Grid.RowDefinitions>
-        <Border HorizontalAlignment="Stretch" BorderBrush="{StaticResource ReportBand.BorderBrush}" BorderThickness="0,1,0,0" />
+        <Border HorizontalAlignment="Stretch"
+                BorderBrush="{StaticResource ReportBand.BorderBrush}"
+                BorderThickness="0,1,0,0" />
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Items}">
           <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
@@ -136,9 +128,7 @@
             Width="{Binding Width}"
             Height="{Binding Height}"
             dd:DragDrop.DropHandler="{Binding}"
-            dd:DragDrop.IsDropTarget="True"
-            Background="Transparent"
-            BorderThickness="1"
+            dd:DragDrop.IsDropTarget="True" Background="Transparent" BorderThickness="1"
             Focusable="True">
       <behaviors:Interaction.Triggers>
         <behaviors:EventTrigger EventName="PreviewMouseLeftButtonDown">
@@ -174,6 +164,15 @@
               <DataTrigger Binding="{Binding IsSelected}" Value="True">
                 <Setter Property="Background" Value="LightYellow" />
               </DataTrigger>
+              <DataTrigger Binding="{Binding Bold}" Value="True">
+                <Setter Property="FontWeight" Value="Bold" />
+              </DataTrigger>
+              <DataTrigger Binding="{Binding Italic}" Value="True">
+                <Setter Property="FontStyle" Value="Italic" />
+              </DataTrigger>
+              <DataTrigger Binding="{Binding Underline}" Value="True">
+                <Setter Property="TextDecorations" Value="Underline" />
+              </DataTrigger>
             </Style.Triggers>
           </Style>
         </TextBlock.Style>
@@ -187,9 +186,7 @@
             Width="{Binding Width}"
             Height="{Binding Height}"
             dd:DragDrop.DropHandler="{Binding}"
-            dd:DragDrop.IsDropTarget="True"
-            Background="Transparent"
-            BorderThickness="1"
+            dd:DragDrop.IsDropTarget="True" Background="Transparent" BorderThickness="1"
             Focusable="True">
       <behaviors:Interaction.Triggers>
         <behaviors:EventTrigger EventName="PreviewMouseLeftButtonDown">
@@ -218,14 +215,10 @@
           </Style.Triggers>
         </Style>
       </Border.Style>
-      <Path HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Data="M 0 0 L 8 8 M 0 8 L 8 0"
+      <Path HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Data="M 0 0 L 8 8 M 0 8 L 8 0"
             Stretch="Fill"
             Stroke="{StaticResource General.Foreground}"
-            StrokeEndLineCap="Round"
-            StrokeStartLineCap="Round"
-            StrokeThickness="2" />
+            StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="2" />
     </Border>
   </DataTemplate>
 
@@ -235,9 +228,7 @@
             Width="{Binding Width}"
             Height="{Binding Height}"
             dd:DragDrop.DropHandler="{Binding}"
-            dd:DragDrop.IsDropTarget="True"
-            Background="Transparent"
-            BorderThickness="1"
+            dd:DragDrop.IsDropTarget="True" Background="Transparent" BorderThickness="1"
             Focusable="True">
       <behaviors:Interaction.Triggers>
         <behaviors:EventTrigger EventName="PreviewMouseLeftButtonDown">
@@ -266,8 +257,7 @@
           </Style.Triggers>
         </Style>
       </Border.Style>
-      <Image HorizontalAlignment="Stretch"
-             VerticalAlignment="Stretch"
+      <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
              Source="{Binding DataSource}"
              Stretch="Uniform" />
     </Border>

@@ -217,6 +217,9 @@ namespace FlowReports.Model.ImportExport
       node.WriteAttribute(Tags.Type, Tags.TextItem);
       WriteReportItem(item, node);
       node.WriteAttribute(Tags.Format, item.Format);
+      node.WriteAttribute(Tags.Bold, item.Bold);
+      node.WriteAttribute(Tags.Italic, item.Italic);
+      node.WriteAttribute(Tags.Underline, item.Underline);
     }
 
     private static void WriteBooleanItem(BooleanItem item, XmlElement node)
