@@ -11,7 +11,7 @@
     <readme>docs\README.md</readme>
     <projectUrl>https://github.com/pschimmel/FlowReports</projectUrl>
     <description>Package Description</description>
-    <copyright>© Engineering Solutions 2023-2025</copyright>
+    <copyright>© Engineering Solutions 2023-2026</copyright>
     <dependencies>
       <group targetFramework="net9.0-windows7.0">
         <dependency id="ES.Tools" version="0.6.30.123" exclude="Build,Analyzers" />

@@ -9,6 +9,7 @@
     <Copyright>© Engineering Solutions 2023-2026</Copyright>    
     <RepositoryUrl>https://github.com/pschimmel/FlowReports</RepositoryUrl>    
     <Version>0.8.16.0</Version>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>
