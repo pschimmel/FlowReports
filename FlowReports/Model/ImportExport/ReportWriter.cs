@@ -217,9 +217,10 @@ namespace FlowReports.Model.ImportExport
       node.WriteAttribute(Tags.Type, Tags.TextItem);
       WriteReportItem(item, node);
       node.WriteAttribute(Tags.Format, item.Format);
-      node.WriteAttribute(Tags.Bold, item.Bold);
-      node.WriteAttribute(Tags.Italic, item.Italic);
-      node.WriteAttribute(Tags.Underline, item.Underline);
+      // Write boolean attributes as strings because WriteAttribute supports only certain types
+      node.WriteAttribute(Tags.Bold, item.Bold ? "true" : "false");
+      node.WriteAttribute(Tags.Italic, item.Italic ? "true" : "false");
+      node.WriteAttribute(Tags.Underline, item.Underline ? "true" : "false");
     }
 
     private static void WriteBooleanItem(BooleanItem item, XmlElement node)

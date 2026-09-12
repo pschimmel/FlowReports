@@ -1,19 +1,9 @@
-﻿<fluent:RibbonWindow x:Class="FlowReports.View.PrintPreviewWindow"
-                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                     xmlns:fluent="urn:fluent-ribbon"
-                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                     xmlns:properties="clr-namespace:FlowReports.Properties"
-                     xmlns:toolsUI="clr-namespace:ES.Tools.UI;assembly=ES.Tools"
-                     xmlns:viewmodel="clr-namespace:FlowReports.ViewModel"
-                     Title="PrintPreviewWindow"
-                     Width="800"
-                     Height="450"
+﻿<fluent:RibbonWindow x:Class="FlowReports.View.PrintPreviewWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:fluent="urn:fluent-ribbon" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:properties="clr-namespace:FlowReports.Properties" xmlns:toolsUI="clr-namespace:ES.Tools.UI;assembly=ES.Tools" xmlns:viewmodel="clr-namespace:FlowReports.ViewModel"
+                     Title="PrintPreviewWindow" Width="800" Height="450"
                      d:DataContext="{d:DesignInstance Type=viewmodel:PrintPreviewViewModel}"
-                     ResizeMode="CanResizeWithGrip"
-                     WindowStartupLocation="CenterScreen"
-                     WindowState="Maximized"
+                     ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" WindowState="Maximized"
                      mc:Ignorable="d">
   <Window.Resources>
     <ResourceDictionary>
@@ -28,75 +18,71 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition />
+      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
     <fluent:Ribbon CanUseSimplified="True" IsSimplified="True" UseLayoutRounding="True">
       <fluent:Ribbon.Menu>
         <fluent:Backstage Header="{x:Static properties:Resources.File}">
           <fluent:BackstageTabControl>
-            <fluent:Button Command="{Binding CloseCommand}" Header="{x:Static properties:Resources.Close}" Icon="pack://application:,,,/FlowReports;component/View/Images/Close_16x.png" />
+            <fluent:Button Command="{Binding CloseCommand}"
+                           Header="{x:Static properties:Resources.Close}"
+                           Icon="pack://application:,,,/FlowReports;component/View/Images/Close_16x.png" />
           </fluent:BackstageTabControl>
         </fluent:Backstage>
       </fluent:Ribbon.Menu>
       <fluent:RibbonTabItem Header="{x:Static properties:Resources.Home}" ReduceOrder="Report, View, Report, View, Report, View, Report, View">
-        <fluent:RibbonGroupBox x:Name="Report" Header="{x:Static properties:Resources.Report}" Icon="pack://application:,,,/FlowReports;component/View/Images/Document_16x.png">
+        <fluent:RibbonGroupBox x:Name="Report"
+                               Header="{x:Static properties:Resources.Report}"
+                               Icon="pack://application:,,,/FlowReports;component/View/Images/Document_16x.png">
           <fluent:Button Command="ApplicationCommands.Print"
                          CommandTarget="{Binding ElementName=documentViewer}"
                          Header="{x:Static properties:Resources.Print}"
-                         Icon="pack://application:,,,/FlowReports;component/View/Images/Print_16x.png"
-                         LargeIcon="pack://application:,,,/FlowReports;component/View/Images/Print_32x.png" />
+                         Icon="pack://application:,,,/FlowReports;component/View/Images/Print_16x.png" LargeIcon="pack://application:,,,/FlowReports;component/View/Images/Print_32x.png" />
           <fluent:Button Command="ApplicationCommands.Copy"
                          CommandTarget="{Binding ElementName=documentViewer}"
                          Header="{x:Static properties:Resources.Copy}"
-                         Icon="pack://application:,,,/FlowReports;component/View/Images/Copy_16x.png"
-                         LargeIcon="pack://application:,,,/FlowReports;component/View/Images/Copy_32x.png" />
+                         Icon="pack://application:,,,/FlowReports;component/View/Images/Copy_16x.png" LargeIcon="pack://application:,,,/FlowReports;component/View/Images/Copy_32x.png" />
         </fluent:RibbonGroupBox>
-        <fluent:RibbonGroupBox x:Name="Printer" Header="{x:Static properties:Resources.Printer}" Icon="pack://application:,,,/FlowReports;component/View/Images/Print_16x.png">
+        <fluent:RibbonGroupBox x:Name="Printer"
+                               Header="{x:Static properties:Resources.Printer}"
+                               Icon="pack://application:,,,/FlowReports;component/View/Images/Print_16x.png">
           <fluent:Button Command="{Binding PrintSetupCommand}"
                          Header="{x:Static properties:Resources.PrintSetup}"
-                         Icon="pack://application:,,,/FlowReports;component/View/Images/PrintSetup_16x.png"
-                         LargeIcon="pack://application:,,,/FlowReports;component/View/Images/PrintSetup_32x.png" />
+                         Icon="pack://application:,,,/FlowReports;component/View/Images/PrintSetup_16x.png" LargeIcon="pack://application:,,,/FlowReports;component/View/Images/PrintSetup_32x.png" />
         </fluent:RibbonGroupBox>
-        <fluent:RibbonGroupBox x:Name="View" Header="{x:Static properties:Resources.View}" Icon="pack://application:,,,/FlowReports;component/View/Images/View_16x.png">
+        <fluent:RibbonGroupBox x:Name="View"
+                               Header="{x:Static properties:Resources.View}"
+                               Icon="pack://application:,,,/FlowReports;component/View/Images/View_16x.png">
           <fluent:Button Command="NavigationCommands.IncreaseZoom"
                          CommandTarget="{Binding ElementName=documentViewer}"
                          Header="{x:Static properties:Resources.ZoomIn}"
-                         Icon="pack://application:,,,/FlowReports;component/View/Images/ZoomIn_16x.png"
-                         LargeIcon="pack://application:,,,/FlowReports;component/View/Images/ZoomIn_32x.png" />
+                         Icon="pack://application:,,,/FlowReports;component/View/Images/ZoomIn_16x.png" LargeIcon="pack://application:,,,/FlowReports;component/View/Images/ZoomIn_32x.png" />
           <fluent:Button Command="NavigationCommands.DecreaseZoom"
                          CommandTarget="{Binding ElementName=documentViewer}"
                          Header="{x:Static properties:Resources.ZoomOut}"
-                         Icon="pack://application:,,,/FlowReports;component/View/Images/ZoomOut_16x.png"
-                         LargeIcon="pack://application:,,,/FlowReports;component/View/Images/ZoomOut_32x.png" />
+                         Icon="pack://application:,,,/FlowReports;component/View/Images/ZoomOut_16x.png" LargeIcon="pack://application:,,,/FlowReports;component/View/Images/ZoomOut_32x.png" />
           <RibbonSeparator />
-          <fluent:Button Command="NavigationCommands.Zoom"
-                         CommandParameter="100.0"
+          <fluent:Button Command="NavigationCommands.Zoom" CommandParameter="100.0"
                          CommandTarget="{Binding ElementName=documentViewer}"
                          Header="{x:Static properties:Resources.ZoomToActualSize}"
-                         Icon="pack://application:,,,/FlowReports;component/View/Images/ZoomToActualSize_16x.png"
-                         LargeIcon="pack://application:,,,/FlowReports;component/View/Images/ZoomToActualSize_32x.png" />
+                         Icon="pack://application:,,,/FlowReports;component/View/Images/ZoomToActualSize_16x.png" LargeIcon="pack://application:,,,/FlowReports;component/View/Images/ZoomToActualSize_32x.png" />
           <fluent:Button Command="DocumentViewer.FitToWidthCommand"
                          CommandTarget="{Binding ElementName=documentViewer}"
                          Header="{x:Static properties:Resources.ZoomToPageWidth}"
-                         Icon="pack://application:,,,/FlowReports;component/View/Images/ZoomToWidth_16x.png"
-                         LargeIcon="pack://application:,,,/FlowReports;component/View/Images/ZoomToWidth_32x.png" />
-          <fluent:Button Command="DocumentViewer.FitToMaxPagesAcrossCommand"
-                         CommandParameter="1"
+                         Icon="pack://application:,,,/FlowReports;component/View/Images/ZoomToWidth_16x.png" LargeIcon="pack://application:,,,/FlowReports;component/View/Images/ZoomToWidth_32x.png" />
+          <fluent:Button Command="DocumentViewer.FitToMaxPagesAcrossCommand" CommandParameter="1"
                          CommandTarget="{Binding ElementName=documentViewer}"
                          Header="{x:Static properties:Resources.ZoomToPage}"
-                         Icon="pack://application:,,,/FlowReports;component/View/Images/ZoomToFit_16x.png"
-                         LargeIcon="pack://application:,,,/FlowReports;component/View/Images/ZoomToFit_32x.png" />
-          <fluent:Button Command="DocumentViewer.FitToMaxPagesAcrossCommand"
-                         CommandParameter="2"
+                         Icon="pack://application:,,,/FlowReports;component/View/Images/ZoomToFit_16x.png" LargeIcon="pack://application:,,,/FlowReports;component/View/Images/ZoomToFit_32x.png" />
+          <fluent:Button Command="DocumentViewer.FitToMaxPagesAcrossCommand" CommandParameter="2"
                          CommandTarget="{Binding ElementName=documentViewer}"
                          Header="{x:Static properties:Resources.ZoomTwoPages}"
-                         Icon="pack://application:,,,/FlowReports;component/View/Images/ZoomToTwoPages_16x.png"
-                         LargeIcon="pack://application:,,,/FlowReports;component/View/Images/ZoomToTwoPages_32x.png" />
+                         Icon="pack://application:,,,/FlowReports;component/View/Images/ZoomToTwoPages_16x.png" LargeIcon="pack://application:,,,/FlowReports;component/View/Images/ZoomToTwoPages_32x.png" />
         </fluent:RibbonGroupBox>
       </fluent:RibbonTabItem>
     </fluent:Ribbon>
 
-    <DocumentViewer x:Name="documentViewer"
-                    Grid.Row="1"
+    <DocumentViewer x:Name="documentViewer" Grid.Row="1"
                     BorderBrush="{StaticResource PrintPreview.Border}"
                     Document="{Binding Document}">
       <DocumentViewer.Resources>
@@ -106,5 +92,26 @@
         </Style>
       </DocumentViewer.Resources>
     </DocumentViewer>
+
+    <Expander Grid.Row="2" Margin="0,2,0,0" Header="Errors">
+      <Expander.Style>
+        <Style TargetType="{x:Type Expander}">
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding Errors.Count}" Value="0">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </Expander.Style>
+      <ListBox ItemsSource="{Binding Errors}">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Margin="2"
+                       Text="{Binding}"
+                       TextWrapping="Wrap" />
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </Expander>
   </Grid>
 </fluent:RibbonWindow>

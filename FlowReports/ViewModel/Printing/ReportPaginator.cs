@@ -13,15 +13,24 @@ namespace FlowReports.ViewModel.Printing
   /// <summary>
   /// Provides pagination services for rendering reports as document pages.
   /// </summary>
-  internal class ReportPaginator : DocumentPaginator
+  internal partial class ReportPaginator : DocumentPaginator
   {
+    #region Events
+
+    /// <summary>
+    /// Raised when an error or faulty condition is detected while preparing the report.
+    /// Subscribers receive a clear message and the original exception (if any).
+    /// </summary>
+    public event EventHandler<ReportPaginatorErrorEventArgs> ErrorOccurred;
+
+    #endregion
 
     #region Fields
 
-    private readonly Report _report;
-    private readonly IEnumerable _data;
+    private Report _report;
+    private IEnumerable _data;
     private Size _pageSize;
-    private readonly PageImageableArea _printableArea;
+    private PageImageableArea _printableArea;
     private List<DocumentPage> _pages = new();
     private Canvas _currentCanvas;
     private double _currentY;
@@ -36,6 +45,19 @@ namespace FlowReports.ViewModel.Printing
     /// <param name="report">The report to paginate.</param>
     /// <param name="pageInfo">The page information for rendering. Defaults to the default page information if not provided.</param>
     public ReportPaginator(Report report, PageInformation pageInfo = null)
+    {
+      Initialize(report, pageInfo, createPages: true);
+    }
+
+    /// <summary>
+    /// Internal constructor for tests to create a paginator without immediately creating pages.
+    /// </summary>
+    internal ReportPaginator(Report report, PageInformation pageInfo, bool createPages)
+    {
+      Initialize(report, pageInfo, createPages);
+    }
+
+    private void Initialize(Report report, PageInformation pageInfo, bool createPages)
     {
       _report = report ?? throw new ArgumentNullException(nameof(report));
       _data = report.Data;
@@ -52,7 +74,17 @@ namespace FlowReports.ViewModel.Printing
         ? new Size(pageMediaSize.Height ?? 0, pageMediaSize.Width ?? 0)
         : new Size(pageMediaSize.Width ?? 0, pageMediaSize.Height ?? 0);
 
-      CreatePages();
+      if (createPages)
+      {
+        try
+        {
+          CreatePages();
+        }
+        catch (Exception ex)
+        {
+          OnError("Failed to prepare report pages during paginator initialization.", ex);
+        }
+      }
     }
 
     #endregion
@@ -120,20 +152,56 @@ namespace FlowReports.ViewModel.Printing
 
     #region Private Methods
 
+    private void OnError(string message, Exception exception = null)
+    {
+      try
+      {
+        ErrorOccurred?.Invoke(this, new ReportPaginatorErrorEventArgs(message, exception));
+      }
+      catch
+      {
+        // Swallow exceptions thrown by event handlers to avoid cascading failures while preparing a report.
+      }
+    }
+
     private List<DocumentPage> CreatePages()
     {
       _pages = new List<DocumentPage>();
 
-      // There is at least one page.
-      CreateNewCanvas();
-
-      foreach (var band in _report.Bands)
+      try
       {
-        DrawBand(band, _data);
-      }
+        // There is at least one page.
+        CreateNewCanvas();
 
-      // Create the page from the current canvas
-      CreatePageFromCurrentCanvas();
+        if (_report?.Bands != null)
+        {
+          foreach (var band in _report.Bands)
+          {
+            try
+            {
+              DrawBand(band, _data);
+            }
+            catch (Exception ex)
+            {
+              OnError($"Error while drawing band '{band?.GetType().Name ?? "<unknown>"}'.", ex);
+            }
+          }
+        }
+
+        // Create the page from the current canvas
+        try
+        {
+          CreatePageFromCurrentCanvas();
+        }
+        catch (Exception ex)
+        {
+          OnError("Failed to create document page from canvas.", ex);
+        }
+      }
+      catch (Exception ex)
+      {
+        OnError("Unexpected error while creating pages.", ex);
+      }
 
       return _pages;
     }
@@ -146,47 +214,82 @@ namespace FlowReports.ViewModel.Printing
         return;
       }
 
-      int bandCount = 0;
-
-      // Draw header band if it exists
-      if (band.HeaderBand != null)
+      try
       {
-        DrawBandContent(band.HeaderBand, GetFirstItem(data));
-      }
+        int bandCount = 0;
 
-      // Prepare ordered data
-      var orderedData = ApplyOrdering(data, band);
-
-      // Draw content for each item in the data source
-      foreach (var itemData in orderedData)
-      {
-        // Apply filter expression if it exists
-        // Include item if: no filter exists OR the item matches the filter
-        if (band.FilterExpression == null || band.FilterExpression.Evaluate(itemData))
+        // Draw header band if it exists
+        if (band?.HeaderBand != null)
         {
-          DrawBandContent(band, itemData);
-
-          // Draw sub bands
-          foreach (var subBand in band.Bands)
+          try
           {
-            var subData = GetSubData(itemData, subBand.DataSource);
-            DrawBand(subBand, subData);
+            DrawBandContent(band.HeaderBand, GetFirstItem(data));
           }
-
-          bandCount++;
-
-          // If there is no data source defined, we only want to draw the band once
-          if (string.IsNullOrWhiteSpace(band.DataSource) && bandCount == 1)
+          catch (Exception ex)
           {
-            return;
+            OnError($"Failed to draw header for band '{band?.GetType().Name ?? "<unknown>"}'.", ex);
+          }
+        }
+
+        // Prepare ordered data
+        var orderedData = ApplyOrdering(data, band);
+
+        // Draw content for each item in the data source
+        foreach (var itemData in orderedData)
+        {
+          try
+          {
+            // Apply filter expression if it exists
+            // Include item if: no filter exists OR the item matches the filter
+            if (band.FilterExpression == null || band.FilterExpression.Evaluate(itemData))
+            {
+              DrawBandContent(band, itemData);
+
+              // Draw sub bands
+              foreach (var subBand in band.Bands)
+              {
+                try
+                {
+                  var subData = GetSubData(itemData, subBand.DataSource);
+                  DrawBand(subBand, subData);
+                }
+                catch (Exception ex)
+                {
+                  OnError($"Failed to draw sub-band '{subBand?.GetType().Name ?? "<unknown>"}' of parent band '{band?.GetType().Name ?? "<unknown>"}'.", ex);
+                }
+              }
+
+              bandCount++;
+
+              // If there is no data source defined, we only want to draw the band once
+              if (string.IsNullOrWhiteSpace(band.DataSource) && bandCount == 1)
+              {
+                return;
+              }
+            }
+          }
+          catch (Exception ex)
+          {
+            OnError($"Error while processing item in band '{band?.GetType().Name ?? "<unknown>"}'.", ex);
+          }
+        }
+
+        // Draw footer band if it exists
+        if (band?.FooterBand != null)
+        {
+          try
+          {
+            DrawBandContent(band.FooterBand, GetFirstItem(data));
+          }
+          catch (Exception ex)
+          {
+            OnError($"Failed to draw footer for band '{band?.GetType().Name ?? "<unknown>"}'.", ex);
           }
         }
       }
-
-      // Draw footer band if it exists
-      if (band.FooterBand != null)
+      catch (Exception ex)
       {
-        DrawBandContent(band.FooterBand, GetFirstItem(data));
+        OnError($"Unexpected error while drawing band '{band?.GetType().Name ?? "<unknown>"}'.", ex);
       }
     }
 
@@ -308,33 +411,61 @@ namespace FlowReports.ViewModel.Printing
 
     private void DrawBandContent(ReportBandBase band, object itemData)
     {
-      // Check if current band fits onto page, if not create new page
-      if (CreateNewPage(band))
+      try
       {
-        // Current band does not fit onto page -> create next page
-        CreatePageFromCurrentCanvas();
+        // Check if current band fits onto page, if not create new page
+        if (CreateNewPage(band))
+        {
+          // Current band does not fit onto page -> create next page
+          try
+          {
+            CreatePageFromCurrentCanvas();
+          }
+          catch (Exception ex)
+          {
+            OnError("Failed to create new page while paginating band content.", ex);
+          }
 
-        // Create canvas for next page and reset y value
-        CreateNewCanvas();
+          // Create canvas for next page and reset y value
+          CreateNewCanvas();
 
-        // Draw header band on new page if it exists
-        DrawHeader(band);
+          // Draw header band on new page if it exists
+          try
+          {
+            DrawHeader(band);
+          }
+          catch (Exception ex)
+          {
+            OnError("Failed to draw header on new page.", ex);
+          }
+        }
+
+        // Draw all report items once for each item in the data source
+        foreach (var item in band.Items)
+        {
+          try
+          {
+            var vm = ViewModelFactory.CreatePreviewItemViewModel(item, itemData, _currentY);
+            var control = new ContentControl();
+            control.Content = vm;
+
+            _currentCanvas.Children.Add(control);
+            control.SetValue(Canvas.TopProperty, vm.Top);
+            control.SetValue(Canvas.LeftProperty, vm.Left);
+          }
+          catch (Exception ex)
+          {
+            OnError($"Failed to render report item of type '{item?.GetType().Name ?? "<unknown>"}'.", ex);
+          }
+        }
+
+        // Increase current y position
+        _currentY += band.ActualHeight;
       }
-
-      // Draw all report items once for each item in the data source
-      foreach (var item in band.Items)
+      catch (Exception ex)
       {
-        var vm = ViewModelFactory.CreatePreviewItemViewModel(item, itemData, _currentY);
-        var control = new ContentControl();
-        control.Content = vm;
-
-        _currentCanvas.Children.Add(control);
-        control.SetValue(Canvas.TopProperty, vm.Top);
-        control.SetValue(Canvas.LeftProperty, vm.Left);
+        OnError($"Unexpected error while drawing content for band '{band?.GetType().Name ?? "<unknown>"}'.", ex);
       }
-
-      // Increase current y position
-      _currentY += band.ActualHeight;
     }
 
     /// <summary>
@@ -371,13 +502,20 @@ namespace FlowReports.ViewModel.Printing
         return;
       }
 
-      _currentCanvas.Measure(new Size(_currentCanvas.Width, _currentCanvas.Height));
-      _currentCanvas.Arrange(new Rect(new Point(_printableArea.OriginWidth, _printableArea.OriginHeight), new Size(_currentCanvas.Width, _currentCanvas.Height)));
-      var dp = new DocumentPage(_currentCanvas, _pageSize, new Rect(), new Rect(new Point(_printableArea.OriginWidth, _printableArea.OriginHeight), new Size(ActualWidth, ActualHeight)));
-      _pages.Add(dp);
+      try
+      {
+        _currentCanvas.Measure(new Size(_currentCanvas.Width, _currentCanvas.Height));
+        _currentCanvas.Arrange(new Rect(new Point(_printableArea.OriginWidth, _printableArea.OriginHeight), new Size(_currentCanvas.Width, _currentCanvas.Height)));
+        var dp = new DocumentPage(_currentCanvas, _pageSize, new Rect(), new Rect(new Point(_printableArea.OriginWidth, _printableArea.OriginHeight), new Size(ActualWidth, ActualHeight)));
+        _pages.Add(dp);
+      }
+      catch (Exception ex)
+      {
+        OnError("Failed to convert canvas to a document page.", ex);
+      }
     }
 
-    private static IEnumerable GetSubData(object data, string dataSource)
+    private IEnumerable GetSubData(object data, string dataSource)
     {
       if (data == null || string.IsNullOrWhiteSpace(dataSource))
       {
@@ -385,15 +523,38 @@ namespace FlowReports.ViewModel.Printing
       }
 
       var type = data.GetType();
-      var property = type.GetProperty(dataSource);
+      try
+      {
+        var property = type.GetProperty(dataSource);
 
-      if (property != null && typeof(IEnumerable).IsAssignableFrom(property.PropertyType))
-      {
-        return (IEnumerable)property.GetValue(data);
+        if (property != null && typeof(IEnumerable).IsAssignableFrom(property.PropertyType))
+        {
+          try
+          {
+            return (IEnumerable)property.GetValue(data);
+          }
+          catch (Exception ex)
+          {
+            // Property exists but retrieving value failed
+            var msg = $"Failed to read sub-data property '{dataSource}' on type '{type.FullName}'.";
+            OnError(msg, ex);
+            return null;
+          }
+        }
+
+        // Property not found or not enumerable
+        if (property == null)
+        {
+          OnError($"Sub data source '{dataSource}' not found on type '{type.FullName}'.");
+        }
+        else
+        {
+          OnError($"Property '{dataSource}' on type '{type.FullName}' is not an IEnumerable.");
+        }
       }
-      else
+      catch (Exception ex)
       {
-        // TODO: Error handling
+        OnError($"Unexpected error while getting sub-data '{dataSource}' from type '{type.FullName}'.", ex);
       }
 
       return null;
@@ -407,7 +568,15 @@ namespace FlowReports.ViewModel.Printing
         Width = ActualWidth
       };
 
-      _currentCanvas.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/FlowReports;component/View/DataTemplates/ReportDataTemplates.xaml", UriKind.RelativeOrAbsolute) });
+      try
+      {
+        _currentCanvas.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/FlowReports;component/View/DataTemplates/ReportDataTemplates.xaml", UriKind.RelativeOrAbsolute) });
+      }
+      catch (Exception ex)
+      {
+        OnError("Failed to load report data templates into canvas resources.", ex);
+      }
+
       _currentY = 0;
     }
 

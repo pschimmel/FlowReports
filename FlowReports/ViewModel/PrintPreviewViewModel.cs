@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -15,7 +16,6 @@ namespace FlowReports.ViewModel
   /// </summary>
   public class PrintPreviewViewModel : ViewModelBase
   {
-
     #region Fields
 
     private readonly List<string> _tempFileNames = new();
@@ -44,15 +44,30 @@ namespace FlowReports.ViewModel
         }
       }
 
-      string tempFileName = Path.ChangeExtension(Path.GetTempFileName(), "xps");
-      _tempFileNames.Add(tempFileName);
+      Errors.Clear();
 
-      _xpsDocument = new XpsDocument(tempFileName, FileAccess.ReadWrite);
-      var writer = XpsDocument.CreateXpsDocumentWriter(_xpsDocument);
-      writer.Write(new ReportPaginator(report));
-      Document = _xpsDocument.GetFixedDocumentSequence();
-      _closeCommand = new ActionCommand(Close, CanClose);
-      _printSetupCommand = new ActionCommand(PrintSetup, CanPrintSetup);
+      try
+      {
+        string tempFileName = Path.ChangeExtension(Path.GetTempFileName(), "xps");
+        _tempFileNames.Add(tempFileName);
+        _xpsDocument = new XpsDocument(tempFileName, FileAccess.ReadWrite);
+        var writer = XpsDocument.CreateXpsDocumentWriter(_xpsDocument);
+        var reportPaginator = new ReportPaginator(report);
+        reportPaginator.ErrorOccurred += (sender, e) => OnError(e.Message, e.Exception);
+        writer.Write(reportPaginator);
+        Document = _xpsDocument.GetFixedDocumentSequence();
+        _closeCommand = new ActionCommand(Close, CanClose);
+        _printSetupCommand = new ActionCommand(PrintSetup, CanPrintSetup);
+      }
+      catch (Exception ex)
+      {
+        OnError("An error occurred while generating the print preview.", ex);
+      }
+    }
+
+    private void OnError(string message, Exception _)
+    {
+      Errors.Add(message);
     }
 
     #endregion
@@ -63,6 +78,8 @@ namespace FlowReports.ViewModel
     /// Gets the document to display in the print preview.
     /// </summary>
     public IDocumentPaginatorSource Document { get; }
+
+    public ObservableCollection<string> Errors { get; } = new ObservableCollection<string>();
 
     #endregion
 
@@ -136,6 +153,5 @@ namespace FlowReports.ViewModel
     }
 
     #endregion
-
   }
 }

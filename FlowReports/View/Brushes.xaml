@@ -42,11 +42,8 @@
   <SolidColorBrush x:Key="FooterBand.Background" o:Freeze="True" Color="#AAFFAA" />
   <SolidColorBrush x:Key="FooterBand.SelectedBackground" o:Freeze="True" Color="#00FF00" />
 
-  <DrawingBrush x:Key="ReportItem.Border"
-                o:Freeze="True"
-                TileMode="Tile"
-                Viewport="0,0,8,8"
-                ViewportUnits="Absolute">
+  <DrawingBrush x:Key="ReportItem.Border" o:Freeze="True" TileMode="Tile"
+                Viewport="0,0,8,8" ViewportUnits="Absolute">
     <DrawingBrush.Drawing>
       <DrawingGroup>
         <GeometryDrawing Brush="LightGray">
@@ -63,13 +60,9 @@
   <SolidColorBrush x:Key="ReportItem.SelectedBorder" o:Freeze="True" Color="Blue" />
 
   <SolidColorBrush x:Key="ReportItem.ResizeAdorner.Thumb.Background" o:Freeze="True" Color="Black" />
-  <SolidColorBrush x:Key="ReportItem.ResizeAdorner.Border"
-                   o:Freeze="True"
-                   Opacity="0.5"
+  <SolidColorBrush x:Key="ReportItem.ResizeAdorner.Border" o:Freeze="True" Opacity="0.5"
                    Color="Black" />
-  <SolidColorBrush x:Key="ReportItem.ResizeAdorner.Background"
-                   o:Freeze="True"
-                   Opacity="0.5"
+  <SolidColorBrush x:Key="ReportItem.ResizeAdorner.Background" o:Freeze="True" Opacity="0.5"
                    Color="White" />
 
   <!--#endregion-->
