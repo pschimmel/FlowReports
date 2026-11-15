@@ -6,6 +6,9 @@ using FlowReports.TestApplication.Helpers;
 
 namespace FlowReports.TestApplication.Model
 {
+  /// <summary>
+  /// Represents an employee with personal information and optional image data.
+  /// </summary>
   public class Employee : ES.Tools.Core.MVVM.NotifyObject
   {
     private object _image;

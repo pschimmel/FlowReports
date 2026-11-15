@@ -2,7 +2,7 @@
 using System.Windows;
 using FlowReports.Model.ReportItems;
 
-namespace FlowReports.ViewModel.EditorItems
+namespace FlowReports.ViewModel.Editor
 {
   /// <summary>
   /// Interface for ViewModels representing the items in the report.

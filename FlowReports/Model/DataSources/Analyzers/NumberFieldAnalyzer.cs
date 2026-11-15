@@ -7,7 +7,18 @@ namespace FlowReports.Model.DataSources.Analyzers
   {
     public override bool IsSupported(Type type)
     {
-      return typeof(int).IsAssignableFrom(type) || typeof(double).IsAssignableFrom(type) || typeof(int?).IsAssignableFrom(type) || typeof(double?).IsAssignableFrom(type);
+      return typeof(int).IsAssignableFrom(type) 
+        || typeof(double).IsAssignableFrom(type) 
+        || typeof(decimal).IsAssignableFrom(type)
+        || typeof(long).IsAssignableFrom(type)
+        || typeof(float).IsAssignableFrom(type)
+        || typeof(short).IsAssignableFrom(type)
+        || typeof(int?).IsAssignableFrom(type) 
+        || typeof(double?).IsAssignableFrom(type)
+        || typeof(decimal?).IsAssignableFrom(type)
+        || typeof(long?).IsAssignableFrom(type)
+        || typeof(float?).IsAssignableFrom(type)
+        || typeof(short?).IsAssignableFrom(type);
     }
 
     protected override IDataSourceItem GetItemInternal(Type type, string name)

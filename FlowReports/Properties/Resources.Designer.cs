@@ -97,6 +97,15 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add order.
+        /// </summary>
+        public static string AddOrder {
+            get {
+                return ResourceManager.GetString("AddOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Sub Band.
         /// </summary>
         public static string AddSubBand {
@@ -111,6 +120,24 @@ namespace FlowReports.Properties {
         public static string AddTextItem {
             get {
                 return ResourceManager.GetString("AddTextItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ascending.
+        /// </summary>
+        public static string Ascending {
+            get {
+                return ResourceManager.GetString("Ascending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto.
+        /// </summary>
+        public static string Auto {
+            get {
+                return ResourceManager.GetString("Auto", resourceCulture);
             }
         }
         
@@ -187,6 +214,15 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Descending.
+        /// </summary>
+        public static string Descending {
+            get {
+                return ResourceManager.GetString("Descending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Details.
         /// </summary>
         public static string Details {
@@ -223,6 +259,60 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        public static string Filter {
+            get {
+                return ResourceManager.GetString("Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name == &apos;John&apos;  — exact string match.
+        /// </summary>
+        public static string FilterExample1 {
+            get {
+                return ResourceManager.GetString("FilterExample1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Age &gt; 30  — numeric comparison.
+        /// </summary>
+        public static string FilterExample2 {
+            get {
+                return ResourceManager.GetString("FilterExample2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Department == &apos;Sales&apos; || Department == &apos;Engineering&apos;  — OR.
+        /// </summary>
+        public static string FilterExample3 {
+            get {
+                return ResourceManager.GetString("FilterExample3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to !(Status == &apos;Inactive&apos;)  — NOT.
+        /// </summary>
+        public static string FilterExample4 {
+            get {
+                return ResourceManager.GetString("FilterExample4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Examples.
+        /// </summary>
+        public static string FilterExamplesHeader {
+            get {
+                return ResourceManager.GetString("FilterExamplesHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FlowReport files (*.nas).
         /// </summary>
         public static string FlowReportFiles {
@@ -232,11 +322,29 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Footer.
+        /// </summary>
+        public static string Footer {
+            get {
+                return ResourceManager.GetString("Footer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Format.
         /// </summary>
         public static string Format {
             get {
                 return ResourceManager.GetString("Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Header.
+        /// </summary>
+        public static string Header {
+            get {
+                return ResourceManager.GetString("Header", resourceCulture);
             }
         }
         
@@ -313,6 +421,24 @@ namespace FlowReports.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Move oder down.
+        /// </summary>
+        public static string MoveOrderDown {
+            get {
+                return ResourceManager.GetString("MoveOrderDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move order up.
+        /// </summary>
+        public static string MoveOrderUp {
+            get {
+                return ResourceManager.GetString("MoveOrderUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NAS files (*.nas).
         /// </summary>
         public static string NASFiles {
@@ -345,6 +471,15 @@ namespace FlowReports.Properties {
         public static string Open {
             get {
                 return ResourceManager.GetString("Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order by.
+        /// </summary>
+        public static string OrderBy {
+            get {
+                return ResourceManager.GetString("OrderBy", resourceCulture);
             }
         }
         
@@ -435,6 +570,24 @@ namespace FlowReports.Properties {
         public static string RemoveItem {
             get {
                 return ResourceManager.GetString("RemoveItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove order.
+        /// </summary>
+        public static string RemoveOrder {
+            get {
+                return ResourceManager.GetString("RemoveOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repeat.
+        /// </summary>
+        public static string Repeat {
+            get {
+                return ResourceManager.GetString("Repeat", resourceCulture);
             }
         }
         

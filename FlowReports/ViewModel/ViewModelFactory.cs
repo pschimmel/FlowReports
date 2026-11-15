@@ -1,12 +1,12 @@
 ﻿using FlowReports.Model.ReportItems;
-using FlowReports.ViewModel.EditorItems;
+using FlowReports.ViewModel.Editor;
 using FlowReports.ViewModel.ReportItems;
 
 namespace FlowReports.ViewModel
 {
   internal static class ViewModelFactory
   {
-    internal static IEditorItemViewModel CreateItemViewModel(ReportElement item, ReportBandViewModel bandVM)
+    internal static IEditorItemViewModel CreateItemViewModel(ReportElement item, IItemContainerViewModel bandVM)
     {
       return item switch
       {

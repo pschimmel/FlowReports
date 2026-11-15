@@ -1,10 +1,10 @@
 ﻿using FlowReports.Model.ReportItems;
 
-namespace FlowReports.ViewModel.EditorItems
+namespace FlowReports.ViewModel.Editor
 {
   public class EditorBooleanItemViewModel : EditorItemViewModel<BooleanItem>
   {
-    public EditorBooleanItemViewModel(BooleanItem item, ReportBandViewModel bandVM)
+    public EditorBooleanItemViewModel(BooleanItem item, IItemContainerViewModel bandVM)
       : base(item, bandVM)
     { }
   }

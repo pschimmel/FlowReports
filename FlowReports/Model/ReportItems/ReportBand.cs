@@ -1,100 +1,105 @@
-﻿using FlowReports.Model.Events;
+﻿using FlowReports.Model.Filtering;
 using FlowReports.Model.Tools;
 
 namespace FlowReports.Model.ReportItems
 {
-  public class ReportBand : ReportElement
+  /// <summary>
+  /// Represents a band in a report, which can contain multiple report items and sub-bands.
+  /// </summary>
+  public class ReportBand : ReportBandBase, IHasBands
   {
-    #region Fields
-
-    private double _insertPosition = 0;
-
-    #endregion
-
     #region Events
 
-    public event EventHandler<ItemsEventArgs> ItemAdded;
-    public event EventHandler<ItemsEventArgs> ItemRemoved;
+    public event EventHandler HeaderChanged;
+    public event EventHandler FooterChanged;
 
     #endregion
 
-    #region Constants
+    #region Fields
 
-    public const double DefaultHeight = 20.0;
+    private HeaderBand _headerBand;
+    private FooterBand _footerBand;
 
     #endregion
 
     #region Constructor
 
-    internal ReportBand(Guid id)
+    public ReportBand(Guid id)
       : base(id)
-    {
-      Height = DefaultHeight;
-      SubBands = new ReportBandCollection();
-    }
+    { }
 
     public ReportBand()
-      : this(Guid.NewGuid())
+      : base(Guid.NewGuid())
     { }
 
     #endregion
 
     #region Properties
 
-    public List<ReportItem> Items { get; } = new List<ReportItem>();
-
-    public double Height { get; set; }
-
-    public string DataSource { get; set; }
-
-    public ReportBandCollection SubBands { get; }
-
-    #endregion
-
-    #region Public Methods
-
-    public void AddTextItem()
+    /// <summary>
+    /// Gets or sets a header band that will be printed before this band when it is rendered in a report.
+    /// </summary>
+    public HeaderBand HeaderBand
     {
-      var textItem = new TextItem
+      get => _headerBand;
+      set
       {
-        Left = _insertPosition
-      };
-
-      AddItem(textItem);
-    }
-
-    public void AddBooleanItem()
-    {
-      var booleanItem = new BooleanItem
-      {
-        Left = _insertPosition
-      };
-
-      AddItem(booleanItem);
-    }
-
-    public void AddImageItem()
-    {
-      var imageItem = new ImageItem
-      {
-        Left = _insertPosition
-      };
-
-      AddItem(imageItem);
-    }
-
-    public void AddReportItem(ReportItem item)
-    {
-      AddItem(item);
-    }
-
-    public void RemoveItem(ReportItem item)
-    {
-      if (Items.Remove(item))
-      {
-        OnItemRemoved(item);
+        if (_headerBand != null && value == null)
+        {
+          _headerBand = null;
+          HeaderChanged?.Invoke(this, EventArgs.Empty);
+        }
+        else if (value != null)
+        {
+          _headerBand = value;
+          HeaderChanged?.Invoke(this, EventArgs.Empty);
+        }
       }
     }
+
+    /// <summary>
+    /// Gets or sets a footer band that will be printed after this band when it is rendered in a report.
+    /// </summary>
+    public FooterBand FooterBand
+    {
+      get => _footerBand;
+      set
+      {
+        if (_footerBand != null && value == null)
+        {
+          _footerBand = null;
+          FooterChanged?.Invoke(this, EventArgs.Empty);
+        }
+        else if (value != null)
+        {
+          _footerBand = value;
+          FooterChanged?.Invoke(this, EventArgs.Empty);
+        }
+      }
+    }
+
+    /// <summary>
+    /// Gets or sets the name or network address of the data source.
+    /// </summary>
+    public string DataSource { get; set; }
+
+    /// <summary>
+    /// Gets or sets a filter expression that determines which items from the data source
+    /// will be rendered in this band. The expression should be a string like "PropertyName == 'value'"
+    /// or "Age > 18 && Status == 'Active'".
+    /// </summary>
+    public FilterExpression FilterExpression { get; set; }
+
+    /// <summary>
+    /// Gets the collection of sub-bands contained within this band. 
+    /// </summary>
+    public ReportBandCollection Bands { get; } = new ReportBandCollection();
+
+    /// <summary>
+    /// Gets or sets the ordering descriptors used to sort items in this band.
+    /// </summary>
+    public List<SortDescriptor> Ordering { get; } = new List<SortDescriptor>();
+
 
     #endregion
 
@@ -105,40 +110,28 @@ namespace FlowReports.Model.ReportItems
       return obj is ReportBand other &&
         Equals(Height, other.Height) &&
         Equals(DataSource, other.DataSource) &&
-        Equals(SubBands, other.SubBands) &&
-        List.Equals(Items, other.Items);
+        Equals(FilterExpression, other.FilterExpression) &&
+        Equals(Bands, other.Bands) &&
+        List.Equals(Items, other.Items) &&
+        List.Equals(Ordering, other.Ordering);
     }
 
     public override int GetHashCode()
     {
-      return new
+      var hash = new HashCode();
+      hash.Add(Height);
+      hash.Add(DataSource);
+      hash.Add(FilterExpression);
+      hash.Add(Bands);
+      foreach (var item in Items)
       {
-        Height,
-        DataSource,
-        SubBands,
-        Items
-      }.GetHashCode();
-    }
-
-    #endregion
-
-    #region Private Methods
-
-    private void AddItem(ReportItem item)
-    {
-      Items.Add(item);
-      OnItemAdded(item);
-      _insertPosition = item.Left + item.Width;
-    }
-
-    private void OnItemAdded(ReportItem item)
-    {
-      ItemAdded?.Invoke(this, new ItemsEventArgs(item));
-    }
-
-    private void OnItemRemoved(ReportItem item)
-    {
-      ItemRemoved?.Invoke(this, new ItemsEventArgs(item));
+        hash.Add(item);
+      }
+      foreach (var ord in Ordering)
+      {
+        hash.Add(ord);
+      }
+      return hash.ToHashCode();
     }
 
     #endregion

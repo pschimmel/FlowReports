@@ -4,8 +4,22 @@ using FlowReports.Model.DataSources.DataSourceItems;
 
 namespace FlowReports.Model.DataSources
 {
+  /// <summary>
+  /// Provides static methods for analyzing data structures and creating data source representations.
+  /// </summary>
   internal static class DataSourceAnalyzer
   {
+    #region Events
+
+    /// <summary>
+    /// Raised when an error occurs while analyzing data sources.
+    /// </summary>
+    public static event EventHandler<DataSourceAnalyzerErrorEventArgs> ErrorOccurred;
+
+    #endregion
+
+    #region Fields
+
     private static readonly Lazy<IEnumerable<IPropertyAnalyzer>> _analyzers = new(() =>
     {
       return new IPropertyAnalyzer[]
@@ -20,24 +34,69 @@ namespace FlowReports.Model.DataSources
 
     private static readonly Dictionary<string, int> _recursionCounter = new();
 
+    #endregion
+
+    #region Public methods
+
+    /// <summary>
+    /// Analyzes a collection of items and creates a data source representation of their structure.
+    /// </summary>
+    /// <typeparam name="T">The type of items to analyze.</typeparam>
+    /// <param name="source">The collection of items to analyze.</param>
+    /// <param name="dataSourceName">The name of the data source.</param>
+    /// <returns>A DataSource representing the structure of the items.</returns>
+    /// <exception cref="ArgumentNullException">The source is null.</exception>
     public static DataSource Analyze<T>(IEnumerable<T> source, string dataSourceName) where T : class
     {
       ArgumentNullException.ThrowIfNull(source);
 
-      var dataSource = new DataSource() { Name = dataSourceName };
-      AnalyzeList(source, dataSource);
-      return dataSource;
+      try
+      {
+        var dataSource = new DataSource() { Name = dataSourceName };
+        AnalyzeList(source, dataSource);
+        return dataSource;
+      }
+      catch (Exception ex)
+      {
+        OnError($"Unexpected error while analyzing data source '{dataSourceName}'.", ex);
+        return new DataSource() { Name = dataSourceName };
+      }
+    }
+
+    #endregion
+
+    #region Private methods
+
+    private static void OnError(string message, Exception exception = null)
+    {
+      try
+      {
+        ErrorOccurred?.Invoke(null, new DataSourceAnalyzerErrorEventArgs(message, exception));
+      }
+      catch
+      {
+        // Swallow exceptions from event handlers to avoid cascading failures during analysis.
+      }
     }
 
     private static void AnalyzeItemByInstance(object source, IDataSourceItemContainer container)
     {
-      var type = source.GetType();
-      AnalyzeItemByType(type, container);
+      try
+      {
+        var type = source.GetType();
+        AnalyzeItemByType(type, container);
+      }
+      catch (Exception ex)
+      {
+        OnError($"Error while analyzing item instance of type '{source?.GetType().FullName ?? "<null>"}'.", ex);
+      }
     }
 
     private static bool AnalyzeItemByType(Type type, IDataSourceItemContainer container)
     {
-      if (!_recursionCounter.TryGetValue(type.FullName, out int count))
+      try
+      {
+        if (!_recursionCounter.TryGetValue(type.FullName, out int count))
       {
         count = 1;
         _recursionCounter.Add(type.FullName, count);
@@ -85,6 +144,12 @@ namespace FlowReports.Model.DataSources
       }
 
       return result;
+      }
+      catch (Exception ex)
+      {
+        OnError($"Error while analyzing type '{type?.FullName ?? "<null>"}'.", ex);
+        return false;
+      }
     }
 
     private static bool AnalyzeList<T>(IEnumerable<T> list, IDataSourceItemContainer container, string name = null)
@@ -105,29 +170,37 @@ namespace FlowReports.Model.DataSources
 
     private static bool AnalyzeList(Type type, IDataSourceItemContainer container, string name = null)
     {
-      if (!typeof(IEnumerable).IsAssignableFrom(type))
+      try
       {
-        throw new ArgumentException("Type must be IEnumerable");
-      }
-
-      foreach (Type interfaceType in type.GetInterfaces())
-      {
-        if (interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+        if (!typeof(IEnumerable).IsAssignableFrom(type))
         {
-          Type itemType = type.GetGenericArguments()[0];
-
-          var newList = new DataSourceItemList
-          {
-            Name = name ?? GenerateTypeName(itemType)
-          };
-
-          container.Add(newList);
-
-          return AnalyzeItemByType(itemType, newList);
+          throw new ArgumentException("Type must be IEnumerable");
         }
-      }
 
-      return false;
+        foreach (Type interfaceType in type.GetInterfaces())
+        {
+          if (interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+          {
+            Type itemType = type.GetGenericArguments()[0];
+
+            var newList = new DataSourceItemList
+            {
+              Name = name ?? GenerateTypeName(itemType)
+            };
+
+            container.Add(newList);
+
+            return AnalyzeItemByType(itemType, newList);
+          }
+        }
+
+        return false;
+      }
+      catch (Exception ex)
+      {
+        OnError($"Error while analyzing list type '{type?.FullName ?? "<null>"}' for container '{container?.GetType().FullName ?? "<unknown>"}'.", ex);
+        return false;
+      }
     }
 
     private static bool AnalyzeProperty(Type type, IDataSourceItemContainer container, string name = null)
@@ -148,10 +221,14 @@ namespace FlowReports.Model.DataSources
     /// <summary>
     /// Generates a name from a type. 
     /// </summary>
+    /// <param name="type">The type to generate a name from.</param>
+    /// <returns>The generated name.</returns>
     internal static string GenerateTypeName(Type type)
     {
       Type underlyingType = Nullable.GetUnderlyingType(type);
       return underlyingType?.Name ?? type.Name;
     }
+
+    #endregion
   }
 }

@@ -2,6 +2,9 @@
 
 namespace FlowReports.TestApplication.Model
 {
+  /// <summary>
+  /// Represents a company with a collection of employees.
+  /// </summary>
   public class Company
   {
     public string Name { get; set; }

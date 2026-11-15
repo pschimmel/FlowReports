@@ -10,9 +10,9 @@
       : base(id)
     { }
 
-    public override double DefaultWidth => ReportBand.DefaultHeight;
+    public override double DefaultWidth => ReportBandBase.DefaultHeight;
 
-    public override double DefaultHeight => ReportBand.DefaultHeight;
+    public override double DefaultHeight => ReportBandBase.DefaultHeight;
 
     public override bool Equals(object obj)
     {

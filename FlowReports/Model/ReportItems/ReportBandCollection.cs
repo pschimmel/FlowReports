@@ -4,6 +4,9 @@ using FlowReports.Model.Tools;
 
 namespace FlowReports.Model.ReportItems
 {
+  /// <summary>
+  /// Represents a collection of report bands, allowing for adding, removing, and reordering bands within a report.
+  /// </summary>
   public class ReportBandCollection : IEnumerable<ReportBand>
   {
     public event EventHandler<BandsEventArgs> SubBandAdded;
@@ -25,12 +28,9 @@ namespace FlowReports.Model.ReportItems
 
     public ReportBand AddBand(ReportBand otherBand, InsertLocation location, string dataSource = null)
     {
-      if (otherBand is null)
-      {
-        throw new ArgumentNullException(nameof(otherBand));
-      }
+      ArgumentNullException.ThrowIfNull(otherBand);
 
-      int otherIndex = _bands.IndexOf(otherBand);
+      int otherIndex = FindBandIndex(otherBand);
       var band = new ReportBand { DataSource = dataSource };
 
       switch (location)
@@ -59,15 +59,18 @@ namespace FlowReports.Model.ReportItems
 
     public int RemoveBand(ReportBand band)
     {
-      int index = _bands.IndexOf(band);
-      _bands.Remove(band);
+      int index = FindBandIndex(band);
+      if (index >= 0)
+      {
+        _bands.RemoveAt(index);
+      }
       OnSubBandRemoved(index, band);
       return index;
     }
 
     public void MoveBandUp(ReportBand band)
     {
-      int index = _bands.IndexOf(band);
+      int index = FindBandIndex(band);
       if (index > 0)
       {
         _bands.RemoveAt(index);
@@ -79,13 +82,13 @@ namespace FlowReports.Model.ReportItems
 
     public bool CanMoveBandUp(ReportBand band)
     {
-      int index = _bands.IndexOf(band);
+      int index = FindBandIndex(band);
       return index > 0;
     }
 
     public void MoveBandDown(ReportBand band)
     {
-      int index = _bands.IndexOf(band);
+      int index = FindBandIndex(band);
       if (index >= 0 && index < _bands.Count - 1)
       {
         _bands.RemoveAt(index);
@@ -97,16 +100,29 @@ namespace FlowReports.Model.ReportItems
 
     public bool CanMoveBandDown(ReportBand band)
     {
-      int index = _bands.IndexOf(band);
+      int index = FindBandIndex(band);
       return index >= 0 && index < _bands.Count - 1;
     }
 
     public void Clear()
     {
-      foreach (var band in _bands)
+      var bandsToRemove = new List<ReportBand>(_bands);
+      foreach (var band in bandsToRemove)
       {
         RemoveBand(band);
       }
+    }
+
+    private int FindBandIndex(ReportBand band)
+    {
+      for (int i = 0; i < _bands.Count; i++)
+      {
+        if (ReferenceEquals(_bands[i], band))
+        {
+          return i;
+        }
+      }
+      return -1;
     }
 
     private void OnSubBandAdded(int index, ReportBand band)
@@ -137,7 +153,12 @@ namespace FlowReports.Model.ReportItems
 
     public override int GetHashCode()
     {
-      return 7 ^ _bands.GetHashCode();
+      var hash = new HashCode();
+      foreach (var band in _bands)
+      {
+        hash.Add(band);
+      }
+      return hash.ToHashCode();
     }
   }
 }

@@ -6,7 +6,7 @@ using FlowReports.Model;
 using FlowReports.Model.ReportItems;
 using GongSolutions.Wpf.DragDrop;
 
-namespace FlowReports.ViewModel.EditorItems
+namespace FlowReports.ViewModel.Editor
 {
   public abstract class EditorItemViewModel<T> : ViewModelBase, IEditorItemViewModel, IDropTarget where T : ReportItem
   {
@@ -14,14 +14,14 @@ namespace FlowReports.ViewModel.EditorItems
 
     private const double MoveDelta = 5.0;
     protected readonly T _item;
-    private readonly ReportBandViewModel _bandVM;
+    private readonly IItemContainerViewModel _bandVM;
     private bool _isSelected;
 
     #endregion
 
     #region Constructor
 
-    protected EditorItemViewModel(T item, ReportBandViewModel bandVM)
+    protected EditorItemViewModel(T item, IItemContainerViewModel bandVM)
     {
       _item = item;
       _bandVM = bandVM;

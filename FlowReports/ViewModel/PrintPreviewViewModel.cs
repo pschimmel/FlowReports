@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -10,11 +11,15 @@ using FlowReports.ViewModel.Printing;
 
 namespace FlowReports.ViewModel
 {
+  /// <summary>
+  /// Provides view model functionality for print preview of reports.
+  /// </summary>
   public class PrintPreviewViewModel : ViewModelBase
   {
     #region Fields
 
     private readonly List<string> _tempFileNames = new();
+    private readonly XpsDocument _xpsDocument;
     private static PageInformation _pageInformation;
     private readonly ActionCommand _printSetupCommand;
     private readonly ActionCommand _closeCommand;
@@ -23,6 +28,10 @@ namespace FlowReports.ViewModel
 
     #region Constructor
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PrintPreviewViewModel"/> class.
+    /// </summary>
+    /// <param name="report">The report to preview.</param>
     public PrintPreviewViewModel(Report report)
     {
       if (_pageInformation == null)
@@ -35,27 +44,50 @@ namespace FlowReports.ViewModel
         }
       }
 
-      string tempFileName = Path.ChangeExtension(Path.GetTempFileName(), "xps");
-      _tempFileNames.Add(tempFileName);
+      Errors.Clear();
 
-      using var xpsDocument = new XpsDocument(tempFileName, FileAccess.ReadWrite);
-      var writer = XpsDocument.CreateXpsDocumentWriter(xpsDocument);
-      writer.Write(new ReportPaginator(report));
-      Document = xpsDocument.GetFixedDocumentSequence();
-      _closeCommand = new ActionCommand(Close, CanClose);
-      _printSetupCommand = new ActionCommand(PrintSetup, CanPrintSetup);
+      try
+      {
+        string tempFileName = Path.ChangeExtension(Path.GetTempFileName(), "xps");
+        _tempFileNames.Add(tempFileName);
+        _xpsDocument = new XpsDocument(tempFileName, FileAccess.ReadWrite);
+        var writer = XpsDocument.CreateXpsDocumentWriter(_xpsDocument);
+        var reportPaginator = new ReportPaginator(report);
+        reportPaginator.ErrorOccurred += (sender, e) => OnError(e.Message, e.Exception);
+        writer.Write(reportPaginator);
+        Document = _xpsDocument.GetFixedDocumentSequence();
+        _closeCommand = new ActionCommand(Close, CanClose);
+        _printSetupCommand = new ActionCommand(PrintSetup, CanPrintSetup);
+      }
+      catch (Exception ex)
+      {
+        OnError("An error occurred while generating the print preview.", ex);
+      }
+    }
+
+    private void OnError(string message, Exception _)
+    {
+      Errors.Add(message);
     }
 
     #endregion
 
     #region Properties
 
+    /// <summary>
+    /// Gets the document to display in the print preview.
+    /// </summary>
     public IDocumentPaginatorSource Document { get; }
+
+    public ObservableCollection<string> Errors { get; } = new ObservableCollection<string>();
 
     #endregion
 
     #region Print setup
 
+    /// <summary>
+    /// Gets the command to open the print setup dialog.
+    /// </summary>
     public ICommand PrintSetupCommand => _printSetupCommand;
 
     private void PrintSetup()
@@ -74,6 +106,9 @@ namespace FlowReports.ViewModel
 
     #region Close
 
+    /// <summary>
+    /// Gets the command to close the print preview.
+    /// </summary>
     public ICommand CloseCommand => _closeCommand;
 
     private void Close()
@@ -98,6 +133,8 @@ namespace FlowReports.ViewModel
       {
         return;
       }
+
+      _xpsDocument?.Close();
 
       foreach (var path in _tempFileNames)
       {

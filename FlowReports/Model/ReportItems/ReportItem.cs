@@ -20,7 +20,7 @@
 
     public virtual double DefaultWidth => 100;
 
-    public virtual double DefaultHeight => ReportBand.DefaultHeight;
+    public virtual double DefaultHeight => ReportBandBase.DefaultHeight;
 
     public double Left { get; set; }
 

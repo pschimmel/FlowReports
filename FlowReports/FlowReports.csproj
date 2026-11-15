@@ -1,10 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0-windows7.0</TargetFramework>
-    <UseWPF>true</UseWPF>    
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
+    <UseWPF>true</UseWPF>
     <BaseOutputPath>..\Output\bin</BaseOutputPath>    
-    <Version>0.8.8.0</Version>
+    <Company>Engineering Solutions</Company>    
+    <Description>A simple library for printing reports from any .NET obejct.</Description>    
+    <Copyright>© Engineering Solutions 2023-2026</Copyright>    
+    <RepositoryUrl>https://github.com/pschimmel/FlowReports</RepositoryUrl>    
+    <Version>0.9.0.0</Version>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +23,8 @@
     <None Remove="View\Images\AddSubBand_32x.png" />
     <None Remove="View\Images\AddTextItem_16x.png" />
     <None Remove="View\Images\AddTextItem_32x.png" />
+    <None Remove="View\Images\ArrowDown_16x.png" />
+    <None Remove="View\Images\ArrowUp_16x.png" />
     <None Remove="View\Images\Bands_16x.png" />
     <None Remove="View\Images\Bands_32x.png" />
     <None Remove="View\Images\Calendar_16x.png" />
@@ -52,6 +59,8 @@
     <None Remove="View\Images\RemoveBand_32x.png" />
     <None Remove="View\Images\RemoveItem_16x.png" />
     <None Remove="View\Images\RemoveItem_32x.png" />
+    <None Remove="View\Images\Remove_16x.png" />
+    <None Remove="View\Images\Repeat_16x.png" />
     <None Remove="View\Images\ReportItem_16x.png" />
     <None Remove="View\Images\ReportItem_32x.png" />
     <None Remove="View\Images\SaveAs_16x.png" />
@@ -88,7 +97,7 @@
   <ItemGroup>
     <PackageReference Include="ES.Tools" Version="0.6.40.125" />
     <PackageReference Include="ES.Tools.Core" Version="0.6.40.125" />
-    <PackageReference Include="Fluent.Ribbon" Version="11.0.1" />
+    <PackageReference Include="Fluent.Ribbon" Version="11.0.2" />
     <PackageReference Include="gong-wpf-dragdrop" Version="4.0.0" />
   </ItemGroup>
 
@@ -99,6 +108,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Update="View\PrintPreviewWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\HeadertBandDetails.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\ReportBandDetails.xaml.cs">
@@ -114,6 +126,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="View\Images\Add_16x.png" />
+    <Resource Include="View\Images\ArrowDown_16x.png" />
+    <Resource Include="View\Images\ArrowUp_16x.png" />
     <Resource Include="View\Images\MoveBandUp_16x.png" />
     <Resource Include="View\Images\MoveBandDown_16x.png" />
     <Resource Include="View\Images\AddBand_16x.png" />
@@ -162,6 +177,8 @@
     <Resource Include="View\Images\RemoveBand_32x.png" />
     <Resource Include="View\Images\RemoveItem_16x.png" />
     <Resource Include="View\Images\RemoveItem_32x.png" />
+    <Resource Include="View\Images\Remove_16x.png" />
+    <Resource Include="View\Images\Repeat_16x.png" />
     <Resource Include="View\Images\ReportItem_16x.png" />
     <Resource Include="View\Images\ReportItem_32x.png" />
     <Resource Include="View\Images\SaveAs_16x.png" />

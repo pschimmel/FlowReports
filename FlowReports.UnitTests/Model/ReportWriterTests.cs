@@ -15,7 +15,7 @@ namespace FlowReports.UnitTests.Model
     }
 
     [Test]
-    public void Test1()
+    public void Write_ReportToStream_StreamContainsData()
     {
       using var stream = new MemoryStream();
       ReportWriter.Write(_report, stream);

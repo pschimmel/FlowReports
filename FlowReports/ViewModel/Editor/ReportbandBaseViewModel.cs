@@ -11,13 +11,14 @@ using FlowReports.Model.Events;
 using FlowReports.Model.ReportItems;
 using GongSolutions.Wpf.DragDrop;
 
-namespace FlowReports.ViewModel.EditorItems
+namespace FlowReports.ViewModel.Editor
 {
-  public class ReportBandViewModel : BandContainerViewModel, IDropTarget
+  public abstract class ReportbandBaseViewModel<T> : ViewModelBase, IItemContainerViewModel, IDropTarget where T : ReportBandBase
   {
-    #region Event
+    #region Events
 
     public event EventHandler ItemSelected;
+    internal event EventHandler SelectionChanged;
 
     #endregion
 
@@ -29,25 +30,23 @@ namespace FlowReports.ViewModel.EditorItems
 
     #region Constructor
 
-    public ReportBandViewModel(ReportBand band)
-      : base(band.SubBands)
+    protected ReportbandBaseViewModel(T bandOwner)
     {
-      Band = band;
+      Band = bandOwner;
       Items = new ObservableCollection<IEditorItemViewModel>();
 
-      foreach (var item in band.Items)
+      foreach (var item in bandOwner.Items)
       {
         var itemVM = ViewModelFactory.CreateItemViewModel(item, this);
         Items.Add(itemVM);
         itemVM.PropertyChanged += ItemVM_PropertyChanged;
       }
 
-      band.ItemAdded += Band_ItemAdded;
-      band.ItemRemoved += Band_ItemRemoved;
+      bandOwner.ItemAdded += Band_ItemAdded;
+      bandOwner.ItemRemoved += Band_ItemRemoved;
 
       SelectCommand = new ActionCommand(Select);
       DeselectItemsCommand = new ActionCommand(DeselectItems);
-      EditDetailsCommand = new ActionCommand(EditDetails, CanEditDetails);
     }
 
     #endregion
@@ -56,27 +55,21 @@ namespace FlowReports.ViewModel.EditorItems
 
     public Guid ID => Band.ID;
 
-    internal ReportBand Band { get; private set; }
+    internal T Band { get; }
 
-    public double Height
-    {
-      get => Band.Height;
-      set => Band.Height = value;
-    }
+    public IBandParentViewModel Parent { get; internal set; }
 
-    public string DataSource
+    public ObservableCollection<IEditorItemViewModel> Items { get; }
+
+    public ReportViewModel ReportVM
     {
-      get => Band.DataSource;
-      set
+      get => Parent switch
       {
-        Band.DataSource = value;
-        OnPropertyChanged(nameof(FullDataSource));
-        OnPropertyChanged();
-      }
+        ReportViewModel reportVM => reportVM,
+        ReportBandViewModel rbVM => rbVM.ReportVM,
+        _ => null,
+      };
     }
-
-    public string FullDataSource => Parent is ReportBandViewModel reportBandViewModel ? reportBandViewModel.FullDataSource + "." + DataSource : DataSource;
-
 
     public bool IsSelected
     {
@@ -98,25 +91,93 @@ namespace FlowReports.ViewModel.EditorItems
             }
           }
 
-          OnSelectionChanged();
+          OnSelectionChanged(this);
           OnPropertyChanged();
         }
       }
     }
 
-    public IBandParentViewModel Parent { get; internal set; }
-
-    public ReportViewModel ReportVM
+    public double Height
     {
-      get => Parent switch
+      get => Band.Height ?? ReportBandBase.DefaultHeight;
+      set
       {
-        ReportViewModel reportVM => reportVM,
-        ReportBandViewModel rbVM => rbVM.ReportVM,
-        _ => null,
-      };
+        if (Band.Height != value)
+        {
+          Band.Height = value;
+          HeightAuto = false;
+        }
+      }
     }
 
-    public ObservableCollection<IEditorItemViewModel> Items { get; }
+    public bool HeightAuto
+    {
+      get => Band.Height == null;
+      set
+      {
+        if (value && Band.Height != null)
+        {
+          Band.Height = null;
+          OnPropertyChanged(nameof(Height));
+          OnPropertyChanged();
+        }
+        else if (!value && Band.Height == null)
+        {
+          Band.Height = ReportBandBase.DefaultHeight;
+          OnPropertyChanged(nameof(Height));
+          OnPropertyChanged();
+        }
+      }
+    }
+
+    #endregion
+
+    #region Event Handlers
+
+    private void ItemVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if (e.PropertyName == nameof(IEditorItemViewModel.IsSelected) && sender is IEditorItemViewModel viewModel)
+      {
+        if (viewModel.IsSelected)
+        {
+          foreach (var item in Items)
+          {
+            if (item != sender)
+            {
+              item.IsSelected = false;
+            }
+          }
+
+          ItemSelected?.Invoke(sender, EventArgs.Empty);
+        }
+      }
+      else
+      {
+        ReportVM.IsDirty = true;
+      }
+    }
+
+    private void Band_ItemAdded(object sender, ReportItemsEventArgs e)
+    {
+      var itemVM = ViewModelFactory.CreateItemViewModel(e.Item, this);
+      Items.Add(itemVM);
+      itemVM.PropertyChanged += ItemVM_PropertyChanged;
+      itemVM.IsSelected = true;
+      ReportVM.IsDirty = true;
+    }
+
+    private void Band_ItemRemoved(object sender, ReportItemsEventArgs e)
+    {
+      foreach (var itemVM in Items.ToList())
+      {
+        if (itemVM.Item == e.Item)
+        {
+          Items.Remove(itemVM);
+          itemVM.PropertyChanged -= ItemVM_PropertyChanged;
+          ReportVM.IsDirty = true;
+        }
+      }
+    }
 
     #endregion
 
@@ -144,31 +205,6 @@ namespace FlowReports.ViewModel.EditorItems
       {
         item.IsSelected = false;
       }
-    }
-
-    #endregion
-
-    #region Edit Details
-
-    public ICommand EditDetailsCommand { get; }
-
-    public void EditDetails()
-    {
-      string oldDataSource = DataSource;
-      var v = ViewFactory.Instance.CreateView(this);
-      if (v.ShowDialog() != true)
-      {
-        DataSource = oldDataSource;
-      }
-      else if (ReportVM != null)
-      {
-        ReportVM.IsDirty = true;
-      }
-    }
-
-    private bool CanEditDetails()
-    {
-      return IsSelected;
     }
 
     #endregion
@@ -205,81 +241,10 @@ namespace FlowReports.ViewModel.EditorItems
 
     #endregion
 
-    #region Event Handlers
-
-    private void ItemVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-      if (e.PropertyName == nameof(IEditorItemViewModel.IsSelected) && sender is IEditorItemViewModel viewModel)
-      {
-        if (viewModel.IsSelected)
-        {
-          foreach (var item in Items)
-          {
-            if (item != sender)
-            {
-              item.IsSelected = false;
-            }
-          }
-
-          ItemSelected?.Invoke(sender, EventArgs.Empty);
-        }
-      }
-      else
-      {
-        ReportVM.IsDirty = true;
-      }
-    }
-
-    private void Band_ItemAdded(object sender, ItemsEventArgs e)
-    {
-      var itemVM = ViewModelFactory.CreateItemViewModel(e.Item, this);
-      Items.Add(itemVM);
-      itemVM.PropertyChanged += ItemVM_PropertyChanged;
-      itemVM.IsSelected = true;
-      ReportVM.IsDirty = true;
-    }
-
-    private void Band_ItemRemoved(object sender, ItemsEventArgs e)
-    {
-      foreach (var itemVM in Items.ToList())
-      {
-        if (itemVM.Item == e.Item)
-        {
-          Items.Remove(itemVM);
-          itemVM.PropertyChanged -= ItemVM_PropertyChanged;
-          ReportVM.IsDirty = true;
-        }
-      }
-    }
-
-    #endregion
-
-    #region Private Methods
-
-    private void SelectItem(IEditorItemViewModel itemVM)
-    {
-      IsSelected = true;
-      SelectItem(ReportVM, itemVM);
-    }
-
-    private static void SelectItem(IBandParentViewModel parentVM, IEditorItemViewModel itemVM)
-    {
-      if (parentVM != null)
-      {
-        foreach (var childBand in parentVM.Bands)
-        {
-          foreach (var item in childBand.Items)
-          {
-            item.IsSelected = item == itemVM;
-          }
-
-          SelectItem(childBand, itemVM);
-        }
-      }
-    }
+    #region Private / Protected Methods
 
     /// <summary>
-    /// Selects the current band. Deselects all others, beginning at the report.
+    /// Selects the current band. Deselects all others, beginning at the report level.
     /// </summary>
     private void SelectBand()
     {
@@ -289,14 +254,16 @@ namespace FlowReports.ViewModel.EditorItems
         parent = reportBandViewModel.Parent;
       }
 
-      Debug.Assert(parent is ReportViewModel);
-      SelectBand(parent, this);
+      if (parent is ReportViewModel)
+      {
+        SelectBand(parent, this);
+      }
     }
 
     /// <summary>
     /// Selects the given band. Deselects all children.
     /// </summary>
-    private static void SelectBand(IBandParentViewModel parentVM, ReportBandViewModel reportBandVM)
+    private static void SelectBand(IBandParentViewModel parentVM, IItemContainerViewModel reportBandVM)
     {
       if (parentVM != null)
       {
@@ -305,24 +272,24 @@ namespace FlowReports.ViewModel.EditorItems
           childBand.IsSelected = childBand == reportBandVM;
           SelectBand(childBand, reportBandVM);
         }
+
+        if (parentVM is ReportBandViewModel bandViewModel)
+        {
+          if (bandViewModel.HeaderBand != null)
+          {
+            bandViewModel.HeaderBand.IsSelected = bandViewModel.HeaderBand == reportBandVM;
+          }
+          if (bandViewModel.FooterBand != null)
+          {
+            bandViewModel.FooterBand.IsSelected = bandViewModel.FooterBand == reportBandVM;
+          }
+        }
       }
     }
 
-    protected override void Dispose(bool disposing)
+    protected void OnSelectionChanged(object sender)
     {
-      base.Dispose(disposing);
-
-      if (disposing)
-      {
-        Band.ItemAdded -= Band_ItemAdded;
-        Band.ItemRemoved -= Band_ItemRemoved;
-
-        foreach (var itemVM in Items)
-        {
-          itemVM.PropertyChanged -= ItemVM_PropertyChanged;
-          itemVM.Dispose();
-        }
-      }
+      SelectionChanged?.Invoke(sender, EventArgs.Empty);
     }
 
     #endregion
@@ -331,17 +298,17 @@ namespace FlowReports.ViewModel.EditorItems
 
     void IDropTarget.DragOver(IDropInfo dropInfo)
     {
+      ProtectedDragOver(dropInfo);
+    }
+
+    protected virtual void ProtectedDragOver(IDropInfo dropInfo)
+    {
       var parentContainer = dropInfo.VisualTarget.GetParent<Border>(x => x.Name == "BandContainer" || x.Name == "EditorContainer");
       bool parentIsBandContainer = parentContainer?.Name == "BandContainer";
       bool parentIsEditorContainer = parentContainer?.Name == "EditorContainer";
       Debug.Assert(parentIsBandContainer || parentIsEditorContainer, $"Dropped data must be of type {nameof(DataSourceListViewModel)} or {nameof(DataSourceItemViewModel)}.");
 
-      if (dropInfo.Data is DataSourceListViewModel dataSourceListViewModel && parentIsBandContainer)
-      {
-        dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
-        dropInfo.Effects = DragDropEffects.Move;
-      }
-      else if (dropInfo.Data is DataSourceItemViewModel dataSourceItemViewModel && parentIsEditorContainer)
+      if (dropInfo.Data is DataSourceItemViewModel dataSourceItemViewModel && parentIsEditorContainer)
       {
         dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
         dropInfo.Effects = DragDropEffects.Copy;
@@ -350,6 +317,11 @@ namespace FlowReports.ViewModel.EditorItems
 
     void IDropTarget.Drop(IDropInfo dropInfo)
     {
+      ProtectedDrop(dropInfo);
+    }
+
+    protected virtual void ProtectedDrop(IDropInfo dropInfo)
+    {
       Debug.Assert(dropInfo.Data is DataSourceListViewModel || dropInfo.Data is DataSourceItemViewModel, $"Dropped data must be of type {nameof(DataSourceListViewModel)} or {nameof(DataSourceItemViewModel)}.");
 
       var parentContainer = dropInfo.VisualTarget.GetParent<Border>(x => x.Name == "BandContainer" || x.Name == "EditorContainer");
@@ -357,11 +329,7 @@ namespace FlowReports.ViewModel.EditorItems
       bool parentIsEditorContainer = parentContainer?.Name == "EditorContainer";
       Debug.Assert(parentIsBandContainer || parentIsEditorContainer);
 
-      if (dropInfo.Data is DataSourceListViewModel dataSourceListViewModel && parentIsBandContainer)
-      {
-        DataSource = dataSourceListViewModel.Name;
-      }
-      else if (dropInfo.Data is DataSourceItemViewModel dataSourceItemViewModel && parentIsEditorContainer)
+      if (dropInfo.Data is DataSourceItemViewModel dataSourceItemViewModel && parentIsEditorContainer)
       {
         var reportItem = dataSourceItemViewModel.Item.GetReportItem(dropInfo.DropPosition.X, dropInfo.DropPosition.Y);
         Band.AddReportItem(reportItem);
@@ -373,6 +341,24 @@ namespace FlowReports.ViewModel.EditorItems
 
     void IDropTarget.DragLeave(IDropInfo dropInfo)
     { }
+
+    #endregion
+
+    #region IDisposable
+
+    protected override void Dispose(bool disposing)
+    {
+      base.Dispose(disposing);
+
+      Band.ItemAdded -= Band_ItemAdded;
+      Band.ItemRemoved -= Band_ItemRemoved;
+
+      foreach (var itemVM in Items)
+      {
+        itemVM.PropertyChanged -= ItemVM_PropertyChanged;
+        itemVM.Dispose();
+      }
+    }
 
     #endregion
   }

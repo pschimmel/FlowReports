@@ -5,13 +5,18 @@ using System.Windows.Input;
 using ES.Tools.Core.Infrastructure;
 using ES.Tools.Core.MVVM;
 using FlowReports.Model;
+using FlowReports.ViewModel.Editor;
 using FlowReports.ViewModel.Infrastructure;
 using Microsoft.Win32;
 
 namespace FlowReports.ViewModel
 {
+  /// <summary>
+  /// Provides view model functionality for the report editor application.
+  /// </summary>
   public class ReportEditorViewModel : ViewModelBase
   {
+
     #region Fields
 
     private ActionCommand _newCommand;
@@ -30,6 +35,10 @@ namespace FlowReports.ViewModel
 
     #region Constructor
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ReportEditorViewModel"/> class with a specific report.
+    /// </summary>
+    /// <param name="report">The report to edit.</param>
     public ReportEditorViewModel(Report report)
     {
       IsInitializing = true;
@@ -37,6 +46,9 @@ namespace FlowReports.ViewModel
       IsInitializing = false;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ReportEditorViewModel"/> class with a new empty report.
+    /// </summary>
     public ReportEditorViewModel()
       : this(new Report())
     { }
@@ -45,8 +57,14 @@ namespace FlowReports.ViewModel
 
     #region Properties
 
+    /// <summary>
+    /// Gets a value indicating whether the view model is currently initializing.
+    /// </summary>
     public static bool IsInitializing { get; private set; }
 
+    /// <summary>
+    /// Gets the view model for the report being edited.
+    /// </summary>
     public ReportViewModel ReportVM
     {
       get => _reportVM;
@@ -71,6 +89,9 @@ namespace FlowReports.ViewModel
       }
     }
 
+    /// <summary>
+    /// Gets the title to display for the window, including file name and dirty status.
+    /// </summary>
     public string Title
     {
       get
@@ -79,10 +100,10 @@ namespace FlowReports.ViewModel
         if (ReportVM?.FilePath != null)
         {
           title += " - " + Path.GetFileName(ReportVM.FilePath);
-          if (ReportVM.IsDirty)
-          {
-            title += "*";
-          }
+        }
+        if (ReportVM?.IsDirty == true)
+        {
+          title += "*";
         }
         return title;
       }
@@ -92,6 +113,9 @@ namespace FlowReports.ViewModel
 
     #region New
 
+    /// <summary>
+    /// Gets the command to create a new empty report.
+    /// </summary>
     public ICommand NewCommand => _newCommand ??= new ActionCommand(New, CanNew);
 
     private void New()
@@ -115,6 +139,9 @@ namespace FlowReports.ViewModel
 
     #region Load
 
+    /// <summary>
+    /// Gets the command to load a report from a file.
+    /// </summary>
     public ICommand LoadCommand => _loadCommand ??= new ActionCommand(Load, CanLoad);
 
     private void Load()
@@ -142,6 +169,9 @@ namespace FlowReports.ViewModel
 
     #region Save
 
+    /// <summary>
+    /// Gets the command to save the current report.
+    /// </summary>
     public ICommand SaveCommand => _saveCommand ??= new ActionCommand(Save, CanSave);
 
     private void Save()
@@ -164,6 +194,9 @@ namespace FlowReports.ViewModel
 
     #region Save As
 
+    /// <summary>
+    /// Gets the command to save the current report with a new file path.
+    /// </summary>
     public ICommand SaveAsCommand => _saveAsCommand ??= new ActionCommand(SaveAs, CanSaveAs);
 
     private void SaveAs()
@@ -184,6 +217,9 @@ namespace FlowReports.ViewModel
 
     #region Close
 
+    /// <summary>
+    /// Gets the command to close the editor window.
+    /// </summary>
     public ICommand CloseCommand => _closeCommand ??= new ActionCommand(Close, CanClose);
 
     private void Close()
@@ -200,6 +236,9 @@ namespace FlowReports.ViewModel
 
     #region Show Print Preview
 
+    /// <summary>
+    /// Gets the command to show the print preview window.
+    /// </summary>
     public ICommand ShowPrintPreviewCommand => _showPrintPreviewCommand ??= new ActionCommand(ShowPrintPreview, CanShowPrintPreview);
 
     private void ShowPrintPreview()
@@ -218,6 +257,9 @@ namespace FlowReports.ViewModel
 
     #region About
 
+    /// <summary>
+    /// Gets the command to show the about dialog.
+    /// </summary>
     public ICommand AboutCommand => _aboutCommand ??= new ActionCommand(About);
 
     private void About(object commandParameter)
@@ -230,6 +272,9 @@ namespace FlowReports.ViewModel
 
     #region Open Website
 
+    /// <summary>
+    /// Gets the command to open the FlowReports website in the default browser.
+    /// </summary>
     public ICommand OpenWebsiteCommand => _openWebsiteCommand ??= new ActionCommand(OpenWebsite);
 
     private void OpenWebsite(object commandParameter)
@@ -246,8 +291,8 @@ namespace FlowReports.ViewModel
       if (e.PropertyName == nameof(ReportVM.IsDirty))
       {
         OnPropertyChanged(nameof(Title));
-        _saveCommand.RaiseCanExecuteChanged();
-        _saveAsCommand.RaiseCanExecuteChanged();
+        _saveCommand?.RaiseCanExecuteChanged();
+        _saveAsCommand?.RaiseCanExecuteChanged();
       }
     }
 
@@ -308,6 +353,8 @@ namespace FlowReports.ViewModel
         ReportVM.Dispose();
       }
     }
+
     #endregion
+
   }
 }

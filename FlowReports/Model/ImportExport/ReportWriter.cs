@@ -75,7 +75,80 @@ namespace FlowReports.Model.ImportExport
       WriteReportElement(band, bandNode);
       bandNode.WriteAttribute(Tags.DataSource, band.DataSource);
 
-      if (band.Items.Any())
+      if (band.Height.HasValue)
+      {
+        bandNode.WriteAttribute(Tags.Height, band.Height.Value);
+      }
+
+      // Write filter expression
+      if (band.FilterExpression != null && !string.IsNullOrWhiteSpace(band.FilterExpression.Expression))
+      {
+        var filteringNode = bandNode.AppendChild(Tags.Filtering);
+        var filterNode = filteringNode.AppendChild(Tags.Filter);
+        filterNode.WriteAttribute(Tags.Expression, band.FilterExpression.Expression);
+      }
+
+      // Write ordering
+      if (band.Ordering != null && band.Ordering.Count > 0)
+      {
+        var orderingNode = bandNode.AppendChild(Tags.Ordering);
+        foreach (var ord in band.Ordering)
+        {
+          var orderNode = orderingNode.AppendChild(Tags.Order);
+          if (!string.IsNullOrEmpty(ord.Property))
+          {
+            orderNode.WriteAttribute(Tags.Property, ord.Property);
+          }
+          orderNode.WriteAttribute(Tags.Direction, ord.Direction.ToString());
+        }
+      }
+
+      // Write parameters
+      WriteBandItems(band, bandNode);
+
+      // Write subbands
+      WriteSubbands(band, bandNode);
+
+      if (band.HeaderBand != null)
+      {
+        WriteHeaderBand(band.HeaderBand, bandNode);
+      }
+
+      if (band.FooterBand != null)
+      {
+        WriteFooterBand(band.FooterBand, bandNode);
+      }
+    }
+
+    private static void WriteHeaderBand(HeaderBand band, XmlElement parentBandNode)
+    {
+      var bandNode = parentBandNode.AppendChild(Tags.Header);
+      WriteReportElement(band, bandNode);
+
+      if (band.Height.HasValue)
+      {
+        bandNode.WriteAttribute(Tags.Height, band.Height.Value);
+      }
+
+      WriteBandItems(band, bandNode);
+    }
+
+    private static void WriteFooterBand(FooterBand band, XmlElement parentBandNode)
+    {
+      var bandNode = parentBandNode.AppendChild(Tags.Footer);
+      WriteReportElement(band, bandNode);
+
+      if (band.Height.HasValue)
+      {
+        bandNode.WriteAttribute(Tags.Height, band.Height.Value);
+      }
+
+      WriteBandItems(band, bandNode);
+    }
+
+    private static void WriteBandItems(ReportBandBase band, XmlElement bandNode)
+    {
+      if (band.Items.Count != 0)
       {
         var itemsNode = bandNode.AppendChild(Tags.Items);
         foreach (var item in band.Items)
@@ -83,10 +156,13 @@ namespace FlowReports.Model.ImportExport
           WriteItem(item, itemsNode);
         }
       }
+    }
 
-      if (band.SubBands.Any())
+    private static void WriteSubbands(ReportBand band, XmlElement bandNode)
+    {
+      if (band.Bands.Any())
       {
-        WriteBands(band.SubBands, bandNode);
+        WriteBands(band.Bands, bandNode);
       }
     }
 
@@ -141,6 +217,10 @@ namespace FlowReports.Model.ImportExport
       node.WriteAttribute(Tags.Type, Tags.TextItem);
       WriteReportItem(item, node);
       node.WriteAttribute(Tags.Format, item.Format);
+      // Write boolean attributes as strings because WriteAttribute supports only certain types
+      node.WriteAttribute(Tags.Bold, item.Bold ? "true" : "false");
+      node.WriteAttribute(Tags.Italic, item.Italic ? "true" : "false");
+      node.WriteAttribute(Tags.Underline, item.Underline ? "true" : "false");
     }
 
     private static void WriteBooleanItem(BooleanItem item, XmlElement node)

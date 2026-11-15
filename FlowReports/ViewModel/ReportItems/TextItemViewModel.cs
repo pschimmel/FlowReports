@@ -12,6 +12,12 @@ namespace FlowReports.ViewModel.ReportItems
 
     public string Format => _item.Format;
 
+    public bool Bold => _item.Bold;
+
+    public bool Italic => _item.Italic;
+
+    public bool Underline => _item.Underline;
+
     public string Text => (string)GetValue();
 
     protected override object GetValue()
