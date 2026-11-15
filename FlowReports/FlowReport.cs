@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using ES.Tools.Core.MVVM;
 using FlowReports.Model;
+using FlowReports.Model.DataSources;
 using FlowReports.Model.ImportExport;
 using FlowReports.View;
 using FlowReports.ViewModel;
@@ -35,8 +36,12 @@ namespace FlowReports
     public static Report New<T>(IEnumerable<T> data, string dataSourceName) where T : class
     {
       var report = new Report();
+      Errors.Clear();
+      report.AnalyzerErrorOccurred += OnAnalyzerErrorOccurred;
       report.Analyze(data, dataSourceName);
-      return report;
+      report.AnalyzerErrorOccurred -= OnAnalyzerErrorOccurred;
+
+      return Errors.Count == 0 ? report : throw new InvalidOperationException("Report contains errors.");
     }
 
     /// <summary>
@@ -75,7 +80,15 @@ namespace FlowReports
     /// <param name="dataSourceName">The name of the top-level data source.</param>
     public static void Edit<T>(Report report, IEnumerable<T> data, string dataSourceName) where T : class
     {
+      Errors.Clear();
+      report.AnalyzerErrorOccurred += OnAnalyzerErrorOccurred;
       report.Analyze(data, dataSourceName);
+      report.AnalyzerErrorOccurred -= OnAnalyzerErrorOccurred;
+      if (Errors.Count > 0)
+      {
+        throw new InvalidOperationException("Report contains errors.");
+      }
+
       Edit(report);
     }
 
@@ -91,6 +104,13 @@ namespace FlowReports
       using var vm = new PrintPreviewViewModel(report);
       var view = ViewFactory.Instance.CreateView(vm);
       view.ShowDialog();
+    }
+
+    public static List<string> Errors { get; } = new List<string>();
+
+    private static void OnAnalyzerErrorOccurred(object sender, DataSourceAnalyzerErrorEventArgs e)
+    {
+      Errors.Add(e.Message);
     }
   }
 }

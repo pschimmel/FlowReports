@@ -9,6 +9,8 @@ namespace FlowReports.Model
   /// </summary>
   public class Report : IHasBands
   {
+    public event EventHandler<DataSourceAnalyzerErrorEventArgs> AnalyzerErrorOccurred;
+
     /// <summary>
     /// Gets the collection of bands in the report.
     /// </summary>
@@ -47,7 +49,14 @@ namespace FlowReports.Model
     /// <param name="dataSourceName">The name of the top-level data source.</param>
     public void Analyze<T>(IEnumerable<T> items, string dataSourceName) where T : class
     {
+      ReportEngine.ErrorOccurred += OnAnalyzerErrorOccurred;
       ReportEngine.Analyze(this, items, dataSourceName);
+      ReportEngine.ErrorOccurred -= OnAnalyzerErrorOccurred;
+    }
+
+    private void OnAnalyzerErrorOccurred(object sender, DataSourceAnalyzerErrorEventArgs e)
+    {
+      AnalyzerErrorOccurred?.Invoke(this, e);
     }
   }
 }

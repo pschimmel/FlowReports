@@ -7,6 +7,8 @@ namespace FlowReports.Model
   /// </summary>
   public static class ReportEngine
   {
+    public static event EventHandler<DataSourceAnalyzerErrorEventArgs> ErrorOccurred;
+
     /// <summary>
     /// Analyzes data structure and updates the report with the data and data source information.
     /// </summary>
@@ -18,7 +20,14 @@ namespace FlowReports.Model
     {
       report.Data = items;
       report.TypeOfData = typeof(T);
+      DataSourceAnalyzer.ErrorOccurred += OnAnalyzerError;
       report.DataSource = DataSourceAnalyzer.Analyze(items, dataSourceName);
+      DataSourceAnalyzer.ErrorOccurred -= OnAnalyzerError;
+    }
+
+    private static void OnAnalyzerError(object sender, DataSourceAnalyzerErrorEventArgs e)
+    {
+       ErrorOccurred?.Invoke(sender, e);
     }
 
     /// <summary>
